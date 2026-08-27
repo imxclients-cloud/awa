@@ -23,8 +23,7 @@ export function Faq() {
   return (
     <section
       id="faq"
-      className="relative overflow-hidden py-16 md:py-20 lg:py-28"
-      style={{ background: "#232323" }}
+      className="relative overflow-hidden bg-white py-16 md:py-20 lg:py-28"
     >
       {/* vinheta radial sutil */}
       <div
@@ -32,7 +31,7 @@ export function Faq() {
         className="pointer-events-none absolute inset-0"
         style={{
           background:
-            "radial-gradient(60% 55% at 50% 45%, rgba(254,178,2,0.07) 0%, transparent 70%), radial-gradient(90% 90% at 50% 50%, transparent 55%, rgba(0,0,0,0.35) 100%)",
+            "radial-gradient(60% 55% at 50% 45%, rgba(254,178,2,0.09) 0%, transparent 70%)",
         }}
       />
 
@@ -44,7 +43,7 @@ export function Faq() {
               <Reveal>
                 <h2
                   className="font-display text-[1.9rem] leading-[1.1] font-extrabold tracking-tight lg:text-[2.4rem]"
-                  style={{ color: "#E1DECD" }}
+                  style={{ color: "#232323" }}
                 >
                   Perguntas frequentes
                 </h2>
@@ -69,14 +68,14 @@ export function Faq() {
                         />
                         <span
                           className="font-display pt-[3px] text-[0.7rem] font-extrabold tracking-[0.16em] tabular-nums"
-                          style={{ color: on ? "#FEB202" : "rgba(254,178,2,0.5)" }}
+                          style={{ color: on ? "#B47D00" : "rgba(180,125,0,0.5)" }}
                         >
                           {num(i)}
                         </span>
                         <span
                           className="font-sans text-[0.95rem] leading-snug transition-all duration-300"
                           style={{
-                            color: on ? "#E1DECD" : "rgba(225,222,205,0.6)",
+                            color: on ? "#232323" : "rgba(35,35,35,0.55)",
                             fontWeight: on ? 600 : 400,
                           }}
                         >
@@ -96,26 +95,26 @@ export function Faq() {
                 key={ativo}
                 className="animate-fade-in rounded-[20px] border p-10"
                 style={{
-                  background: "rgba(225,222,205,0.05)",
+                  background: "rgba(255,255,255,0.7)",
                   backdropFilter: "blur(20px)",
-                  borderColor: "rgba(254,178,2,0.28)",
+                  borderColor: "rgba(254,178,2,0.4)",
                 }}
               >
                 <span
                   className="font-display text-[0.7rem] font-extrabold tracking-[0.3em] uppercase"
-                  style={{ color: "#FEB202" }}
+                  style={{ color: "#B47D00" }}
                 >
                   {num(ativo)}
                 </span>
                 <h3
                   className="font-display mt-5 text-xl leading-snug font-bold tracking-tight lg:text-2xl"
-                  style={{ color: "#E1DECD" }}
+                  style={{ color: "#232323" }}
                 >
                   {perguntas[ativo]}
                 </h3>
                 <p
                   className="mt-6 font-sans text-base leading-relaxed"
-                  style={{ color: "rgba(225,222,205,0.85)" }}
+                  style={{ color: "rgba(35,35,35,0.75)" }}
                 >
                   [resposta a definir]
                 </p>
@@ -129,7 +128,7 @@ export function Faq() {
           <Reveal>
             <h2
               className="font-display text-[1.7rem] leading-[1.1] font-extrabold tracking-tight md:text-[2.1rem]"
-              style={{ color: "#E1DECD" }}
+              style={{ color: "#232323" }}
             >
               Perguntas frequentes
             </h2>
@@ -141,7 +140,7 @@ export function Faq() {
                 <li
                   key={p}
                   className="border-b"
-                  style={{ borderColor: "rgba(225,222,205,0.12)" }}
+                  style={{ borderColor: "rgba(35,35,35,0.1)" }}
                 >
                   <button
                     type="button"
@@ -151,13 +150,13 @@ export function Faq() {
                   >
                     <span
                       className="font-display pt-[2px] text-[0.7rem] font-extrabold tracking-[0.16em] tabular-nums"
-                      style={{ color: "#FEB202" }}
+                      style={{ color: "#B47D00" }}
                     >
                       {num(i)}
                     </span>
                     <span
                       className="flex-1 font-sans text-[0.95rem] leading-snug"
-                      style={{ color: "#E1DECD", fontWeight: on ? 600 : 400 }}
+                      style={{ color: "#232323", fontWeight: on ? 600 : 400 }}
                     >
                       {p}
                     </span>
@@ -165,7 +164,7 @@ export function Faq() {
                       data-slot="icon-toggle"
                       aria-hidden
                       className="font-display pt-[2px] text-sm"
-                      style={{ color: "#FEB202" }}
+                      style={{ color: "#B47D00" }}
                     >
                       {on ? "–" : "+"}
                     </span>
@@ -179,7 +178,7 @@ export function Faq() {
                   >
                     <p
                       className="pb-6 pl-9 font-sans text-sm leading-relaxed"
-                      style={{ color: "rgba(225,222,205,0.85)" }}
+                      style={{ color: "rgba(35,35,35,0.75)" }}
                     >
                       [resposta a definir]
                     </p>

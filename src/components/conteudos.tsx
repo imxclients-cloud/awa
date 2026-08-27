@@ -19,30 +19,19 @@ export function Conteudos() {
   return (
     <section
       id="conteudos"
-      className="relative overflow-hidden py-16 md:py-20 lg:py-28"
-      style={{ background: "#232323" }}
+      className="relative overflow-hidden bg-surface-light py-16 md:py-20 lg:py-28"
     >
-      {/* malha de terminal: linhas horizontais irregulares em diagonal */}
+      {/* malha sutil de linhas */}
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0"
         style={{
           backgroundImage:
-            "repeating-linear-gradient(0deg, rgba(254,178,2,0.10) 0 1px, transparent 1px 7px)",
+            "repeating-linear-gradient(0deg, rgba(35,35,35,0.04) 0 1px, transparent 1px 7px)",
           maskImage:
             "linear-gradient(115deg, transparent 0%, black 38%, black 58%, transparent 92%)",
           WebkitMaskImage:
             "linear-gradient(115deg, transparent 0%, black 38%, black 58%, transparent 92%)",
-        }}
-      />
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0"
-        style={{
-          backgroundImage:
-            "repeating-linear-gradient(0deg, rgba(254,178,2,0.06) 0 1px, transparent 1px 22px)",
-          maskImage: "radial-gradient(70% 60% at 30% 40%, black 0%, transparent 80%)",
-          WebkitMaskImage: "radial-gradient(70% 60% at 30% 40%, black 0%, transparent 80%)",
         }}
       />
 
@@ -50,7 +39,7 @@ export function Conteudos() {
       <div
         aria-hidden
         className="relative hidden overflow-hidden border-y py-2.5 md:block"
-        style={{ borderColor: "rgba(254,178,2,0.12)" }}
+        style={{ borderColor: "rgba(35,35,35,0.08)" }}
       >
         <div className="animate-ticker flex w-max whitespace-nowrap">
           {[0, 1].map((rep) => (
@@ -59,7 +48,7 @@ export function Conteudos() {
                 <span
                   key={`${rep}-${c}`}
                   className="font-display px-6 text-[0.62rem] font-semibold tracking-[0.3em] uppercase"
-                  style={{ color: "rgba(254,178,2,0.4)" }}
+                  style={{ color: "rgba(180,125,0,0.55)" }}
                 >
                   {c} <span className="pl-6">·</span>
                 </span>
@@ -72,18 +61,12 @@ export function Conteudos() {
       <div className="relative mx-auto w-full max-w-[1200px] px-5 pt-16 md:px-8 md:pt-24">
         <div className="max-w-[720px]">
           <Reveal>
-            <h2
-              className="font-display text-[1.75rem] leading-[1.12] font-extrabold tracking-tight md:text-4xl lg:text-[2.6rem]"
-              style={{ color: "#E1DECD" }}
-            >
+            <h2 className="font-display text-[1.75rem] leading-[1.12] font-extrabold tracking-tight text-ink md:text-4xl lg:text-[2.6rem]">
               Conhecimento para decisões mais conscientes
             </h2>
           </Reveal>
           <Reveal delay={120}>
-            <p
-              className="mt-6 font-sans text-base leading-relaxed md:text-lg"
-              style={{ color: "rgba(225,222,205,0.7)" }}
-            >
+            <p className="mt-6 font-sans text-base leading-relaxed text-ink-muted md:text-lg">
               Análises, estudos de mercado e conteúdos para ajudar você a compreender movimentos
               econômicos, oportunidades e temas que impactam seu patrimônio e seus negócios.
             </p>
@@ -94,14 +77,14 @@ export function Conteudos() {
           {itens.map((c, i) => (
             <Reveal key={c.titulo} delay={160 + i * 90}>
               <li
-                className="group flex items-center gap-5 border-b py-5 transition-colors duration-300 md:gap-6 md:py-6"
-                style={{ borderColor: "rgba(225,222,205,0.12)" }}
+                className="group flex items-center gap-4 border-b py-3.5 transition-colors duration-300 md:py-4"
+                style={{ borderColor: "rgba(35,35,35,0.1)" }}
               >
                 <span
-                  className="grid size-12 shrink-0 place-items-center rounded-xl md:size-14"
+                  className="grid size-9 shrink-0 place-items-center rounded-lg"
                   style={{
                     background: "rgba(254,178,2,0.1)",
-                    border: "1px solid rgba(254,178,2,0.25)",
+                    border: "1px solid rgba(254,178,2,0.3)",
                   }}
                 >
                   <img
@@ -109,19 +92,16 @@ export function Conteudos() {
                     alt=""
                     aria-hidden
                     loading="lazy"
-                    className="size-6 md:size-7"
+                    className="size-4.5"
                   />
                 </span>
-                <h3
-                  className="font-display flex-1 text-base leading-snug font-bold transition-colors duration-300 group-hover:text-accent md:text-xl"
-                  style={{ color: "#E1DECD" }}
-                >
+                <h3 className="font-display flex-1 text-sm leading-snug font-bold text-ink transition-colors duration-300 group-hover:text-accent md:text-base">
                   {c.titulo}
                 </h3>
                 <span
                   aria-hidden
-                  className="text-lg transition-transform duration-500 group-hover:translate-x-1.5"
-                  style={{ color: "rgba(254,178,2,0.85)" }}
+                  className="text-base transition-transform duration-500 group-hover:translate-x-1.5"
+                  style={{ color: "rgba(180,125,0,0.85)" }}
                 >
                   →
                 </span>
@@ -133,11 +113,13 @@ export function Conteudos() {
 
         <Reveal delay={620}>
           <a
-            href="#conteudos"
+            href="https://www.instagram.com/a.w.a.capital/"
+            target="_blank"
+            rel="noopener noreferrer"
             className="mt-14 inline-flex items-center gap-3 rounded-full border px-7 py-3.5 font-sans text-sm font-semibold transition-colors duration-300 md:mt-16"
-            style={{ borderColor: "rgba(254,178,2,0.6)", color: "#FEB202" }}
+            style={{ borderColor: "rgba(254,178,2,0.8)", color: "#B47D00" }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.background = "rgba(254,178,2,0.1)";
+              e.currentTarget.style.background = "rgba(254,178,2,0.12)";
             }}
             onMouseLeave={(e) => {
               e.currentTarget.style.background = "transparent";

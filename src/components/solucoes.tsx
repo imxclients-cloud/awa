@@ -63,16 +63,6 @@ export function Solucoes() {
                 <p className="mt-4 font-sans text-base leading-relaxed text-ink-muted">
                   {item.descricao}
                 </p>
-                <a
-                  href="#contato"
-                  className="mt-7 inline-flex items-center gap-2 font-sans text-sm font-semibold text-ink transition-colors hover:text-accent md:text-base"
-                >
-                  {item.link}
-                  <span
-                    aria-hidden="true"
-                    className="inline-block h-px w-6 bg-accent transition-all duration-300 group-hover:w-10"
-                  />
-                </a>
               </article>
             </Reveal>
           ))}

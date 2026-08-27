@@ -1,5 +1,4 @@
 import { Reveal } from "@/components/reveal";
-import wealthBg from "@/assets/wealth-bg.jpg";
 import iconePatrimonial from "@/assets/Ativo_32.png.asset.json";
 import iconeSucessorio from "@/assets/Ativo_38.png.asset.json";
 import iconeCustodia from "@/assets/Ativo_42.png.asset.json";
@@ -21,20 +20,15 @@ export function WealthServices() {
   return (
     <section
       id="wealth-services"
-      className="relative overflow-hidden bg-deep py-16 md:py-20 lg:py-28"
+      className="relative overflow-hidden bg-surface-light py-16 md:py-20 lg:py-28"
     >
-      {/* textura de fundo quase imperceptível + parallax */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 bg-cover bg-center bg-fixed opacity-30 [filter:grayscale(1)_contrast(0.8)]"
-        style={{ backgroundImage: `url(${wealthBg})` }}
-      />
+      {/* malha sutil de pontos */}
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0"
         style={{
-          background:
-            "linear-gradient(180deg, rgba(35,35,35,0.92) 0%, rgba(20,20,20,0.88) 50%, rgba(35,35,35,0.94) 100%)",
+          backgroundImage: "radial-gradient(rgba(35,35,35,0.05) 0.6px, transparent 0.6px)",
+          backgroundSize: "16px 16px",
         }}
       />
 
@@ -47,48 +41,22 @@ export function WealthServices() {
             </span>
           </Reveal>
           <Reveal delay={110}>
-            <h2
-              className="mt-6 font-display text-[1.75rem] leading-[1.1] font-extrabold tracking-tight md:text-4xl lg:text-[2.6rem]"
-              style={{ color: "#E1DECD" }}
-            >
+            <h2 className="mt-6 font-display text-[1.75rem] leading-[1.1] font-extrabold tracking-tight text-ink md:text-4xl lg:text-[2.6rem]">
               Patrimônio exige mais do que uma carteira de investimentos.
             </h2>
           </Reveal>
           <Reveal delay={200}>
-            <p
-              className="mt-7 max-w-xl font-sans text-base leading-relaxed md:text-lg"
-              style={{ color: "rgba(225,222,205,0.8)" }}
-            >
+            <p className="mt-7 max-w-xl font-sans text-base leading-relaxed text-ink md:text-lg">
               O Wealth Services da A.W.A Capital oferece uma visão integrada para clientes que
               precisam organizar, proteger e perpetuar seu patrimônio.
             </p>
           </Reveal>
           <Reveal delay={280}>
-            <p
-              className="mt-5 max-w-xl font-sans text-base leading-relaxed"
-              style={{ color: "rgba(225,222,205,0.5)" }}
-            >
+            <p className="mt-5 max-w-xl font-sans text-base leading-relaxed text-ink-muted">
               A estratégia considera diferentes dimensões da vida financeira, familiar e
               empresarial, conectando investimentos, planejamento sucessório, gestão de riscos e
               soluções personalizadas.
             </p>
-          </Reveal>
-          <Reveal delay={360}>
-            <a
-              href="#contato"
-              className="mt-10 inline-flex items-center justify-center rounded-full border px-7 py-3.5 font-sans text-sm font-semibold transition-all duration-300 hover:text-deep"
-              style={{ borderColor: "rgba(254,178,2,0.5)", color: "#FEB202" }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = "#FEB202";
-                e.currentTarget.style.borderColor = "#FEB202";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = "transparent";
-                e.currentTarget.style.borderColor = "rgba(254,178,2,0.5)";
-              }}
-            >
-              Conheça o Wealth Services!
-            </a>
           </Reveal>
         </div>
 
@@ -97,14 +65,14 @@ export function WealthServices() {
           {itens.map((item, i) => (
             <Reveal key={item.titulo} delay={120 + i * 90}>
               <li
-                className="group flex items-center gap-5 border-b py-5 transition-colors duration-300 md:gap-6 md:py-6"
-                style={{ borderColor: "rgba(225,222,205,0.12)" }}
+                className="group flex items-center gap-4 border-b py-3.5 transition-colors duration-300 md:py-4"
+                style={{ borderColor: "rgba(35,35,35,0.1)" }}
               >
                 <span
-                  className="grid size-12 shrink-0 place-items-center rounded-xl md:size-14"
+                  className="grid size-9 shrink-0 place-items-center rounded-lg"
                   style={{
                     background: "rgba(254,178,2,0.1)",
-                    border: "1px solid rgba(254,178,2,0.25)",
+                    border: "1px solid rgba(254,178,2,0.3)",
                   }}
                 >
                   <img
@@ -112,13 +80,10 @@ export function WealthServices() {
                     alt=""
                     aria-hidden
                     loading="lazy"
-                    className="size-6 md:size-7"
+                    className="size-4.5"
                   />
                 </span>
-                <h3
-                  className="font-display text-base leading-snug font-bold transition-colors duration-300 group-hover:text-accent md:text-xl"
-                  style={{ color: "#E1DECD" }}
-                >
+                <h3 className="font-display text-sm leading-snug font-bold text-ink transition-colors duration-300 group-hover:text-accent md:text-base">
                   {item.titulo}
                 </h3>
               </li>

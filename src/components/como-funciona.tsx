@@ -153,7 +153,7 @@ export function ComoFunciona() {
 
                   <Reveal delay={i * 90}>
                     <article
-                      className="group rounded-[20px] p-6 transition-all duration-500 hover:-translate-y-1 md:p-8"
+                      className="group rounded-[20px] p-6 transition-all duration-500 hover:-translate-y-1"
                       style={{
                         backgroundColor: "rgba(0,0,0,0.03)",
                         backdropFilter: "blur(18px)",
