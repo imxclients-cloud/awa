@@ -4,12 +4,10 @@ import logo from "@/assets/logo-horizontal.svg.asset.json";
 
 const navItems = [
   { label: "Sobre nós", href: "#sobre" },
-  { label: "Soluções", href: "#solucoes" },
-  { label: "Para empresas", href: "#empresas" },
-  { label: "Wealth Services", href: "#wealth-services" },
-  { label: "Conteúdos", href: "#conteudos" },
-  { label: "Carreira", href: "#cultura" },
-  { label: "Fale conosco", href: "#contato" },
+  { label: "Investimentos", href: "#investimentos" },
+  { label: "Soluções para Famílias", href: "#solucoes-familias" },
+  { label: "Soluções para Empresas", href: "#solucoes-empresas" },
+  { label: "Trabalhe conosco", href: "#trabalhe-conosco" },
 ];
 
 export function SiteHeader() {
@@ -46,11 +44,7 @@ export function SiteHeader() {
           <Menu size={24} strokeWidth={1.5} />
         </button>
 
-        <a
-          href="/"
-          className="flex justify-center lg:justify-start"
-          aria-label="A.W.A Capital"
-        >
+        <a href="/" className="flex justify-center lg:justify-start" aria-label="A.W.A Capital">
           <img
             src={logo.url}
             alt="A.W.A Capital"
@@ -75,10 +69,12 @@ export function SiteHeader() {
 
         <div className="hidden justify-self-end lg:block">
           <a
-            href="#contato"
+            href="https://wa.me/5598981145929?text=Olá, vim do site e gostaria de falar com um especialista sobre os serviços da A.W.A Capital."
+            target="_blank"
+            rel="noopener noreferrer"
             className="inline-flex items-center rounded-full bg-accent px-5 py-2.5 font-sans text-sm font-semibold text-accent-foreground transition-colors hover:bg-accent-hover"
           >
-            Quero falar com um especialista
+            Falar com um Especialista
           </a>
         </div>
 
@@ -118,11 +114,13 @@ export function SiteHeader() {
           </nav>
           <div className="p-5 pb-10">
             <a
-              href="#contato"
+              href="https://wa.me/5598981145929?text=Olá, vim do site e gostaria de falar com um especialista sobre os serviços da A.W.A Capital."
+              target="_blank"
+              rel="noopener noreferrer"
               onClick={() => setOpen(false)}
               className="flex w-full items-center justify-center rounded-full bg-accent px-6 py-4 font-sans text-base font-semibold text-accent-foreground"
             >
-              Quero falar com um especialista
+              Falar com um Especialista
             </a>
           </div>
         </div>

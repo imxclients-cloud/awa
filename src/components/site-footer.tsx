@@ -1,11 +1,30 @@
 import awaLogo from "@/assets/logo-horizontal.svg.asset.json";
 
 const colunas = [
-  { titulo: "Institucional", links: ["Sobre a A.W.A", "Soluções", "Wealth Services", "Para empresas"] },
-  { titulo: "Conteúdos", links: ["Conteúdos", "Carreira", "Contato"] },
-  { titulo: "Legal", links: ["Política de privacidade", "Termos de uso", "Avisos legais"] },
-  { titulo: "Mais", links: ["Redes sociais", "Informações regulatórias"] },
+  {
+    titulo: "Institucional",
+    links: [
+      "Sobre nós",
+      "Investimentos",
+      "Soluções para Famílias",
+      "Soluções para Empresas",
+      "Trabalhe conosco",
+    ],
+  },
+  { titulo: "Contato", links: ["Falar com um Especialista", "Instagram", "LinkedIn"] },
+  {
+    titulo: "Legal",
+    links: [
+      "Política de Privacidade",
+      "Termos de Uso",
+      "Avisos legais",
+      "Informações regulatórias",
+    ],
+  },
 ];
+
+const xpDisclaimer =
+  "A.W.A Capital é uma assessoria de investimentos. Os investimentos envolvem riscos e rentabilidade passada não representa garantia de rentabilidade futura. Consulte os documentos e informações regulatórias antes de investir.";
 
 function LinkFooter({ children }: { children: React.ReactNode }) {
   return (
@@ -72,14 +91,12 @@ export function SiteFooter() {
         </div>
 
         {/* grade editorial de colunas */}
-        <div className="mt-14 grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-4 lg:gap-0">
+        <div className="mt-14 grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-3 lg:gap-0">
           {colunas.map((c, i) => (
             <div
               key={c.titulo}
               className={`${
-                i > 0
-                  ? "border-t pt-10 lg:border-t-0 lg:border-l lg:pt-0 lg:pl-10"
-                  : "lg:pr-10"
+                i > 0 ? "border-t pt-10 lg:border-t-0 lg:border-l lg:pt-0 lg:pl-10" : "lg:pr-10"
               }`}
               style={{ borderColor: "rgba(225,222,205,0.1)" }}
             >
@@ -115,6 +132,10 @@ export function SiteFooter() {
             </div>
           ))}
         </div>
+
+        <p className="mt-14 max-w-4xl text-xs leading-5" style={{ color: "rgba(225,222,205,0.5)" }}>
+          {xpDisclaimer}
+        </p>
 
         {/* linha final */}
         <div
