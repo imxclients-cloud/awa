@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Reveal } from "@/components/reveal";
+import { WHATSAPP_ESPECIALISTA } from "@/lib/contact";
 
 
 const etapas = [
@@ -94,7 +95,7 @@ export function ComoFunciona() {
             className="font-sans text-[0.7rem] font-medium uppercase tracking-[0.28em]"
             style={{ color: "#FEB202" }}
           >
-            Como funciona
+            Do planejamento à prática
           </p>
           <h2
             className="mt-5 font-display text-3xl font-extrabold leading-[1.08] tracking-tight sm:text-4xl lg:text-[3.25rem]"
@@ -211,7 +212,9 @@ export function ComoFunciona() {
               </span>
               <Reveal delay={120}>
                 <a
-                  href="#contato"
+                  href={WHATSAPP_ESPECIALISTA}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="inline-flex items-center justify-center rounded-full px-7 py-3.5 font-sans text-sm font-medium transition-all duration-300 hover:-translate-y-0.5"
                   style={{ backgroundColor: "#FEB202", color: "#232323" }}
                 >

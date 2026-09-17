@@ -1,4 +1,5 @@
 import heroImage from "@/assets/hero-banner.png.asset.json";
+import { WHATSAPP_ESPECIALISTA } from "@/lib/contact";
 
 export function Hero() {
   return (
@@ -26,16 +27,18 @@ export function Hero() {
 
           <div className="mt-9 flex flex-col gap-3 sm:flex-row sm:items-center">
             <a
-              href="#solucoes"
+              href="#investimentos"
               className="inline-flex items-center justify-center rounded-full bg-accent px-6 py-3.5 font-sans text-sm font-semibold text-accent-foreground transition-colors hover:bg-accent-hover md:text-base"
             >
               Conheça nossas soluções
             </a>
             <a
-              href="#contato"
+              href={WHATSAPP_ESPECIALISTA}
+              target="_blank"
+              rel="noopener noreferrer"
               className="inline-flex items-center justify-center rounded-full border border-accent-hairline bg-glass-light px-6 py-3.5 font-sans text-sm font-semibold text-foreground backdrop-blur-glass transition-colors hover:bg-white/10 md:text-base"
             >
-              Fale com um especialista.
+              Fale com um especialista
             </a>
           </div>
         </div>
