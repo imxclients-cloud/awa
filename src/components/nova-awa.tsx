@@ -24,7 +24,7 @@ export function NovaAwa() {
               conhecimento e foco no cliente. 
             </p>
             <p className="mt-4 max-w-[680px] font-sans text-base leading-relaxed text-ink-muted md:text-lg">
-              Criada pelo e ex-camelô, Nazareno Lima, a A.W.A Capital carrega a essência da mentalidade transformadora do seu fundador em seu DNA. É esse o espírito edificador, que buscamos transmitir a todos os nossos clientes através dos nossos profissionais.
+              Criada pelo ex-camelô, Nazareno Lima, a A.W.A Capital carrega a essência da mentalidade transformadora do seu fundador em seu DNA. É esse o espírito edificador, que buscamos transmitir a todos os nossos clientes através dos nossos profissionais.
             </p>
             <p className="mt-4 max-w-[680px] font-sans text-base leading-relaxed text-ink-muted md:text-lg">
               Agora, mais do que Finanças e Investimentos.

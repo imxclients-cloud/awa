@@ -7,15 +7,10 @@ export function WhatsappFloat() {
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Falar no WhatsApp com um especialista da A.W.A Capital"
-      className="fixed bottom-5 right-5 z-[60] flex size-14 items-center justify-center rounded-full shadow-lg transition-transform duration-300 hover:scale-105 md:bottom-8 md:right-8"
+      className="fixed right-5 bottom-[calc(1.25rem+var(--cookie-banner-offset,0px))] z-[60] flex size-14 items-center justify-center rounded-full shadow-lg transition-transform duration-300 hover:scale-105 md:right-8 md:bottom-[calc(2rem+var(--cookie-banner-offset,0px))]"
       style={{ background: "#25D366" }}
     >
-      <svg
-        viewBox="0 0 24 24"
-        fill="white"
-        className="size-7"
-        aria-hidden
-      >
+      <svg viewBox="0 0 24 24" fill="white" className="size-7" aria-hidden>
         <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.472-.148-.67.15-.198.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-1.746-.874-2.892-1.56-4.042-3.538-.306-.526.306-.489.874-1.627.098-.198.049-.372-.05-.52-.099-.148-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.372-.01-.571-.01-.198 0-.52.074-.792.372-.272.298-1.04 1.017-1.04 2.479s1.065 2.876 1.213 3.074c.148.198 2.043 3.123 4.951 4.258 2.909 1.136 2.909.756 3.856.632.946-.124 1.758-.867 2.006-1.735.248-.867.248-1.612.173-1.735-.074-.124-.297-.198-.594-.347z" />
         <path d="M12.001 2.002C6.478 2.002 2 6.48 2 12.003c0 1.877.514 3.656 1.51 5.24L2.058 22l4.86-1.419a9.964 9.964 0 0 0 5.083 1.42c5.523 0 10.001-4.478 10.001-10.001C22.002 6.48 17.524 2.002 12.001 2.002zm0 18.19c-1.72 0-3.34-.487-4.717-1.334l-.339-.204-3.02.881.9-2.977-.221-.348a8.184 8.184 0 0 1-1.34-4.207c0-4.545 3.694-8.238 8.24-8.238 4.544 0 8.238 3.693 8.238 8.238 0 4.545-3.694 8.19-8.241 8.19z" />
       </svg>

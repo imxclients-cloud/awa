@@ -1,8 +1,22 @@
 import type { ReactNode } from "react";
+import { Link } from "@tanstack/react-router";
+import { Instagram } from "lucide-react";
 import awaLogo from "@/assets/logo-horizontal.svg.asset.json";
+import { OPEN_COOKIE_SETTINGS_EVENT } from "@/components/cookie-consent";
 import { WHATSAPP_ESPECIALISTA } from "@/lib/contact";
 
-const colunas = [
+/** Rotas internas das páginas institucionais/legais — linkadas somente no rodapé. */
+type LegalRoute =
+  "/politica-de-privacidade" | "/termos-de-uso" | "/avisos-legais" | "/informacoes-regulatorias";
+
+type ItemFooter = {
+  label: string;
+  href?: string;
+  to?: LegalRoute;
+  external?: boolean;
+};
+
+const colunas: Array<{ titulo: string; links: ItemFooter[] }> = [
   {
     titulo: "Institucional",
     links: [
@@ -17,43 +31,52 @@ const colunas = [
   {
     titulo: "Legal",
     links: [
-      { label: "Política de Privacidade", href: "#" },
-      { label: "Termos de Uso", href: "#" },
-      { label: "Avisos legais", href: "#" },
-      { label: "Informações regulatórias", href: "#" },
+      { label: "Política de Privacidade", to: "/politica-de-privacidade" },
+      { label: "Termos de Uso", to: "/termos-de-uso" },
+      { label: "Avisos legais", to: "/avisos-legais" },
+      { label: "Informações regulatórias", to: "/informacoes-regulatorias" },
     ],
   },
 ];
 
-function LinkFooter({
-  href,
-  external,
-  children,
-}: {
-  href: string;
-  external?: boolean;
+const linkClassName =
+  "group relative inline-flex font-sans text-sm text-[rgba(225,222,205,0.7)] transition-colors duration-300 hover:text-[#FEB202]";
+
+type LinkFooterProps = {
+  href?: string | undefined;
+  to?: LegalRoute | undefined;
+  external?: boolean | undefined;
   children: ReactNode;
-}) {
-  return (
-    <a
-      href={href}
-      target={external ? "_blank" : undefined}
-      rel={external ? "noopener noreferrer" : undefined}
-      className="group relative inline-flex font-sans text-sm transition-colors duration-300"
-      style={{ color: "rgba(225,222,205,0.7)" }}
-      onMouseEnter={(e) => {
-        e.currentTarget.style.color = "#FEB202";
-      }}
-      onMouseLeave={(e) => {
-        e.currentTarget.style.color = "rgba(225,222,205,0.7)";
-      }}
-    >
+};
+
+function LinkFooter({ href, to, external, children }: LinkFooterProps) {
+  const conteudo = (
+    <>
       {children}
       <span
         aria-hidden
         className="absolute -bottom-0.5 left-0 h-px w-full origin-left scale-x-0 transition-transform duration-300 group-hover:scale-x-100"
         style={{ background: "#FEB202" }}
       />
+    </>
+  );
+
+  if (to) {
+    return (
+      <Link to={to} className={linkClassName}>
+        {conteudo}
+      </Link>
+    );
+  }
+
+  return (
+    <a
+      href={href}
+      target={external ? "_blank" : undefined}
+      rel={external ? "noopener noreferrer" : undefined}
+      className={linkClassName}
+    >
+      {conteudo}
     </a>
   );
 }
@@ -105,9 +128,7 @@ export function SiteFooter() {
             <div
               key={c.titulo}
               className={`${
-                i > 0
-                  ? "border-t pt-10 lg:border-t-0 lg:border-l lg:pt-0 lg:pl-10"
-                  : "lg:pr-10"
+                i > 0 ? "border-t pt-10 lg:border-t-0 lg:border-l lg:pt-0 lg:pl-10" : "lg:pr-10"
               }`}
               style={{ borderColor: "rgba(225,222,205,0.1)" }}
             >
@@ -120,7 +141,7 @@ export function SiteFooter() {
               <ul className="mt-5 flex flex-col gap-3">
                 {c.links.map((l) => (
                   <li key={l.label}>
-                    <LinkFooter href={l.href} external={l.external}>
+                    <LinkFooter href={l.href} to={l.to} external={l.external}>
                       {l.label}
                     </LinkFooter>
                   </li>
@@ -140,12 +161,17 @@ export function SiteFooter() {
               Redes sociais
             </h3>
             <div className="mt-5 flex items-center gap-4">
-              <span
+              <a
                 data-slot="icon-instagram"
-                aria-label="Instagram"
-                className="inline-block h-4 w-4 rounded-[4px] border"
-                style={{ borderColor: "rgba(225,222,205,0.4)" }}
-              />
+                href="https://www.instagram.com/a.w.a.capital/"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Instagram da A.W.A Capital"
+                className="inline-flex size-9 items-center justify-center rounded-full border transition-colors duration-300 hover:border-accent hover:text-accent"
+                style={{ borderColor: "rgba(225,222,205,0.4)", color: "rgba(225,222,205,0.7)" }}
+              >
+                <Instagram size={18} strokeWidth={1.5} aria-hidden />
+              </a>
               <span
                 data-slot="icon-linkedin"
                 aria-label="LinkedIn"
@@ -157,10 +183,7 @@ export function SiteFooter() {
         </div>
 
         {/* disclaimers regulatórios XP */}
-        <div
-          className="mt-14 border-t pt-8"
-          style={{ borderColor: "rgba(225,222,205,0.1)" }}
-        >
+        <div className="mt-14 border-t pt-8" style={{ borderColor: "rgba(225,222,205,0.1)" }}>
           <p
             className="max-w-4xl font-sans text-[0.7rem] leading-relaxed"
             style={{ color: "rgba(225,222,205,0.45)" }}
@@ -183,9 +206,28 @@ export function SiteFooter() {
           <p className="font-sans text-xs" style={{ color: "rgba(225,222,205,0.5)" }}>
             © A.W.A Capital
           </p>
-          <p className="font-sans text-xs" style={{ color: "rgba(225,222,205,0.5)" }}>
-            Informações regulatórias
-          </p>
+          <div className="flex items-center gap-4">
+            <button
+              type="button"
+              onClick={() => window.dispatchEvent(new Event(OPEN_COOKIE_SETTINGS_EVENT))}
+              className="cursor-pointer font-sans text-xs transition-colors duration-300 hover:text-accent"
+              style={{ color: "rgba(225,222,205,0.5)" }}
+            >
+              Gerenciar cookies
+            </button>
+            <span
+              aria-hidden
+              className="h-3 w-px"
+              style={{ background: "rgba(225,222,205,0.2)" }}
+            />
+            <Link
+              to="/informacoes-regulatorias"
+              className="font-sans text-xs transition-colors duration-300 hover:text-accent"
+              style={{ color: "rgba(225,222,205,0.5)" }}
+            >
+              Informações regulatórias
+            </Link>
+          </div>
         </div>
       </div>
     </footer>

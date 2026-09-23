@@ -10,33 +10,89 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AvisosLegaisRouteImport } from './routes/avisos-legais'
+import { Route as InformacoesRegulatoriasRouteImport } from './routes/informacoes-regulatorias'
+import { Route as PoliticaDePrivacidadeRouteImport } from './routes/politica-de-privacidade'
+import { Route as TermosDeUsoRouteImport } from './routes/termos-de-uso'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AvisosLegaisRoute = AvisosLegaisRouteImport.update({
+  id: '/avisos-legais',
+  path: '/avisos-legais',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const InformacoesRegulatoriasRoute = InformacoesRegulatoriasRouteImport.update({
+  id: '/informacoes-regulatorias',
+  path: '/informacoes-regulatorias',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PoliticaDePrivacidadeRoute = PoliticaDePrivacidadeRouteImport.update({
+  id: '/politica-de-privacidade',
+  path: '/politica-de-privacidade',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TermosDeUsoRoute = TermosDeUsoRouteImport.update({
+  id: '/termos-de-uso',
+  path: '/termos-de-uso',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/avisos-legais': typeof AvisosLegaisRoute
+  '/informacoes-regulatorias': typeof InformacoesRegulatoriasRoute
+  '/politica-de-privacidade': typeof PoliticaDePrivacidadeRoute
+  '/termos-de-uso': typeof TermosDeUsoRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/avisos-legais': typeof AvisosLegaisRoute
+  '/informacoes-regulatorias': typeof InformacoesRegulatoriasRoute
+  '/politica-de-privacidade': typeof PoliticaDePrivacidadeRoute
+  '/termos-de-uso': typeof TermosDeUsoRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/avisos-legais': typeof AvisosLegaisRoute
+  '/informacoes-regulatorias': typeof InformacoesRegulatoriasRoute
+  '/politica-de-privacidade': typeof PoliticaDePrivacidadeRoute
+  '/termos-de-uso': typeof TermosDeUsoRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/avisos-legais'
+    | '/informacoes-regulatorias'
+    | '/politica-de-privacidade'
+    | '/termos-de-uso'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/avisos-legais'
+    | '/informacoes-regulatorias'
+    | '/politica-de-privacidade'
+    | '/termos-de-uso'
+  id:
+    | '__root__'
+    | '/'
+    | '/avisos-legais'
+    | '/informacoes-regulatorias'
+    | '/politica-de-privacidade'
+    | '/termos-de-uso'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AvisosLegaisRoute: typeof AvisosLegaisRoute
+  InformacoesRegulatoriasRoute: typeof InformacoesRegulatoriasRoute
+  PoliticaDePrivacidadeRoute: typeof PoliticaDePrivacidadeRoute
+  TermosDeUsoRoute: typeof TermosDeUsoRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +104,43 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/avisos-legais': {
+      id: '/avisos-legais'
+      path: '/avisos-legais'
+      fullPath: '/avisos-legais'
+      preLoaderRoute: typeof AvisosLegaisRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/informacoes-regulatorias': {
+      id: '/informacoes-regulatorias'
+      path: '/informacoes-regulatorias'
+      fullPath: '/informacoes-regulatorias'
+      preLoaderRoute: typeof InformacoesRegulatoriasRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/politica-de-privacidade': {
+      id: '/politica-de-privacidade'
+      path: '/politica-de-privacidade'
+      fullPath: '/politica-de-privacidade'
+      preLoaderRoute: typeof PoliticaDePrivacidadeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/termos-de-uso': {
+      id: '/termos-de-uso'
+      path: '/termos-de-uso'
+      fullPath: '/termos-de-uso'
+      preLoaderRoute: typeof TermosDeUsoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AvisosLegaisRoute: AvisosLegaisRoute,
+  InformacoesRegulatoriasRoute: InformacoesRegulatoriasRoute,
+  PoliticaDePrivacidadeRoute: PoliticaDePrivacidadeRoute,
+  TermosDeUsoRoute: TermosDeUsoRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

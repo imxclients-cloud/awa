@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Reveal } from "@/components/reveal";
+import fotoNazareno from "@/assets/Naza 2.jpeg";
 
 const PODCAST_VIDEO_ID = "bd1KNDiwY-I";
 
@@ -16,11 +17,14 @@ export function Fundador() {
               <div
                 className="relative aspect-[4/5] w-full overflow-hidden rounded-3xl border border-ink-hairline bg-glass-on-light"
                 data-slot="foto-nazareno-lima"
-                aria-label="Foto de Nazareno Lima, CEO e Fundador da A.W.A Capital"
-              />
-              <p className="mt-3 text-center font-sans text-xs text-ink-muted">
-                Espaço reservado para foto de Nazareno Lima.
-              </p>
+              >
+                <img
+                  src={fotoNazareno}
+                  alt="Foto de Nazareno Lima, CEO e Fundador da A.W.A Capital"
+                  loading="lazy"
+                  className="absolute inset-0 h-full w-full object-cover"
+                />
+              </div>
             </div>
           </Reveal>
 
