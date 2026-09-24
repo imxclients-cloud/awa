@@ -172,12 +172,18 @@ export function SiteFooter() {
               >
                 <Instagram size={18} strokeWidth={1.5} aria-hidden />
               </a>
-              <span
-                data-slot="icon-linkedin"
-                aria-label="LinkedIn"
-                className="inline-block h-4 w-4 rounded-[4px] border"
-                style={{ borderColor: "rgba(225,222,205,0.4)" }}
-              />
+              <a
+                href="https://www.linkedin.com/company/alphaways-xp/"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="LinkedIn da Alphaways XP"
+                className="inline-flex size-9 items-center justify-center rounded-full border transition-colors duration-300 hover:border-accent hover:text-accent"
+                style={{ borderColor: "rgba(225,222,205,0.4)", color: "rgba(225,222,205,0.7)" }}
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" fill="currentColor" className="h-4 w-4" aria-hidden="true">
+                  <path d="M100.28 448H7.4V148.9h92.88zm-46.44-340a53.8 53.8 0 1 1 53.8-53.8 53.79 53.79 0 0 1-53.8 53.8zm394.1 340h-92.68V302.4c0-34.7-12.43-58.4-43.46-58.4-23.7 0-37.87 15.93-44.1 31.34-2.26 5.47-2.83 13.1-2.83 20.77V448h-92.75s1.24-267.8 0-295.1h92.71v41.8c12.33-19 34.4-46 83.61-46 60.96 0 106.63 39.77 106.63 125.29z" />
+                </svg>
+              </a>
             </div>
           </div>
         </div>

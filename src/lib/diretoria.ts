@@ -1,6 +1,6 @@
 import fotoClaudia from "@/assets/diretoria-claudia-von-sohsten.png";
 import fotoGustavo from "@/assets/diretoria-gustavo-matos.png";
-import fotoNazareno from "@/assets/diretoria-nazareno-lima.png";
+import fotoNazareno from "@/assets/Naza 2.jpeg";
 import fotoRaphael from "@/assets/diretoria-raphael-vidal.png";
 
 /**

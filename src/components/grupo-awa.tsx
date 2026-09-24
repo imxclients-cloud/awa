@@ -59,25 +59,15 @@ export function GrupoAwa() {
               </div>
             </Reveal>
 
-            {/* as três lâminas em diagonal + ponto */}
+            {/* substituído símbolo feio por imagem */}
             <Reveal delay={180}>
-              <div className="pointer-events-none absolute top-[150px] left-1/2 flex -translate-x-1/2 items-end gap-6 lg:gap-8">
-                <span
-                  aria-hidden
-                  className="block w-[70px] -skew-x-[20deg] rounded-sm bg-accent lg:w-[86px]"
-                  style={{ height: "170px" }}
+              <div className="pointer-events-none absolute top-[150px] left-1/2 flex -translate-x-1/2 items-center justify-center">
+                <img
+                  src="/awa_icone.png"
+                  alt="AWA Ícone"
+                  className="h-[170px] w-auto"
+                  draggable={false}
                 />
-                <span
-                  aria-hidden
-                  className="mt-16 block w-[70px] -skew-x-[20deg] rounded-sm bg-accent lg:w-[86px]"
-                  style={{ height: "170px" }}
-                />
-                <span
-                  aria-hidden
-                  className="mt-28 block w-[70px] -skew-x-[20deg] rounded-sm bg-accent lg:w-[86px]"
-                  style={{ height: "170px" }}
-                />
-                <span aria-hidden className="mb-1 block size-3 rounded-full bg-accent" />
               </div>
             </Reveal>
           </div>

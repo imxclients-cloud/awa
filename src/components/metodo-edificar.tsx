@@ -1,4 +1,5 @@
 import { Reveal } from "@/components/reveal";
+import { ArrowRight, Users, Handshake, Target } from "lucide-react";
 import metodoLogo from "@/assets/metodo-edificar-logo.png";
 
 const etapas = [
@@ -53,12 +54,28 @@ const etapas = [
 // versão simplificada, empilhada, para telas pequenas
 const arcoOffsetMobile = [64, 32, 0, 32, 64];
 
-const pilares = ["Finanças e Investimentos", "Gestão de Risco", "Eficiência Tributária", "Sucessão"];
+const pilares = [
+  {
+    icone: Users,
+    titulo: "Resultados garantidos",
+    texto: "Negociadores na mediação com credores, fornecedores e fundos de investimento.",
+  },
+  {
+    icone: Handshake,
+    titulo: "Experiência comprovada",
+    texto: "Executivos com histórico comprovado na recuperação de negócios complexos.",
+  },
+  {
+    icone: Target,
+    titulo: "Gestão estratégica",
+    texto: "Estratégias formuladas por especialistas em finanças corporativas e governança.",
+  },
+];
 
 export function MetodoEdificar() {
   return (
     <section
-      className="relative overflow-hidden py-16 md:py-20 lg:py-24"
+      className="relative overflow-hidden py-12 md:py-14 lg:py-16"
       style={{ background: "#FFFFFF" }}
     >
       <div className="mx-auto w-full max-w-[1280px] px-5 md:px-8">
@@ -74,19 +91,19 @@ export function MetodoEdificar() {
         </Reveal>
 
         {/* etapas do método (E-DI-FI-CA-R) — diagrama, seguindo a peça de referência, com as cores do site */}
-        <div className="mt-12 md:mt-10 md:grid md:grid-cols-[minmax(220px,0.62fr)_minmax(0,1fr)] md:items-center md:gap-6 lg:gap-10">
+        <div className="mt-8 md:mt-8 md:grid md:grid-cols-[minmax(220px,0.62fr)_minmax(0,1fr)] md:items-center md:gap-6">
           <Reveal className="hidden md:block">
             <img
               src={metodoLogo}
               alt="Método Edificar"
-              className="w-[190px] lg:w-[220px]"
+              className="w-[240px] lg:w-[280px]"
               loading="lazy"
-              style={{ left: "399px", position: "relative" }}
+              style={{ left: "160px", position: "relative" }}
             />
           </Reveal>
 
           {/* ---- desktop / tablet: diagrama fiel ao modelo de referência ---- */}
-          <div className="relative mx-auto hidden aspect-square w-full max-w-[560px] md:block">
+          <div className="relative mx-auto hidden aspect-square w-full max-w-[560px] right-[160px] md:block">
             <svg
               className="pointer-events-none absolute inset-0 h-full w-full"
               viewBox="0 0 720 800"
@@ -159,7 +176,7 @@ export function MetodoEdificar() {
               <img
                 src={metodoLogo}
                 alt="Método Edificar"
-                className="w-[220px]"
+                className="w-[260px]"
                 loading="lazy"
               />
             </Reveal>
@@ -191,32 +208,47 @@ export function MetodoEdificar() {
         </div>
 
         {/* planejamento como pilar */}
-        <div className="mt-16 border-t border-ink-hairline pt-14 md:mt-20 md:pt-16">
+        <div className="mt-12 border-t border-ink-hairline pt-10 md:mt-14 md:pt-12">
           <Reveal>
-            <p className="font-display text-[0.7rem] font-extrabold tracking-[0.28em] text-accent uppercase">
-              Planejamento como pilar
-            </p>
-          </Reveal>
-          <Reveal delay={100}>
-            <h3 className="mt-5 max-w-2xl font-display text-xl leading-tight font-bold text-ink md:text-2xl">
-              O planejamento patrimonial é o ponto de partida de tudo o que fazemos.
-            </h3>
+            <div className="max-w-4xl">
+              <p className="font-display text-[0.9rem] font-extrabold tracking-[0.34em] text-accent uppercase">
+                Planejamento como pilar
+              </p>
+              <h3 className="mt-3 font-display text-3xl font-bold leading-snug text-ink">
+                O planejamento patrimonial é o ponto de partida de tudo o que fazemos.
+              </h3>
+            </div>
           </Reveal>
 
-          <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {pilares.map((p, i) => (
-              <Reveal key={p} delay={160 + i * 90}>
-                <div className="flex h-full flex-col items-center justify-center rounded-2xl border border-ink-hairline px-5 py-8 text-center">
-                  <p className="font-sans text-sm font-semibold text-ink">{p}</p>
-                </div>
-              </Reveal>
-            ))}
+          <div className="mt-10 flex flex-col gap-10 lg:flex-row lg:items-start">
+            {/* texto à esquerda */}
+            <Reveal className="flex shrink-0 flex-col gap-6 lg:w-[220px] lg:border-r lg:border-ink-hairline lg:pr-10">
+              <h2 className="font-display text-3xl font-normal leading-snug text-ink">
+                Gestão <span className="font-extrabold">completa</span> feita para você
+              </h2>
+              <span className="grid h-11 w-11 place-items-center rounded-xl bg-accent-light text-accent">
+                <ArrowRight className="h-5 w-5" strokeWidth={2} />
+              </span>
+            </Reveal>
+
+            {/* itens à direita, com ícone antes do título */}
+            <div className="grid flex-1 grid-cols-1 gap-8 sm:grid-cols-3 lg:pl-2">
+              {pilares.map((p, i) => {
+                const Icone = p.icone;
+                return (
+                  <Reveal key={p.titulo} delay={160 + i * 90}>
+                    <div className="mb-4 grid h-12 w-12 place-items-center rounded-xl bg-accent-light text-accent">
+                      <Icone className="h-6 w-6" strokeWidth={1.5} />
+                    </div>
+                    <h4 className="mb-2 font-display text-base font-bold leading-snug text-ink">
+                      {p.titulo}
+                    </h4>
+                    <p className="font-sans text-sm leading-relaxed text-ink-muted">{p.texto}</p>
+                  </Reveal>
+                );
+              })}
+            </div>
           </div>
-          <Reveal delay={520}>
-            <p className="mt-6 text-center font-display text-base font-bold text-accent">
-              Planejamento Patrimonial
-            </p>
-          </Reveal>
         </div>
       </div>
     </section>
