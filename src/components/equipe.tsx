@@ -2,6 +2,7 @@ import { useState } from "react";
 
 import { Reveal } from "@/components/reveal";
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
+import { assessores } from "@/lib/assessores";
 import { diretoria, type Profissional } from "@/lib/diretoria";
 
 export function Equipe() {
@@ -87,20 +88,48 @@ export function Equipe() {
           </Reveal>
           <Reveal delay={220}>
             <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-              {[1, 2, 3, 4, 5, 6].map((i) => (
-                <div
-                  key={i}
+              {assessores.map((a, i) => (
+                <article
+                  key={a.codigo}
+                  data-slot={`assessor-${i + 1}`}
                   className="flex items-center gap-3 rounded-xl border border-ink-hairline px-4 py-3"
                 >
-                  <span
-                    aria-hidden
-                    className="size-9 shrink-0 rounded-full bg-glass-on-light"
-                    data-slot={`avatar-assessor-${i}`}
-                  />
-                  <span className="font-sans text-sm text-ink-muted">
-                    Nome do assessor (lista a confirmar)
-                  </span>
-                </div>
+                  {a.foto ? (
+                    <img
+                      src={encodeURI(a.foto)}
+                      alt={`Foto de ${a.nome}, assessor de investimentos da A.W.A Capital`}
+                      loading="lazy"
+                      width={40}
+                      height={40}
+                      className="size-10 shrink-0 rounded-full object-cover object-top"
+                    />
+                  ) : (
+                    <span
+                      aria-hidden
+                      className="flex size-10 shrink-0 items-center justify-center rounded-full bg-glass-on-light font-display text-[0.7rem] font-extrabold text-ink-muted"
+                    >
+                      {a.nome
+                        .split(" ")
+                        .filter(Boolean)
+                        .slice(0, 2)
+                        .map((p) => p[0])
+                        .join("")
+                        .toUpperCase()}
+                    </span>
+                  )}
+                  <div className="min-w-0">
+                    <p className="font-display text-sm leading-snug font-bold text-ink">{a.nome}</p>
+                    <p className="mt-0.5 font-display text-[0.6rem] font-extrabold tracking-[0.16em] text-accent uppercase">
+                      Assessor de Investimentos · {a.codigo}
+                    </p>
+                    <a
+                      href={`mailto:${a.email}`}
+                      className="mt-1 block truncate font-sans text-xs text-ink-muted transition-colors duration-300 hover:text-accent"
+                    >
+                      {a.email}
+                    </a>
+                  </div>
+                </article>
               ))}
             </div>
           </Reveal>

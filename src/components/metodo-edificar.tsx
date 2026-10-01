@@ -1,5 +1,4 @@
 import { Reveal } from "@/components/reveal";
-import { ArrowRight, Users, Handshake, Target } from "lucide-react";
 import metodoLogo from "@/assets/metodo-edificar-logo.png";
 
 const etapas = [
@@ -53,24 +52,6 @@ const etapas = [
 
 // versão simplificada, empilhada, para telas pequenas
 const arcoOffsetMobile = [64, 32, 0, 32, 64];
-
-const pilares = [
-  {
-    icone: Users,
-    titulo: "Resultados garantidos",
-    texto: "Negociadores na mediação com credores, fornecedores e fundos de investimento.",
-  },
-  {
-    icone: Handshake,
-    titulo: "Experiência comprovada",
-    texto: "Executivos com histórico comprovado na recuperação de negócios complexos.",
-  },
-  {
-    icone: Target,
-    titulo: "Gestão estratégica",
-    texto: "Estratégias formuladas por especialistas em finanças corporativas e governança.",
-  },
-];
 
 export function MetodoEdificar() {
   return (
@@ -143,7 +124,8 @@ export function MetodoEdificar() {
                     boxShadow:
                       "0 16px 24px rgba(184, 122, 0, 0.28), inset 6px 6px 14px rgba(255,223,150,0.35), inset -8px -10px 16px rgba(140,90,0,0.28)",
                     transform: "rotate(-7deg)",
-                    fontSize: e.codigo.length > 1 ? "clamp(20px, 2.2vw, 30px)" : "clamp(26px, 3vw, 40px)",
+                    fontSize:
+                      e.codigo.length > 1 ? "clamp(20px, 2.2vw, 30px)" : "clamp(26px, 3vw, 40px)",
                     letterSpacing: "-0.05em",
                   }}
                 >
@@ -173,12 +155,7 @@ export function MetodoEdificar() {
           {/* ---- mobile: versão empilhada ---- */}
           <div className="flex flex-col items-center md:hidden">
             <Reveal className="mb-8">
-              <img
-                src={metodoLogo}
-                alt="Método Edificar"
-                className="w-[260px]"
-                loading="lazy"
-              />
+              <img src={metodoLogo} alt="Método Edificar" className="w-[260px]" loading="lazy" />
             </Reveal>
             {etapas.map((e, i) => (
               <Reveal
@@ -204,50 +181,6 @@ export function MetodoEdificar() {
                 </div>
               </Reveal>
             ))}
-          </div>
-        </div>
-
-        {/* planejamento como pilar */}
-        <div className="mt-12 border-t border-ink-hairline pt-10 md:mt-14 md:pt-12">
-          <Reveal>
-            <div className="max-w-4xl">
-              <p className="font-display text-[0.9rem] font-extrabold tracking-[0.34em] text-accent uppercase">
-                Planejamento como pilar
-              </p>
-              <h3 className="mt-3 font-display text-3xl font-bold leading-snug text-ink">
-                O planejamento patrimonial é o ponto de partida de tudo o que fazemos.
-              </h3>
-            </div>
-          </Reveal>
-
-          <div className="mt-10 flex flex-col gap-10 lg:flex-row lg:items-start">
-            {/* texto à esquerda */}
-            <Reveal className="flex shrink-0 flex-col gap-6 lg:w-[220px] lg:border-r lg:border-ink-hairline lg:pr-10">
-              <h2 className="font-display text-3xl font-normal leading-snug text-ink">
-                Gestão <span className="font-extrabold">completa</span> feita para você
-              </h2>
-              <span className="grid h-11 w-11 place-items-center rounded-xl bg-accent-light text-accent">
-                <ArrowRight className="h-5 w-5" strokeWidth={2} />
-              </span>
-            </Reveal>
-
-            {/* itens à direita, com ícone antes do título */}
-            <div className="grid flex-1 grid-cols-1 gap-8 sm:grid-cols-3 lg:pl-2">
-              {pilares.map((p, i) => {
-                const Icone = p.icone;
-                return (
-                  <Reveal key={p.titulo} delay={160 + i * 90}>
-                    <div className="mb-4 grid h-12 w-12 place-items-center rounded-xl bg-accent-light text-accent">
-                      <Icone className="h-6 w-6" strokeWidth={1.5} />
-                    </div>
-                    <h4 className="mb-2 font-display text-base font-bold leading-snug text-ink">
-                      {p.titulo}
-                    </h4>
-                    <p className="font-sans text-sm leading-relaxed text-ink-muted">{p.texto}</p>
-                  </Reveal>
-                );
-              })}
-            </div>
           </div>
         </div>
       </div>

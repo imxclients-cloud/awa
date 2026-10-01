@@ -98,7 +98,7 @@ export function ComoFunciona() {
             Do planejamento à prática
           </p>
           <h2
-            className="mt-5 font-display text-3xl font-extrabold leading-[1.08] tracking-tight sm:text-4xl lg:text-[3.25rem]"
+            className="mt-5 font-display text-3xl font-extrabold leading-[1.08] tracking-tight sm:text-4xl lg:text-[2.2rem]"
             style={{ color: "#232323" }}
           >
             Uma jornada construída ao seu lado

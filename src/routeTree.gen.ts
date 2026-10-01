@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AssessoresRouteImport } from './routes/assessores'
 import { Route as AvisosLegaisRouteImport } from './routes/avisos-legais'
 import { Route as InformacoesRegulatoriasRouteImport } from './routes/informacoes-regulatorias'
 import { Route as PoliticaDePrivacidadeRouteImport } from './routes/politica-de-privacidade'
@@ -18,6 +19,11 @@ import { Route as TermosDeUsoRouteImport } from './routes/termos-de-uso'
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AssessoresRoute = AssessoresRouteImport.update({
+  id: '/assessores',
+  path: '/assessores',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AvisosLegaisRoute = AvisosLegaisRouteImport.update({
@@ -43,6 +49,7 @@ const TermosDeUsoRoute = TermosDeUsoRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/assessores': typeof AssessoresRoute
   '/avisos-legais': typeof AvisosLegaisRoute
   '/informacoes-regulatorias': typeof InformacoesRegulatoriasRoute
   '/politica-de-privacidade': typeof PoliticaDePrivacidadeRoute
@@ -50,6 +57,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/assessores': typeof AssessoresRoute
   '/avisos-legais': typeof AvisosLegaisRoute
   '/informacoes-regulatorias': typeof InformacoesRegulatoriasRoute
   '/politica-de-privacidade': typeof PoliticaDePrivacidadeRoute
@@ -58,6 +66,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/assessores': typeof AssessoresRoute
   '/avisos-legais': typeof AvisosLegaisRoute
   '/informacoes-regulatorias': typeof InformacoesRegulatoriasRoute
   '/politica-de-privacidade': typeof PoliticaDePrivacidadeRoute
@@ -67,6 +76,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/assessores'
     | '/avisos-legais'
     | '/informacoes-regulatorias'
     | '/politica-de-privacidade'
@@ -74,6 +84,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/assessores'
     | '/avisos-legais'
     | '/informacoes-regulatorias'
     | '/politica-de-privacidade'
@@ -81,6 +92,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/assessores'
     | '/avisos-legais'
     | '/informacoes-regulatorias'
     | '/politica-de-privacidade'
@@ -89,6 +101,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AssessoresRoute: typeof AssessoresRoute
   AvisosLegaisRoute: typeof AvisosLegaisRoute
   InformacoesRegulatoriasRoute: typeof InformacoesRegulatoriasRoute
   PoliticaDePrivacidadeRoute: typeof PoliticaDePrivacidadeRoute
@@ -102,6 +115,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/assessores': {
+      id: '/assessores'
+      path: '/assessores'
+      fullPath: '/assessores'
+      preLoaderRoute: typeof AssessoresRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/avisos-legais': {
@@ -137,6 +157,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AssessoresRoute: AssessoresRoute,
   AvisosLegaisRoute: AvisosLegaisRoute,
   InformacoesRegulatoriasRoute: InformacoesRegulatoriasRoute,
   PoliticaDePrivacidadeRoute: PoliticaDePrivacidadeRoute,

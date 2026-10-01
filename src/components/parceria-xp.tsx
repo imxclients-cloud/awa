@@ -188,7 +188,7 @@ export function ParceriaXp() {
         <p className="text-center font-display text-[0.7rem] font-extrabold tracking-[0.28em] text-accent uppercase">
           Modelo de remuneração
         </p>
-        <h3 className="mx-auto mt-4 max-w-2xl text-center font-display text-xl font-bold text-ink md:text-2xl">
+        <h3 className="mx-auto mt-4 max-w-2xl text-center font-display text-xl font-bold text-ink">
           Na A.W.A, o cliente escolhe o seu modelo de remuneração.
         </h3>
 

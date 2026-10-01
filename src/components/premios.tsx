@@ -1,4 +1,5 @@
 import { Reveal } from "@/components/reveal";
+import seloImagem from "@/assets/selos/imagem (32).png";
 
 const selos = [
   { titulo: "S20", texto: "2020: 20 melhores escritórios XP do Brasil com até 2 anos de vida" },
@@ -27,17 +28,16 @@ export function Premios() {
         <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {selos.map((s, i) => (
             <Reveal key={s.titulo} delay={140 + i * 90}>
-              <div className="flex h-full gap-4 rounded-2xl border border-ink-hairline bg-white p-6">
-                <span
+              <div className="flex h-full flex-col items-center rounded-2xl border border-ink-hairline bg-white p-8 text-center">
+                <img
+                  src={seloImagem}
+                  alt=""
                   aria-hidden
-                  className="grid size-10 shrink-0 place-items-center rounded-full border border-accent/50 bg-accent/10 font-display text-sm font-extrabold text-accent"
-                >
-                  ★
-                </span>
-                <div>
-                  <h3 className="font-display text-base font-bold text-ink">{s.titulo}</h3>
-                  <p className="mt-1 font-sans text-sm leading-relaxed text-ink-muted">{s.texto}</p>
-                </div>
+                  className="h-28 w-28 object-contain"
+                  loading="lazy"
+                />
+                <h3 className="mt-6 font-display text-base font-bold text-ink">{s.titulo}</h3>
+                <p className="mt-2 font-sans text-sm leading-relaxed text-ink-muted">{s.texto}</p>
               </div>
             </Reveal>
           ))}

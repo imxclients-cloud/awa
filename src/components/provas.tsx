@@ -8,7 +8,7 @@ type Dado = {
 };
 
 const dados: Dado[] = [
-  { prefixo: "Unidades em São Luís (MA), Fortaleza (CE) e Recife (PE)" },
+  { prefixo: "Unidades em\nSão Luís (MA)\nFortaleza (CE)\ne Recife (PE)" },
   { prefixo: "+ de R$ ", valor: 850, sufixo: " milhões sob custódia" },
   { prefixo: "+ ", valor: 1300, sufixo: " clientes" },
   { prefixo: "+ ", valor: 40, sufixo: " profissionais" },
@@ -33,6 +33,62 @@ function NumeroAnimado({ valor, ativo }: { valor: number; ativo: boolean }) {
   }, [ativo, valor]);
 
   return <>{atual.toLocaleString("pt-BR")}</>;
+}
+
+const CIDADES = ["São Luís", "Fortaleza", "Recife"];
+const regexCidades = new RegExp(`(${CIDADES.join("|")})`, "g");
+
+function comCidades(texto: string) {
+  return texto.split("\n").map((linha, li) => (
+    <span key={li} className="block">
+      {linha.split(regexCidades).map((parte, i) =>
+        CIDADES.includes(parte) ? (
+          <strong key={i} className="font-extrabold" style={{ color: "#FEB202" }}>
+            {parte}
+          </strong>
+        ) : (
+          <span key={i}>{parte}</span>
+        ),
+      )}
+    </span>
+  ));
+}
+
+function Item({ dado, ativo, indice }: { dado: Dado; ativo: boolean; indice: number }) {
+  const anim = {
+    color: "#232323",
+    opacity: ativo ? 1 : 0,
+    filter: ativo ? "blur(0px)" : "blur(6px)",
+    transition: `opacity 700ms ease-out ${indice * 140}ms, filter 700ms ease-out ${indice * 140}ms`,
+  };
+
+  const base =
+    "font-display flex h-full w-full flex-col justify-center px-2 leading-snug tracking-tight";
+
+  if (dado.valor === undefined) {
+    return (
+      <p className={`${base} text-[1.6rem] font-semibold md:text-[1.4rem]`} style={anim}>
+        {comCidades(dado.prefixo)}
+      </p>
+    );
+  }
+
+  return (
+    <div className={`${base} text-[0.95rem] font-semibold md:text-base`} style={anim}>
+      <span className="block">{dado.prefixo}</span>
+      <span
+        className="block font-extrabold tracking-tight tabular-nums whitespace-nowrap"
+        style={{
+          color: "#FEB202",
+          fontSize: "clamp(3.25rem, 7vw, 5.5rem)",
+          lineHeight: 1,
+        }}
+      >
+        <NumeroAnimado valor={dado.valor} ativo={ativo} />
+      </span>
+      <span className="block">{dado.sufixo}</span>
+    </div>
+  );
 }
 
 export function Provas() {
@@ -62,52 +118,32 @@ export function Provas() {
       className="relative overflow-hidden py-16 md:py-20 lg:py-28"
       style={{ background: "#FFFFFF" }}
     >
-      {/* papel milimetrado sutil */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0"
-        style={{
-          backgroundImage: "radial-gradient(rgba(35,35,35,0.07) 0.6px, transparent 0.6px)",
-          backgroundSize: "14px 14px",
-        }}
-      />
-
       <div className="relative mx-auto w-full max-w-[1200px] px-5 md:px-8">
         <Reveal>
           <h2
-            className="font-display mx-auto max-w-[360px] text-center text-[1.7rem] leading-[1.14] font-bold tracking-tight md:text-4xl lg:text-[2.4rem]"
+            className="font-display mx-auto max-w-[420px] text-center text-[1.7rem] leading-[1.14] font-bold tracking-tight md:text-4xl lg:text-[2.2rem]"
             style={{ color: "#232323" }}
           >
-            Nossas unidades 
-            e grandes números
+            Nossas unidades e grandes números
           </h2>
         </Reveal>
 
         {/* desktop / tablet */}
-        <div className="relative mt-20 hidden md:grid md:grid-cols-4 md:gap-6 lg:gap-8">
-          {dados.map((d, i) => (
-            <div key={d.prefixo} className="px-1 text-center">
-              <p
-                className="font-display text-lg leading-snug font-extrabold tracking-tight md:text-xl"
-                style={{
-                  color: "#FEB202",
-                  opacity: ativo ? 1 : 0,
-                  filter: ativo ? "blur(0px)" : "blur(6px)",
-                  transition: `opacity 700ms ease-out ${i * 140}ms, filter 700ms ease-out ${i * 140}ms`,
-                }}
+        <div className="relative mt-20 hidden md:block">
+          <div className="grid grid-cols-4 items-stretch text-center">
+            {dados.map((d, i) => (
+              <div
+                key={d.prefixo}
+                className="flex"
+                style={i > 0 ? { borderLeft: "1px solid rgba(35,35,35,0.18)" } : undefined}
               >
-                {d.prefixo}
-                {d.valor !== undefined && <NumeroAnimado valor={d.valor} ativo={ativo} />}
-                {d.sufixo}
-              </p>
-            </div>
-          ))}
+                <Item dado={d} ativo={ativo} indice={i} />
+              </div>
+            ))}
+          </div>
 
           {/* régua dourada */}
-          <div
-            className="relative col-span-4 mt-10 h-px w-full"
-            style={{ background: "rgba(35,35,35,0.1)" }}
-          >
+          <div className="relative mt-14 h-px w-full" style={{ background: "rgba(35,35,35,0.1)" }}>
             <div
               className="absolute inset-y-0 left-0"
               style={{
@@ -144,30 +180,18 @@ export function Provas() {
               transition: "height 1600ms cubic-bezier(0.22,1,0.36,1)",
             }}
           />
-          <div className="flex flex-col gap-8">
+          <div className="flex flex-col divide-y divide-[#23232324]">
             {dados.map((d, i) => (
-              <div key={d.prefixo} className="relative">
+              <div key={d.prefixo} className="relative py-6">
                 <span
-                  className="absolute top-2 -left-8 block h-[7px] w-[7px] rounded-full"
+                  className="absolute top-8 -left-8 block h-[7px] w-[7px] rounded-full"
                   style={{
                     background: "#FEB202",
                     opacity: ativo ? 1 : 0,
                     transition: `opacity 500ms ease-out ${200 + i * 240}ms`,
                   }}
                 />
-                <p
-                  className="font-display text-base leading-snug font-extrabold tracking-tight"
-                  style={{
-                    color: "#FEB202",
-                    opacity: ativo ? 1 : 0,
-                    filter: ativo ? "blur(0px)" : "blur(6px)",
-                    transition: `opacity 700ms ease-out ${i * 140}ms, filter 700ms ease-out ${i * 140}ms`,
-                  }}
-                >
-                  {d.prefixo}
-                  {d.valor !== undefined && <NumeroAnimado valor={d.valor} ativo={ativo} />}
-                  {d.sufixo}
-                </p>
+                <Item dado={d} ativo={ativo} indice={i} />
               </div>
             ))}
           </div>

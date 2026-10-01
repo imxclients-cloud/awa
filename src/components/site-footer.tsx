@@ -7,12 +7,22 @@ import { WHATSAPP_ESPECIALISTA } from "@/lib/contact";
 
 /** Rotas internas das páginas institucionais/legais — linkadas somente no rodapé. */
 type LegalRoute =
-  "/politica-de-privacidade" | "/termos-de-uso" | "/avisos-legais" | "/informacoes-regulatorias";
+  | "/politica-de-privacidade"
+  | "/termos-de-uso"
+  | "/avisos-legais"
+  | "/informacoes-regulatorias"
+  | "/assessores";
+
+type InternalRoute = "/" | LegalRoute;
 
 type ItemFooter = {
   label: string;
+  /** Rota interna do router. */
+  to?: InternalRoute;
+  /** Âncora dentro da rota (ex.: "sobre" → "/#sobre"). */
+  hash?: string;
+  /** Link externo (ex.: WhatsApp) — abre em nova aba. */
   href?: string;
-  to?: LegalRoute;
   external?: boolean;
 };
 
@@ -20,11 +30,12 @@ const colunas: Array<{ titulo: string; links: ItemFooter[] }> = [
   {
     titulo: "Institucional",
     links: [
-      { label: "Sobre nós", href: "#sobre" },
-      { label: "Investimentos", href: "#investimentos" },
-      { label: "Soluções para Famílias", href: "#familias" },
-      { label: "Soluções para Empresas", href: "#empresas" },
-      { label: "Trabalhe conosco", href: "#trabalhe-conosco" },
+      { label: "Sobre nós", to: "/", hash: "sobre" },
+      { label: "Investimentos", to: "/", hash: "investimentos" },
+      { label: "Soluções para Famílias", to: "/", hash: "familias" },
+      { label: "Soluções para Empresas", to: "/", hash: "empresas" },
+      { label: "Trabalhe conosco", to: "/", hash: "trabalhe-conosco" },
+      { label: "Assessores de Investimentos", to: "/assessores" },
       { label: "Falar com um Especialista", href: WHATSAPP_ESPECIALISTA, external: true },
     ],
   },
@@ -44,12 +55,13 @@ const linkClassName =
 
 type LinkFooterProps = {
   href?: string | undefined;
-  to?: LegalRoute | undefined;
+  to?: InternalRoute | undefined;
+  hash?: string | undefined;
   external?: boolean | undefined;
   children: ReactNode;
 };
 
-function LinkFooter({ href, to, external, children }: LinkFooterProps) {
+function LinkFooter({ href, to, hash, external, children }: LinkFooterProps) {
   const conteudo = (
     <>
       {children}
@@ -63,7 +75,7 @@ function LinkFooter({ href, to, external, children }: LinkFooterProps) {
 
   if (to) {
     return (
-      <Link to={to} className={linkClassName}>
+      <Link to={to} {...(hash ? { hash } : {})} className={linkClassName}>
         {conteudo}
       </Link>
     );
@@ -141,7 +153,7 @@ export function SiteFooter() {
               <ul className="mt-5 flex flex-col gap-3">
                 {c.links.map((l) => (
                   <li key={l.label}>
-                    <LinkFooter href={l.href} to={l.to} external={l.external}>
+                    <LinkFooter href={l.href} to={l.to} hash={l.hash} external={l.external}>
                       {l.label}
                     </LinkFooter>
                   </li>
@@ -180,7 +192,13 @@ export function SiteFooter() {
                 className="inline-flex size-9 items-center justify-center rounded-full border transition-colors duration-300 hover:border-accent hover:text-accent"
                 style={{ borderColor: "rgba(225,222,205,0.4)", color: "rgba(225,222,205,0.7)" }}
               >
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" fill="currentColor" className="h-4 w-4" aria-hidden="true">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 448 512"
+                  fill="currentColor"
+                  className="h-4 w-4"
+                  aria-hidden="true"
+                >
                   <path d="M100.28 448H7.4V148.9h92.88zm-46.44-340a53.8 53.8 0 1 1 53.8-53.8 53.79 53.79 0 0 1-53.8 53.8zm394.1 340h-92.68V302.4c0-34.7-12.43-58.4-43.46-58.4-23.7 0-37.87 15.93-44.1 31.34-2.26 5.47-2.83 13.1-2.83 20.77V448h-92.75s1.24-267.8 0-295.1h92.71v41.8c12.33-19 34.4-46 83.61-46 60.96 0 106.63 39.77 106.63 125.29z" />
                 </svg>
               </a>

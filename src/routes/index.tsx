@@ -6,10 +6,9 @@ import { Fundador } from "@/components/fundador";
 import { MissaoVisaoValores } from "@/components/missao-visao-valores";
 import { GrupoAwa } from "@/components/grupo-awa";
 import { Cultura } from "@/components/cultura";
-import { Equipe } from "@/components/equipe";
 import { Provas } from "@/components/provas";
 import { Premios } from "@/components/premios";
-import { MetodoEdificar } from "@/components/metodo-edificar";
+import { PlanejamentoPilar } from "@/components/planejamento-pilar";
 import { ComoFunciona } from "@/components/como-funciona";
 import { FraseTransicao } from "@/components/frase-transicao";
 import { ParceriaXp } from "@/components/parceria-xp";
@@ -24,8 +23,7 @@ export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
       {
-        title:
-          "A.W.A Capital — Assessoria de Investimentos e Planejamento Patrimonial",
+        title: "A.W.A Capital — Assessoria de Investimentos e Planejamento Patrimonial",
       },
       {
         name: "description",
@@ -39,7 +37,8 @@ export const Route = createFileRoute("/")({
       },
       {
         property: "og:title",
-        content: "A.W.A Capital — Soluções financeiras para transformar patrimônio em possibilidades",
+        content:
+          "A.W.A Capital — Soluções financeiras para transformar patrimônio em possibilidades",
       },
       {
         property: "og:description",
@@ -65,10 +64,9 @@ function Index() {
       <MissaoVisaoValores />
       <GrupoAwa />
       <Cultura />
-      <Equipe />
       <Provas />
       <Premios />
-      <MetodoEdificar />
+      <PlanejamentoPilar />
       <ComoFunciona />
 
       <FraseTransicao>“A.W.A Capital, sua boutique de serviços financeiros.”</FraseTransicao>
