@@ -20,8 +20,7 @@ export function Equipe() {
           </h2>
         </Reveal>
 
-{/* Bloco 1 — Diretoria e Especialistas */}
-        
+        {/* Bloco 1 — Diretoria e Especialistas */}
         <div className="mt-12">
           <Reveal delay={140}>
             <h3 className="font-display text-sm font-bold tracking-wide text-ink uppercase">

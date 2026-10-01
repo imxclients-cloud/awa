@@ -65,6 +65,7 @@ function Index() {
       <MissaoVisaoValores />
       <GrupoAwa />
       <Cultura />
+      <Equipe />
       <Provas />
       <Premios />
       <PlanejamentoPilar />
@@ -88,9 +89,9 @@ function Index() {
       {/* Trabalhe conosco */}
       <TrabalheConosco />
 
+      
       <CtaFinal />
       <SiteFooter />
-<Equipe />
       <WhatsappFloat />
     </main>
   );
