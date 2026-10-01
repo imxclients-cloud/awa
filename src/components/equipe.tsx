@@ -2,7 +2,6 @@ import { useState } from "react";
 
 import { Reveal } from "@/components/reveal";
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
-import { assessores } from "@/lib/assessores";
 import { diretoria, type Profissional } from "@/lib/diretoria";
 
 export function Equipe() {
@@ -21,7 +20,7 @@ export function Equipe() {
           </h2>
         </Reveal>
 
-        {/* Bloco 1 — Diretoria e Especialistas */}
+        
         <div className="mt-12">
           <Reveal delay={140}>
             <h3 className="font-display text-sm font-bold tracking-wide text-ink uppercase">
@@ -71,68 +70,6 @@ export function Equipe() {
               </Reveal>
             ))}
           </div>
-        </div>
-
-        {/* Bloco 2 — Assessores de Investimentos */}
-        <div className="mt-16">
-          <Reveal delay={140}>
-            <h3 className="font-display text-sm font-bold tracking-wide text-ink uppercase">
-              Assessores de Investimentos
-            </h3>
-          </Reveal>
-          <Reveal delay={180}>
-            <p className="mt-3 max-w-xl font-sans text-sm leading-relaxed text-ink-muted">
-              Listagem completa dos profissionais do time de Assessores de Investimentos da A.W.A
-              Capital, em conformidade com as exigências regulatórias.
-            </p>
-          </Reveal>
-          <Reveal delay={220}>
-            <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-              {assessores.map((a, i) => (
-                <article
-                  key={a.codigo}
-                  data-slot={`assessor-${i + 1}`}
-                  className="flex items-center gap-3 rounded-xl border border-ink-hairline px-4 py-3"
-                >
-                  {a.foto ? (
-                    <img
-                      src={encodeURI(a.foto)}
-                      alt={`Foto de ${a.nome}, assessor de investimentos da A.W.A Capital`}
-                      loading="lazy"
-                      width={40}
-                      height={40}
-                      className="size-10 shrink-0 rounded-full object-cover object-top"
-                    />
-                  ) : (
-                    <span
-                      aria-hidden
-                      className="flex size-10 shrink-0 items-center justify-center rounded-full bg-glass-on-light font-display text-[0.7rem] font-extrabold text-ink-muted"
-                    >
-                      {a.nome
-                        .split(" ")
-                        .filter(Boolean)
-                        .slice(0, 2)
-                        .map((p) => p[0])
-                        .join("")
-                        .toUpperCase()}
-                    </span>
-                  )}
-                  <div className="min-w-0">
-                    <p className="font-display text-sm leading-snug font-bold text-ink">{a.nome}</p>
-                    <p className="mt-0.5 font-display text-[0.6rem] font-extrabold tracking-[0.16em] text-accent uppercase">
-                      Assessor de Investimentos · {a.codigo}
-                    </p>
-                    <a
-                      href={`mailto:${a.email}`}
-                      className="mt-1 block truncate font-sans text-xs text-ink-muted transition-colors duration-300 hover:text-accent"
-                    >
-                      {a.email}
-                    </a>
-                  </div>
-                </article>
-              ))}
-            </div>
-          </Reveal>
         </div>
       </div>
 
