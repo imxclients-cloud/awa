@@ -1,3 +1,4 @@
+import { Equipe } from "@/components/equipe";
 import { createFileRoute } from "@tanstack/react-router";
 import { SiteHeader } from "@/components/site-header";
 import { Hero } from "@/components/hero";
@@ -89,6 +90,7 @@ function Index() {
 
       <CtaFinal />
       <SiteFooter />
+<Equipe />
       <WhatsappFloat />
     </main>
   );
