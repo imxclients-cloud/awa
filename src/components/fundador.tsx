@@ -8,8 +8,20 @@ export function Fundador() {
   const [videoStarted, setVideoStarted] = useState(false);
 
   return (
-    <section className="relative overflow-hidden bg-surface-light py-16 md:py-20 lg:py-24">
+    <section
+      id="sobre"
+      className="relative overflow-hidden bg-surface-light py-10 md:py-10 lg:py-20"
+    >
       <div className="mx-auto w-full max-w-[1280px] px-5 md:px-8">
+        {/* Selo "Sobre nós" abrindo a seção, seguido direto para o fundador e o vídeo */}
+        <Reveal>
+          <span className="inline-flex items-center rounded-full border border-accent px-5 py-2 font-display text-[0.7rem] font-extrabold tracking-[0.06em] text-accent uppercase md:text-xs">
+            Sobre nós
+          </span>
+        </Reveal>
+      </div>
+
+      <div className="mt-10 mx-auto w-full max-w-[1280px] px-5 md:px-8">
         <div className="grid gap-12 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] lg:items-center lg:gap-16">
           {/* foto / vídeo do podcast */}
           <Reveal>
@@ -25,6 +37,9 @@ export function Fundador() {
                   className="absolute inset-0 h-full w-full object-cover"
                 />
               </div>
+              <p className="mt-4 text-center font-display text-lg font-extrabold tracking-tight text-ink">
+                Nazareno Lima
+              </p>
             </div>
           </Reveal>
 
@@ -37,26 +52,18 @@ export function Fundador() {
             </Reveal>
             <Reveal delay={160}>
               <h3 className="mt-5 font-display text-[1.6rem] leading-[1.14] font-extrabold tracking-tight text-ink md:text-3xl">
-                Nazareno Lima — CEO e Fundador da A.W.A Capital
+                Conheça o nosso CEO e Fundador
               </h3>
             </Reveal>
             <Reveal delay={220}>
               <p className="mt-6 max-w-xl font-sans text-base leading-relaxed text-ink-muted md:text-lg">
                 Ex-camelô, Nazareno Lima construiu a A.W.A Capital a partir de uma trajetória
-                marcada por superação e reinvenção. Essa mentalidade transformadora carrega a
-                essência edificadora que a empresa busca transmitir a todos os seus clientes, por
-                meio dos seus profissionais.
+                marcada por superação e reinvenção. Esse espírito transformador de prosperidade e
+                realização de sonhos é o que buscamos desenvolver em todos os nossos clientes.
               </p>
             </Reveal>
 
             <Reveal delay={280}>
-              <blockquote className="mt-8 border-l-2 border-accent pl-5 font-display text-lg leading-snug font-bold text-ink md:text-xl">
-                “Meu chamado é deixar uma marca edificadora no coração das pessoas por meio do
-                mercado financeiro e empresarial.”
-              </blockquote>
-            </Reveal>
-
-            <Reveal delay={340}>
               <div className="mt-8">
                 <div
                   className="relative aspect-video w-full max-w-md overflow-hidden rounded-2xl border border-ink-hairline bg-ink/5"

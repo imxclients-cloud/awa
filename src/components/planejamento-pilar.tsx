@@ -4,7 +4,7 @@ import planejamentoImg from "@/assets/selos/Planejamento_Patrimonial_light.png";
 export function PlanejamentoPilar() {
   return (
     <section
-      className="relative overflow-hidden py-12 md:py-14 lg:py-16"
+      className="relative overflow-hidden py-10 md:py-10 lg:py-20"
       style={{ background: "#FFFFFF" }}
     >
       <div className="mx-auto w-full max-w-[1280px] px-5 md:px-8">

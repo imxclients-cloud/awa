@@ -1,13 +1,18 @@
-import { useState } from "react";
-
 import { Reveal } from "@/components/reveal";
-import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
-import { diretoria, type Profissional } from "@/lib/diretoria";
+import { diretoria, especialistas } from "@/lib/diretoria";
+
+const iniciais = (nome: string) =>
+  nome
+    .split(" ")
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((p) => p[0])
+    .join("")
+    .toUpperCase();
 
 export function Equipe() {
-  const [selecionado, setSelecionado] = useState<Profissional | null>(null);
   return (
-    <section className="relative overflow-hidden bg-white py-16 md:py-20 lg:py-24">
+    <section className="relative overflow-hidden bg-white py-10 md:py-10 lg:py-20">
       <div className="mx-auto w-full max-w-[1280px] px-5 md:px-8">
         <Reveal>
           <span className="font-display text-[0.7rem] font-extrabold tracking-[0.34em] text-accent uppercase">
@@ -20,14 +25,14 @@ export function Equipe() {
           </h2>
         </Reveal>
 
-        {/* Bloco 1 — Diretoria e Especialistas */}
+        {/* Bloco 1 — Diretoria */}
         <div className="mt-12">
           <Reveal delay={140}>
             <h3 className="font-display text-sm font-bold tracking-wide text-ink uppercase">
-              Diretoria e Especialistas
+              Diretoria
             </h3>
           </Reveal>
-          <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {diretoria.map((p, i) => (
               <Reveal key={p.nome} delay={180 + i * 90} className="h-full">
                 <article
@@ -50,21 +55,51 @@ export function Equipe() {
                       {p.cargo}
                     </p>
                     <p className="mt-3 font-sans text-xs leading-relaxed text-ink-muted">{p.bio}</p>
-                    {p.responsabilidades ? (
-                      <button
-                        type="button"
-                        onClick={() => setSelecionado(p)}
-                        className="group mt-auto inline-flex cursor-pointer items-center gap-2 self-start pt-4 font-display text-[0.65rem] font-extrabold tracking-[0.16em] text-ink uppercase transition-colors duration-300 hover:text-accent"
+                  </div>
+                </article>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+
+        {/* Bloco 2 — Especialistas (4 por linha, apenas nome e função) */}
+        <div className="mt-16">
+          <Reveal delay={140}>
+            <h3 className="font-display text-sm font-bold tracking-wide text-ink uppercase">
+              Especialistas
+            </h3>
+          </Reveal>
+          <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {especialistas.map((e, i) => (
+              <Reveal key={e.nome} delay={180 + (i % 4) * 80} className="h-full">
+                <article
+                  data-slot={`especialista-${i + 1}`}
+                  className="flex h-full flex-col items-center rounded-2xl border border-ink-hairline bg-white px-5 py-7 text-center"
+                >
+                  <div className="relative size-24 shrink-0 overflow-hidden rounded-full bg-glass-on-light">
+                    {e.foto ? (
+                      <img
+                        src={encodeURI(e.foto)}
+                        alt={`Foto de ${e.nome}, ${e.funcao} da A.W.A Capital`}
+                        loading="lazy"
+                        width={96}
+                        height={96}
+                        className="absolute inset-0 h-full w-full object-cover object-top"
+                      />
+                    ) : (
+                      <span
+                        aria-hidden
+                        className="flex h-full w-full items-center justify-center font-display text-lg font-extrabold text-ink-muted"
                       >
-                        Ver responsabilidades
-                        <span
-                          aria-hidden
-                          className="transition-transform duration-300 group-hover:translate-x-1"
-                        >
-                          →
-                        </span>
-                      </button>
-                    ) : null}
+                        {iniciais(e.nome)}
+                      </span>
+                    )}
+                  </div>
+                  <div className="mt-4 flex flex-1 flex-col">
+                    <p className="font-display text-sm leading-snug font-bold text-ink">{e.nome}</p>
+                    <p className="mt-1.5 font-sans text-xs leading-relaxed text-ink-muted">
+                      {e.funcao}
+                    </p>
                   </div>
                 </article>
               </Reveal>
@@ -72,55 +107,6 @@ export function Equipe() {
           </div>
         </div>
       </div>
-
-      {/* Modal com as responsabilidades de cada profissional da diretoria */}
-      <Dialog
-        open={Boolean(selecionado)}
-        onOpenChange={(aberto) => {
-          if (!aberto) setSelecionado(null);
-        }}
-      >
-        <DialogContent
-          className="z-[80] flex max-h-[85vh] w-[calc(100vw-2rem)] max-w-[640px] flex-col gap-0 overflow-hidden rounded-2xl border p-0 sm:rounded-2xl"
-          style={{ background: "#151515", borderColor: "rgba(225,222,205,0.14)" }}
-        >
-          <DialogTitle
-            className="font-display border-b py-5 pr-14 pl-6 text-lg font-extrabold tracking-tight"
-            style={{ borderColor: "rgba(225,222,205,0.14)" }}
-          >
-            {selecionado?.nome ?? ""}
-          </DialogTitle>
-          <DialogDescription className="sr-only">
-            Responsabilidades de {selecionado?.nome ?? "profissional da diretoria"} na A.W.A
-            Capital.
-          </DialogDescription>
-          <p
-            className="font-display text-accent border-b px-6 pt-4 pb-5 text-[0.65rem] font-extrabold tracking-[0.16em] uppercase"
-            style={{ borderColor: "rgba(225,222,205,0.14)" }}
-          >
-            {selecionado?.cargo ?? ""} · Responsabilidades
-          </p>
-          <ol className="max-h-[58vh] overflow-y-auto px-6 py-4">
-            {(selecionado?.responsabilidades ?? []).map((r, i) => (
-              <li
-                key={r}
-                className="flex gap-4 border-b py-4 last:border-0"
-                style={{ borderColor: "rgba(225,222,205,0.1)" }}
-              >
-                <span className="font-display text-accent pt-[2px] text-[0.65rem] font-extrabold tracking-[0.16em] tabular-nums">
-                  {String(i + 1).padStart(2, "0")}
-                </span>
-                <span
-                  className="flex-1 font-sans text-sm leading-relaxed"
-                  style={{ color: "rgba(225,222,205,0.78)" }}
-                >
-                  {r}
-                </span>
-              </li>
-            ))}
-          </ol>
-        </DialogContent>
-      </Dialog>
     </section>
   );
 }

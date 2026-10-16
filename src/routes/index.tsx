@@ -2,21 +2,17 @@ import { Equipe } from "@/components/equipe";
 import { createFileRoute } from "@tanstack/react-router";
 import { SiteHeader } from "@/components/site-header";
 import { Hero } from "@/components/hero";
-import { NovaAwa } from "@/components/nova-awa";
 import { Fundador } from "@/components/fundador";
 import { MissaoVisaoValores } from "@/components/missao-visao-valores";
 import { GrupoAwa } from "@/components/grupo-awa";
-import { Cultura } from "@/components/cultura";
 import { Provas } from "@/components/provas";
 import { Premios } from "@/components/premios";
 import { PlanejamentoPilar } from "@/components/planejamento-pilar";
-import { ComoFunciona } from "@/components/como-funciona";
 import { FraseTransicao } from "@/components/frase-transicao";
 import { ParceriaXp } from "@/components/parceria-xp";
 import { WealthServices } from "@/components/wealth-services";
 import { Empresas } from "@/components/empresas";
 import { TrabalheConosco } from "@/components/trabalhe-conosco";
-import { CtaFinal } from "@/components/cta-final";
 import { SiteFooter } from "@/components/site-footer";
 import { WhatsappFloat } from "@/components/whatsapp-float";
 
@@ -60,16 +56,13 @@ function Index() {
       <Hero />
 
       {/* Sobre nós */}
-      <NovaAwa />
       <Fundador />
       <MissaoVisaoValores />
       <GrupoAwa />
-      <Cultura />
       <Equipe />
       <Provas />
       <Premios />
       <PlanejamentoPilar />
-      <ComoFunciona />
 
       <FraseTransicao>“A.W.A Capital, sua boutique de serviços financeiros.”</FraseTransicao>
 
@@ -89,8 +82,6 @@ function Index() {
       {/* Trabalhe conosco */}
       <TrabalheConosco />
 
-      
-      <CtaFinal />
       <SiteFooter />
       <WhatsappFloat />
     </main>

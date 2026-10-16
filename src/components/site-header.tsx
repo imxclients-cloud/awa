@@ -9,7 +9,6 @@ import { WHATSAPP_ESPECIALISTA } from "@/lib/contact";
 const navItems = [
   { label: "Sobre nós", to: "/", hash: "sobre" },
   { label: "Investimentos", to: "/", hash: "investimentos" },
-  { label: "Método", to: "/", hash: "cultura" },
   { label: "Soluções para Famílias", to: "/", hash: "familias" },
   { label: "Soluções para Empresas", to: "/", hash: "empresas" },
   { label: "Trabalhe conosco", to: "/", hash: "trabalhe-conosco" },

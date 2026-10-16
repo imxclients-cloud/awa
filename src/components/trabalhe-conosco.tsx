@@ -14,7 +14,7 @@ export function TrabalheConosco() {
   return (
     <section
       id="trabalhe-conosco"
-      className="relative overflow-hidden bg-surface-light py-16 md:py-20 lg:py-28"
+      className="relative overflow-hidden bg-surface-light py-10 md:py-10 lg:py-20"
     >
       <div className="mx-auto w-full max-w-[1280px] px-5 md:px-8">
         <div className="grid gap-14 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1fr)] lg:gap-16">
