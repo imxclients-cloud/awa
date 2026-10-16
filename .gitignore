@@ -24,6 +24,9 @@ dist-ssr
 .docx_extract/
 .homol_extract/
 
+# Backups locais de assets (não versionar)
+src/assets/**/*_old.*
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
