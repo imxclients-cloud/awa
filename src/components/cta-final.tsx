@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import ctaBg from "@/assets/cta-skyline.jpg";
+import { WHATSAPP_ESPECIALISTA } from "@/lib/contact";
 
 export function CtaFinal() {
   const ref = useRef<HTMLDivElement>(null);
@@ -90,7 +91,9 @@ export function CtaFinal() {
           </p>
           <div className="mt-10 flex justify-center">
             <a
-              href="#contato"
+              href={WHATSAPP_ESPECIALISTA}
+              target="_blank"
+              rel="noopener noreferrer"
               className="inline-flex items-center justify-center rounded-full px-7 py-3.5 font-sans text-sm font-semibold transition-opacity duration-300 hover:opacity-90"
               style={{ background: "#FEB202", color: "#232323" }}
             >

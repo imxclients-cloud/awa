@@ -1,37 +1,46 @@
+import { Equipe } from "@/components/equipe";
 import { createFileRoute } from "@tanstack/react-router";
 import { SiteHeader } from "@/components/site-header";
 import { Hero } from "@/components/hero";
-import { NovaAwa } from "@/components/nova-awa";
-import { Solucoes } from "@/components/solucoes";
-import { Diferencial } from "@/components/diferencial";
-import { ComoFunciona } from "@/components/como-funciona";
+import { Fundador } from "@/components/fundador";
+import { MissaoVisaoValores } from "@/components/missao-visao-valores";
+import { GrupoAwa } from "@/components/grupo-awa";
+import { Provas } from "@/components/provas";
+import { Premios } from "@/components/premios";
+import { PlanejamentoPilar } from "@/components/planejamento-pilar";
+import { FraseTransicao } from "@/components/frase-transicao";
+import { ParceriaXp } from "@/components/parceria-xp";
 import { WealthServices } from "@/components/wealth-services";
 import { Empresas } from "@/components/empresas";
-import { ParceriaXp } from "@/components/parceria-xp";
-import { Cultura } from "@/components/cultura";
-import { Conteudos } from "@/components/conteudos";
-import { Provas } from "@/components/provas";
-import { Faq } from "@/components/faq";
-import { CtaFinal } from "@/components/cta-final";
+import { TrabalheConosco } from "@/components/trabalhe-conosco";
 import { SiteFooter } from "@/components/site-footer";
-
-
-
+import { WhatsappFloat } from "@/components/whatsapp-float";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "A.W.A Capital — Assessoria de investimentos e patrimônio" },
+      {
+        title: "A.W.A Capital — Assessoria de Investimentos e Planejamento Patrimonial",
+      },
       {
         name: "description",
         content:
-          "A.W.A Capital: assessoria de investimentos e planejamento patrimonial para Alta Renda e Private. O caminho para a prosperidade com sabedoria.",
+          "A.W.A Capital: escritório de investimentos credenciado à XP, com assessoria de investimentos, planejamento patrimonial, planejamento sucessório e soluções financeiras para empresas em São Luís, Fortaleza e Recife.",
       },
-      { property: "og:title", content: "A.W.A Capital — Prosperidade com sabedoria" },
+      {
+        name: "keywords",
+        content:
+          "assessoria de investimentos, escritório de investimentos, planejamento patrimonial, planejamento financeiro, Wealth Management, Wealth Services, soluções financeiras para empresas, gestão de patrimônio, planejamento sucessório, investimentos para alta renda, assessoria private, investimentos internacionais, gestão de caixa empresarial",
+      },
+      {
+        property: "og:title",
+        content:
+          "A.W.A Capital — Soluções financeiras para transformar patrimônio em possibilidades",
+      },
       {
         property: "og:description",
         content:
-          "Assessoria de investimentos e planejamento patrimonial para Alta Renda e Private.",
+          "Assessoria de investimentos e planejamento patrimonial para pessoas, famílias e empresas.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -45,22 +54,36 @@ function Index() {
     <main className="min-h-screen bg-background">
       <SiteHeader />
       <Hero />
-      <NovaAwa />
-      <Solucoes />
-      <Diferencial />
-      <ComoFunciona />
-      <WealthServices />
-      <Empresas />
-      <ParceriaXp />
-      <Cultura />
-      <Conteudos />
-      <Provas />
-      <Faq />
-      <CtaFinal />
-      <SiteFooter />
 
+      {/* Sobre nós */}
+      <Fundador />
+      <MissaoVisaoValores />
+      <GrupoAwa />
+      <Equipe />
+      <Provas />
+      <Premios />
+      <PlanejamentoPilar />
+
+      <FraseTransicao>“A.W.A Capital, sua boutique de serviços financeiros.”</FraseTransicao>
+
+      {/* Investimentos */}
+      <ParceriaXp />
+
+      <FraseTransicao>“Seu patrimônio precisa de estratégia. Não de produtos.”</FraseTransicao>
+
+      {/* Soluções Financeiras para Famílias */}
+      <WealthServices />
+
+      {/* Soluções Financeiras para Empresas */}
+      <Empresas />
+
+      <FraseTransicao>“Muito mais que só Investimentos.”</FraseTransicao>
+
+      {/* Trabalhe conosco */}
+      <TrabalheConosco />
+
+      <SiteFooter />
+      <WhatsappFloat />
     </main>
   );
 }
-
-

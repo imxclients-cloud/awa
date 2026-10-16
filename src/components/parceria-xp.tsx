@@ -1,111 +1,132 @@
-import { useEffect, useRef, useState } from "react";
-import logoConvivencia from "@/assets/logo-convivencia.png.asset.json";
+const numerosXp = [
+  "25 anos de mercado;",
+  "2,2 trilhões de reais de ativos sob gestão;",
+  "Maior rede de Assessoria de Investimentos do Brasil e também Banco Internacional;",
+  "A melhor experiência do mercado em investimentos e soluções financeiras.",
+];
+
+const diferenciais = [
+  { titulo: "Renda Fixa", texto: "Diversas opções com segurança, liquidez e taxa zero na XP." },
+  { titulo: "Ações", texto: "Invista em empresas e acompanhe seu desempenho na bolsa." },
+  { titulo: "Fundos de Investimento", texto: "Diversifique sua carteira com gestão profissional." },
+  { titulo: "Previdência Privada", texto: "Planeje seu futuro com previdência, PGBL ou VGBL." },
+  { titulo: "Fundos Imobiliários", texto: "Invista em imóveis pela bolsa e receba rendimentos sem burocracia." },
+  { titulo: "Ofertas Públicas", texto: "Invista em empresas que estão entrando na bolsa por meio de ofertas públicas." },
+];
+
+const modelos: Array<{ n: string; titulo: string; texto: string; destaque: boolean }> = [
+  {
+    n: "01",
+    titulo: "Comissão por Produto",
+    texto: "Remuneração vinculada aos produtos contratados. Custódia XP.",
+    destaque: false,
+  },
+  {
+    n: "02",
+    titulo: "Fee Fixo",
+    texto: "Percentual sobre o valor investido. Custódia XP.",
+    destaque: true,
+  },
+  {
+    n: "03",
+    titulo: "Consultoria",
+    texto:
+      "Percentual sobre o valor investido, com possibilidade de multicustódia (patrimônios acima de R$ 3 milhões).",
+    destaque: false,
+  },
+];
 
 export function ParceriaXp() {
-  const ref = useRef<HTMLDivElement>(null);
-  const [ativo, setAtivo] = useState(false);
-
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const obs = new IntersectionObserver(
-      (e) => {
-        if (e[0]?.isIntersecting) {
-          setAtivo(true);
-          obs.disconnect();
-        }
-      },
-      { threshold: 0.35 },
-    );
-    obs.observe(el);
-    return () => obs.disconnect();
-  }, []);
-
   return (
     <section
-      id="parceria-xp"
-      ref={ref}
-      className="relative overflow-hidden py-16 md:py-20 lg:py-28"
+      id="investimentos"
+      className="relative overflow-hidden py-10 md:py-10 lg:py-20"
       style={{ background: "#FFFFFF" }}
     >
-      {/* textura de certificado (guilhoché sutil) */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0"
-        style={{
-          backgroundImage:
-            "repeating-linear-gradient(58deg, rgba(35,35,35,0.06) 0 0.5px, transparent 0.5px 9px), repeating-linear-gradient(-58deg, rgba(35,35,35,0.05) 0 0.5px, transparent 0.5px 9px)",
-          maskImage: "radial-gradient(46% 52% at 50% 46%, black 0%, transparent 78%)",
-          WebkitMaskImage: "radial-gradient(46% 52% at 50% 46%, black 0%, transparent 78%)",
-        }}
-      />
-
-      <style>{`
-        @keyframes awa-selo-stroke { to { stroke-dashoffset: 0; } }
-        @keyframes awa-selo-brilho { 0% { opacity: 0; } 25% { opacity: 1; } 100% { opacity: 0; } }
-      `}</style>
-
-      <div className="relative mx-auto flex w-full max-w-[680px] flex-col items-center px-5 text-center md:px-8">
-        {/* emblema */}
-        <div className="relative mb-14 h-[300px] w-full max-w-[420px] md:mb-16 md:h-[260px]">
-          <svg
-            viewBox="0 0 420 260"
-            className="absolute inset-0 h-full w-full"
-            fill="none"
-            aria-hidden
-          >
-            <circle
-              cx="210"
-              cy="130"
-              r="118"
-              stroke="#FEB202"
-              strokeWidth="1.2"
-              strokeDasharray="742"
-              strokeDashoffset={ativo ? undefined : 742}
-              style={
-                ativo
-                  ? { strokeDashoffset: 742, animation: "awa-selo-stroke 1.6s ease-out forwards" }
-                  : undefined
-              }
-            />
-            <circle
-              cx="210"
-              cy="130"
-              r="118"
-              stroke="#FEB202"
-              strokeWidth="2.5"
-              strokeDasharray="60 682"
-              opacity="0"
-              style={ativo ? { animation: "awa-selo-brilho 2s 1.2s ease-out 1" } : undefined}
-            />
-          </svg>
-
-          <div className="absolute inset-0 mx-auto flex items-center justify-center px-10">
+      {/* Orgulho em sermos um escritório XP */}
+      <div className="relative mx-auto w-full max-w-[1280px] px-5 md:px-8">
+        <div
+          className="grid overflow-hidden rounded-3xl lg:grid-cols-2"
+          style={{ background: "#F1F0ED" }}
+        >
+          <div className="flex flex-col justify-center px-7 py-10 md:px-12 md:py-14">
             <img
-              data-slot="logo-awa"
-              src={logoConvivencia.url}
-              alt="A.W.A Capital e XP Investimentos"
-              className="h-auto w-full max-w-[180px] md:max-w-[200px]"
+              src="/logo-xp-investimentos-icon-4096.png"
+              alt="XP Investimentos"
+              className="h-16 w-16 rounded-2xl md:h-[76px] md:w-[76px]"
+              width={1600}
+              height={1600}
               loading="lazy"
+            />
+            <h2
+              className="mt-8 font-display text-[1.55rem] leading-[1.16] font-bold tracking-tight md:text-[2rem]"
+              style={{ color: "#232323" }}
+            >
+              Orgulho em sermos um escritório XP
+            </h2>
+            <ul className="mt-8 list-disc space-y-3 pl-5 font-sans text-base leading-relaxed text-ink-muted md:text-lg">
+              {numerosXp.map((n) => (
+                <li key={n}>{n}</li>
+              ))}
+            </ul>
+          </div>
+
+          <div className="relative min-h-[300px] lg:min-h-[540px]">
+            <img
+              src="/nasdaq.png"
+              alt="Equipe XP reunida na Nasdaq, em Nova York"
+              className="absolute inset-0 h-full w-full object-cover"
+              loading="lazy"
+              decoding="async"
             />
           </div>
         </div>
+      </div>
 
-        <h2
-          className="font-display text-[1.6rem] leading-[1.18] font-bold tracking-tight md:text-[2.1rem]"
-          style={{ color: "#232323" }}
-        >
-          Estrutura, tecnologia e acesso a um ecossistema completo
-        </h2>
-        <p
-          className="mt-7 max-w-[600px] font-sans text-base leading-relaxed md:text-lg"
-          style={{ color: "rgba(35,35,35,0.8)" }}
-        >
-          A A.W.A Capital é credenciada à XP Investimentos e combina a proximidade de uma assessoria
-          personalizada com o acesso a uma das maiores plataformas financeiras do Brasil. Essa
-          parceria amplia as possibilidades de construção de estratégias para pessoas, famílias e
-          empresas.
+      {/* diferenciais da plataforma XP */}
+      <div className="relative mx-auto mt-20 w-full max-w-[1280px] px-5 md:px-8 lg:mt-24">
+        <p className="text-center font-display text-[0.7rem] font-extrabold tracking-[0.28em] text-accent uppercase">
+          Diferenciais da plataforma
         </p>
+        <h3 className="mx-auto mt-4 max-w-2xl text-center font-display text-xl font-bold text-ink md:text-2xl">
+          Acesso a um ecossistema completo de investimentos.
+        </h3>
+        <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {diferenciais.map((d) => (
+            <div key={d.titulo} className="rounded-2xl border border-ink-hairline p-6">
+              <h4 className="font-display text-base font-bold text-ink">{d.titulo}</h4>
+              <p className="mt-2 font-sans text-sm leading-relaxed text-ink-muted">{d.texto}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* modelo de remuneração */}
+      <div className="relative mx-auto mt-20 w-full max-w-[1280px] px-5 md:px-8 lg:mt-24">
+        <h3 className="mx-auto mt-4 max-w-3xl text-center font-display text-xl font-extrabold tracking-[0.06em] text-accent uppercase md:text-2xl">
+          Na A.W.A, o cliente escolhe o nosso modelo de remuneração
+        </h3>
+
+        <div className="mt-10 grid gap-4 sm:grid-cols-3">
+          {modelos.map((m) => (
+            <div
+              key={m.n}
+              className="rounded-2xl border p-6"
+              style={{
+                borderColor: m.destaque ? "#FEB202" : "rgba(35,35,35,0.12)",
+                background: m.destaque ? "rgba(254,178,2,0.06)" : "transparent",
+              }}
+            >
+              <span className="font-display text-xs font-extrabold tracking-[0.2em] text-accent">
+                {m.n}
+              </span>
+              <h4 className="mt-3 font-display text-base font-bold text-ink">
+                {m.titulo} {m.destaque && "★ (mais recomendado)"}
+              </h4>
+              <p className="mt-2 font-sans text-sm leading-relaxed text-ink-muted">{m.texto}</p>
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );
