@@ -1,17 +1,18 @@
 import { useEffect, useRef, useState } from "react";
+import { Check } from "lucide-react";
 import { Reveal } from "@/components/reveal";
 
-type Dado = {
+type Item = {
   prefixo: string;
   valor?: number;
   sufixo?: string;
 };
 
-const dados: Dado[] = [
-  { prefixo: "Unidades em\nSão Luís (MA)\nFortaleza (CE)\ne Recife (PE)" },
-  { prefixo: "+ de R$ ", valor: 850, sufixo: " milhões sob custódia" },
-  { prefixo: "+ ", valor: 1300, sufixo: " clientes" },
-  { prefixo: "+ ", valor: 40, sufixo: " profissionais" },
+const itens: Item[] = [
+  { prefixo: "Unidades em São Luís (MA), Fortaleza (CE) e Recife (PE);" },
+  { prefixo: "+ R$ ", valor: 850, sufixo: " milhões sob custódia;" },
+  { prefixo: "+ ", valor: 1300, sufixo: " clientes;" },
+  { prefixo: "+ ", valor: 40, sufixo: " profissionais." },
 ];
 
 function NumeroAnimado({ valor, ativo }: { valor: number; ativo: boolean }) {
@@ -38,56 +39,54 @@ function NumeroAnimado({ valor, ativo }: { valor: number; ativo: boolean }) {
 const CIDADES = ["São Luís", "Fortaleza", "Recife"];
 const regexCidades = new RegExp(`(${CIDADES.join("|")})`, "g");
 
-function comCidades(texto: string) {
-  return texto.split("\n").map((linha, li) => (
-    <span key={li} className="block">
-      {linha.split(regexCidades).map((parte, i) =>
+function TextoComCidades({ texto }: { texto: string }) {
+  return (
+    <>
+      {texto.split(regexCidades).map((parte, i) =>
         CIDADES.includes(parte) ? (
-          <strong key={i} className="font-extrabold" style={{ color: "#FEB202" }}>
+          <strong key={i} className="font-extrabold text-accent">
             {parte}
           </strong>
         ) : (
           <span key={i}>{parte}</span>
         ),
       )}
-    </span>
-  ));
+    </>
+  );
 }
 
-function Item({ dado, ativo, indice }: { dado: Dado; ativo: boolean; indice: number }) {
+function ItemResumo({ item, ativo, indice }: { item: Item; ativo: boolean; indice: number }) {
   const anim = {
-    color: "#232323",
     opacity: ativo ? 1 : 0,
-    filter: ativo ? "blur(0px)" : "blur(6px)",
-    transition: `opacity 700ms ease-out ${indice * 140}ms, filter 700ms ease-out ${indice * 140}ms`,
+    transform: ativo ? "translateY(0)" : "translateY(14px)",
+    transition: `opacity 700ms ease-out ${indice * 160}ms, transform 700ms ease-out ${indice * 160}ms`,
   };
 
-  const base =
-    "font-display flex h-full w-full flex-col justify-center px-2 leading-snug tracking-tight";
-
-  if (dado.valor === undefined) {
-    return (
-      <p className={`${base} text-[1.6rem] font-semibold md:text-[1.4rem]`} style={anim}>
-        {comCidades(dado.prefixo)}
-      </p>
-    );
-  }
-
   return (
-    <div className={`${base} text-[0.95rem] font-semibold md:text-base`} style={anim}>
-      <span className="block">{dado.prefixo}</span>
+    <li className="flex items-start gap-4" style={anim}>
       <span
-        className="block font-extrabold tracking-tight tabular-nums whitespace-nowrap"
-        style={{
-          color: "#FEB202",
-          fontSize: "clamp(3.25rem, 7vw, 5.5rem)",
-          lineHeight: 1,
-        }}
+        aria-hidden
+        className="mt-1 flex size-6 shrink-0 items-center justify-center rounded-full md:size-7"
+        style={{ background: "#FEB202" }}
       >
-        <NumeroAnimado valor={dado.valor} ativo={ativo} />
+        <Check className="size-3.5 md:size-4" strokeWidth={3.5} color="#FFFFFF" />
       </span>
-      <span className="block">{dado.sufixo}</span>
-    </div>
+      <p
+        className="font-sans text-[1.05rem] leading-relaxed font-medium md:text-lg"
+        style={{ color: "#232323" }}
+      >
+        <TextoComCidades texto={item.prefixo} />
+        {item.valor !== undefined && (
+          <strong
+            className="font-display font-extrabold tracking-tight tabular-nums text-accent"
+            style={{ fontSize: "1.4em", lineHeight: 1 }}
+          >
+            <NumeroAnimado valor={item.valor} ativo={ativo} />
+          </strong>
+        )}
+        {item.sufixo !== undefined && <span>{item.sufixo}</span>}
+      </p>
+    </li>
   );
 }
 
@@ -105,7 +104,7 @@ export function Provas() {
           obs.disconnect();
         }
       },
-      { threshold: 0.3 },
+      { threshold: 0.25 },
     );
     obs.observe(el);
     return () => obs.disconnect();
@@ -121,80 +120,31 @@ export function Provas() {
       <div className="relative mx-auto w-full max-w-[1200px] px-5 md:px-8">
         <Reveal>
           <h2
-            className="font-display mx-auto max-w-[420px] text-center text-[1.7rem] leading-[1.14] font-bold tracking-tight md:text-4xl lg:text-[2.2rem]"
+            className="font-display text-[1.7rem] leading-[1.14] font-bold tracking-tight md:text-4xl lg:text-[2.4rem]"
             style={{ color: "#232323" }}
           >
-            Nossas unidades e grandes números
+            Um resumo da A.W.A Capital
           </h2>
         </Reveal>
 
-        {/* desktop / tablet */}
-        <div className="relative mt-20 hidden md:block">
-          <div className="grid grid-cols-4 items-stretch text-center">
-            {dados.map((d, i) => (
-              <div
-                key={d.prefixo}
-                className="flex"
-                style={i > 0 ? { borderLeft: "1px solid rgba(35,35,35,0.18)" } : undefined}
-              >
-                <Item dado={d} ativo={ativo} indice={i} />
-              </div>
-            ))}
-          </div>
-
-          {/* régua dourada */}
-          <div className="relative mt-14 h-px w-full" style={{ background: "rgba(35,35,35,0.1)" }}>
-            <div
-              className="absolute inset-y-0 left-0"
-              style={{
-                background: "#FEB202",
-                width: ativo ? "100%" : "0%",
-                transition: "width 1600ms cubic-bezier(0.22,1,0.36,1)",
-              }}
+        <div className="mt-10 grid items-center gap-10 md:gap-12 lg:mt-14 lg:grid-cols-[1.05fr_1fr]">
+          <Reveal>
+            <img
+              src="/brazil-map.png"
+              alt="Mapa do Brasil com destaque para as unidades em São Luís (MA), Fortaleza (CE) e Recife (PE)"
+              className="h-auto w-full max-w-[620px] select-none"
+              width={1536}
+              height={1024}
+              loading="lazy"
+              decoding="async"
             />
-            <div className="absolute inset-x-0 -top-[3px] grid grid-cols-4">
-              {dados.map((d, i) => (
-                <div key={d.prefixo} className="flex justify-center">
-                  <span
-                    className="block h-[7px] w-[7px] rounded-full"
-                    style={{
-                      background: "#FEB202",
-                      opacity: ativo ? 1 : 0,
-                      transform: ativo ? "scale(1)" : "scale(0.4)",
-                      transition: `opacity 500ms ease-out ${300 + i * 260}ms, transform 500ms ease-out ${300 + i * 260}ms`,
-                    }}
-                  />
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
+          </Reveal>
 
-        {/* mobile: linha do tempo vertical */}
-        <div className="relative mt-14 pl-8 md:hidden">
-          <div
-            className="absolute top-1 left-[3px] w-px"
-            style={{
-              background: "#FEB202",
-              height: ativo ? "100%" : "0%",
-              transition: "height 1600ms cubic-bezier(0.22,1,0.36,1)",
-            }}
-          />
-          <div className="flex flex-col divide-y divide-[#23232324]">
-            {dados.map((d, i) => (
-              <div key={d.prefixo} className="relative py-6">
-                <span
-                  className="absolute top-8 -left-8 block h-[7px] w-[7px] rounded-full"
-                  style={{
-                    background: "#FEB202",
-                    opacity: ativo ? 1 : 0,
-                    transition: `opacity 500ms ease-out ${200 + i * 240}ms`,
-                  }}
-                />
-                <Item dado={d} ativo={ativo} indice={i} />
-              </div>
+          <ul className="flex flex-col gap-6 md:gap-8">
+            {itens.map((item, i) => (
+              <ItemResumo key={item.prefixo} item={item} ativo={ativo} indice={i} />
             ))}
-          </div>
+          </ul>
         </div>
       </div>
     </section>
