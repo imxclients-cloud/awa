@@ -2,7 +2,6 @@ import { Equipe } from "@/components/equipe";
 import { createFileRoute } from "@tanstack/react-router";
 import { SiteHeader } from "@/components/site-header";
 import { Hero } from "@/components/hero";
-import { NovaAwa } from "@/components/nova-awa";
 import { Fundador } from "@/components/fundador";
 import { MissaoVisaoValores } from "@/components/missao-visao-valores";
 import { GrupoAwa } from "@/components/grupo-awa";
@@ -57,7 +56,6 @@ function Index() {
       <Hero />
 
       {/* Sobre nós */}
-      <NovaAwa />
       <Fundador />
       <MissaoVisaoValores />
       <GrupoAwa />

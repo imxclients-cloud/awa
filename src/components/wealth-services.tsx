@@ -21,7 +21,7 @@ export function WealthServices() {
   return (
     <section
       id="familias"
-      className="relative overflow-hidden bg-surface-light py-16 md:py-20 lg:py-28"
+      className="relative overflow-hidden bg-surface-light py-10 md:py-10 lg:py-20"
     >
       <div
         aria-hidden

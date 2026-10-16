@@ -23,7 +23,7 @@ const modulos = [
 
 export function Empresas() {
   return (
-    <section id="empresas" className="relative overflow-hidden bg-white py-16 md:py-20 lg:py-28">
+    <section id="empresas" className="relative overflow-hidden bg-white py-10 md:py-10 lg:py-20">
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0"

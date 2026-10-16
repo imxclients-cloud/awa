@@ -2,7 +2,7 @@ import { Reveal } from "@/components/reveal";
 
 export function GrupoAwa() {
   return (
-    <section className="relative overflow-hidden bg-surface-light">
+    <section className="relative overflow-hidden bg-surface-light py-10 md:py-10 lg:py-20">
       <div className="mx-auto w-full max-w-[1280px] px-5 md:px-8">
         <Reveal>
           <span className="font-display text-[0.7rem] font-extrabold tracking-[0.34em] text-accent uppercase">

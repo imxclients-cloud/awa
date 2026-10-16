@@ -8,8 +8,20 @@ export function Fundador() {
   const [videoStarted, setVideoStarted] = useState(false);
 
   return (
-    <section className="relative overflow-hidden bg-surface-light py-16 md:py-20 lg:py-24">
+    <section
+      id="sobre"
+      className="relative overflow-hidden bg-surface-light py-10 md:py-10 lg:py-20"
+    >
       <div className="mx-auto w-full max-w-[1280px] px-5 md:px-8">
+        {/* Selo "Sobre nós" abrindo a seção, seguido direto para o fundador e o vídeo */}
+        <Reveal>
+          <span className="inline-flex items-center rounded-full border border-accent px-5 py-2 font-display text-[0.7rem] font-extrabold tracking-[0.06em] text-accent uppercase md:text-xs">
+            Sobre nós
+          </span>
+        </Reveal>
+      </div>
+
+      <div className="mt-10 mx-auto w-full max-w-[1280px] px-5 md:px-8">
         <div className="grid gap-12 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] lg:items-center lg:gap-16">
           {/* foto / vídeo do podcast */}
           <Reveal>

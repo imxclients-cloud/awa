@@ -12,7 +12,7 @@ const valores = [
 export function MissaoVisaoValores() {
   return (
     <section
-      className="relative overflow-hidden py-16 md:py-20 lg:py-24"
+      className="relative overflow-hidden py-10 md:py-10 lg:py-20"
       style={{ background: "#FFFFFF" }}
     >
       <div className="mx-auto w-full max-w-[1280px] px-5 md:px-8">
@@ -43,14 +43,9 @@ export function MissaoVisaoValores() {
               <span className="font-display text-[0.7rem] font-extrabold tracking-[0.28em] text-accent uppercase">
                 Valores
               </span>
-              <ul className="mt-5 flex flex-wrap gap-2">
+              <ul className="mt-5 flex list-disc flex-col gap-1.5 pl-5 font-sans text-base leading-snug text-ink-muted marker:text-accent md:text-lg">
                 {valores.map((valor) => (
-                  <li
-                    key={valor}
-                    className="inline-flex items-center rounded-full border border-accent-hairline px-4 py-2 font-sans text-sm leading-snug text-ink-muted md:text-base"
-                  >
-                    {valor}
-                  </li>
+                  <li key={valor}>{valor}</li>
                 ))}
               </ul>
             </div>

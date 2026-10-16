@@ -111,7 +111,7 @@ export function SiteFooter() {
         }}
       />
 
-      <div className="relative mx-auto w-full max-w-[1200px] px-5 py-16 md:px-8 md:py-20">
+      <div className="relative mx-auto w-full max-w-[1200px] px-5 py-10 md:px-8 md:py-10 lg:py-20">
         {/* logos */}
         <div className="flex flex-wrap items-center gap-6">
           <img

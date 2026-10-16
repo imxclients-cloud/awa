@@ -39,7 +39,7 @@ function Assessores() {
     <main className="min-h-screen bg-surface-light">
       <SiteHeader variant="light" />
 
-      <article className="relative overflow-hidden py-16 pt-32 md:py-20 md:pt-40 lg:py-28">
+      <article className="relative overflow-hidden py-10 pt-32 md:py-10 md:pt-40 lg:py-20">
         <div className="mx-auto w-full max-w-[1100px] px-5 md:px-8">
           <Reveal>
             <p className="font-display text-[0.65rem] font-extrabold tracking-[0.3em] text-accent uppercase">

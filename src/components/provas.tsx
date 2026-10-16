@@ -22,7 +22,7 @@ function NumeroAnimado({ valor, ativo }: { valor: number; ativo: boolean }) {
     if (!ativo) return;
     let raf = 0;
     const inicio = performance.now();
-    const duracao = 1600;
+    const duracao = 2200;
     const tick = (agora: number) => {
       const t = Math.min((agora - inicio) / duracao, 1);
       const eased = 1 - Math.pow(1 - t, 3); // ease-out cúbico
@@ -59,7 +59,7 @@ function ItemResumo({ item, ativo, indice }: { item: Item; ativo: boolean; indic
   const anim = {
     opacity: ativo ? 1 : 0,
     transform: ativo ? "translateY(0)" : "translateY(14px)",
-    transition: `opacity 700ms ease-out ${indice * 160}ms, transform 700ms ease-out ${indice * 160}ms`,
+    transition: `opacity 1000ms ease-out ${indice * 180}ms, transform 1000ms ease-out ${indice * 180}ms`,
   };
 
   return (
@@ -114,7 +114,7 @@ export function Provas() {
     <section
       id="trajetoria"
       ref={ref}
-      className="relative overflow-hidden py-16 md:py-20 lg:py-28"
+      className="relative overflow-hidden py-10 md:py-10 lg:py-20"
       style={{ background: "#FFFFFF" }}
     >
       <div className="relative mx-auto w-full max-w-[1200px] px-5 md:px-8">

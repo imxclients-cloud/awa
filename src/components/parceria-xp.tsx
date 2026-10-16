@@ -40,7 +40,7 @@ export function ParceriaXp() {
   return (
     <section
       id="investimentos"
-      className="relative overflow-hidden py-16 md:py-20 lg:py-28"
+      className="relative overflow-hidden py-10 md:py-10 lg:py-20"
       style={{ background: "#FFFFFF" }}
     >
       {/* Orgulho em sermos um escritório XP */}
