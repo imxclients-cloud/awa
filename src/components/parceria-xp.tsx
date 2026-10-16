@@ -38,18 +38,6 @@ const modelos: Array<{ n: string; titulo: string; texto: string; destaque: boole
   },
 ];
 
-const tabelaFee = [
-  { faixa: "Abaixo de R$ 300 mil", fee: "1,2% ao ano" },
-  { faixa: "R$ 300 mil a R$ 3 milhões", fee: "1,0% ao ano" },
-  { faixa: "R$ 3 milhões a R$ 5 milhões", fee: "0,9% ao ano" },
-  { faixa: "R$ 5 milhões a R$ 10 milhões", fee: "0,8% ao ano" },
-  { faixa: "R$ 10 milhões a R$ 30 milhões", fee: "0,7% ao ano" },
-  { faixa: "R$ 30 milhões a R$ 100 milhões", fee: "0,6% ao ano" },
-  { faixa: "R$ 100 milhões a R$ 250 milhões", fee: "0,5% ao ano" },
-  { faixa: "R$ 250 milhões a R$ 500 milhões", fee: "0,4% ao ano" },
-  { faixa: "Acima de R$ 500 milhões", fee: "0,3% ao ano" },
-];
-
 export function ParceriaXp() {
   const seloRef = useRef<HTMLDivElement>(null);
   const [ativo, setAtivo] = useState(false);
@@ -185,11 +173,8 @@ export function ParceriaXp() {
 
       {/* modelo de remuneração */}
       <div className="relative mx-auto mt-20 w-full max-w-[1280px] px-5 md:px-8 lg:mt-24">
-        <p className="text-center font-display text-[0.7rem] font-extrabold tracking-[0.28em] text-accent uppercase">
-          Modelo de remuneração
-        </p>
-        <h3 className="mx-auto mt-4 max-w-2xl text-center font-display text-xl font-bold text-ink">
-          Na A.W.A, o cliente escolhe o seu modelo de remuneração.
+        <h3 className="mx-auto mt-4 max-w-3xl text-center font-display text-xl font-extrabold tracking-[0.06em] text-accent uppercase md:text-2xl">
+          Na A.W.A, o cliente escolhe o nosso modelo de remuneração
         </h3>
 
         <div className="mt-10 grid gap-4 sm:grid-cols-3">
@@ -206,42 +191,12 @@ export function ParceriaXp() {
                 {m.n}
               </span>
               <h4 className="mt-3 font-display text-base font-bold text-ink">
-                {m.titulo} {m.destaque && "★"}
+                {m.titulo} {m.destaque && "★ (mais recomendado)"}
               </h4>
               <p className="mt-2 font-sans text-sm leading-relaxed text-ink-muted">{m.texto}</p>
             </div>
           ))}
         </div>
-
-        {/* tabela de fee fixo — HTML responsivo, sem imagem, para SEO/mobile */}
-        <div className="mt-12 overflow-x-auto rounded-2xl border border-ink-hairline">
-          <table className="w-full min-w-[520px] text-left">
-            <thead>
-              <tr style={{ background: "#FEB202" }}>
-                <th className="px-5 py-3 font-display text-sm font-bold text-ink">
-                  Patrimônio investido
-                </th>
-                <th className="px-5 py-3 font-display text-sm font-bold text-ink">Fee Fixo*</th>
-              </tr>
-            </thead>
-            <tbody>
-              {tabelaFee.map((row, i) => (
-                <tr key={row.faixa} style={{ background: i % 2 === 0 ? "#FFFFFF" : "#F5F5F5" }}>
-                  <td className="border-t border-ink-hairline px-5 py-3 font-sans text-sm text-ink">
-                    {row.faixa}
-                  </td>
-                  <td className="border-t border-ink-hairline px-5 py-3 font-sans text-sm text-ink">
-                    {row.fee}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-        <p className="mt-3 font-sans text-xs text-ink-muted">
-          *Valores de referência para custódia XP. Consulte um especialista para condições
-          aplicáveis a multicustódia.
-        </p>
       </div>
     </section>
   );

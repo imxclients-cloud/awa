@@ -20,6 +20,10 @@ dist-ssr
 .wrangler/
 .dev.vars
 
+# Material extraído do documento de ajustes do cliente (não versionar)
+.docx_extract/
+.homol_extract/
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

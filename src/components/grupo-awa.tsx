@@ -18,7 +18,7 @@ export function GrupoAwa() {
         {/* representação visual das três verticais, seguindo a peça de referência */}
         <div className="relative mt-16 md:mt-20">
           {/* ---- desktop / tablet ---- */}
-          <div className="relative hidden min-h-[480px] md:block">
+          <div className="relative hidden min-h-[400px] md:block">
             {/* Wealth Services — topo, centralizado */}
             <Reveal delay={140}>
               <div className="absolute top-0 left-1/2 max-w-[320px] -translate-x-1/2 text-center">
@@ -35,7 +35,7 @@ export function GrupoAwa() {
 
             {/* A.W.A Investimentos — lado esquerdo */}
             <Reveal delay={210}>
-              <div className="absolute top-[190px] left-0 max-w-[270px] text-left">
+              <div className="absolute top-[215px] left-0 max-w-[270px] text-left">
                 <h3 className="font-display text-xl font-extrabold text-accent lg:text-2xl">
                   A.W.A Investimentos
                 </h3>
@@ -49,7 +49,7 @@ export function GrupoAwa() {
 
             {/* A.W.A Empresas — lado direito, um pouco acima do ponto */}
             <Reveal delay={280}>
-              <div className="absolute bottom-[90px] top-[190px] right-0 max-w-[270px] text-left lg:right-4">
+              <div className="absolute top-[165px] right-0 max-w-[270px] text-left lg:right-4">
                 <h3 className="font-display text-xl font-extrabold text-accent lg:text-2xl">
                   A.W.A Empresas
                 </h3>
@@ -61,11 +61,11 @@ export function GrupoAwa() {
 
             {/* substituído símbolo feio por imagem */}
             <Reveal delay={180}>
-              <div className="pointer-events-none absolute top-[150px] left-1/2 flex -translate-x-1/2 items-center justify-center">
+              <div className="pointer-events-none absolute top-[105px] left-1/2 flex -translate-x-1/2 items-center justify-center">
                 <img
                   src="/awa_icone.png"
                   alt="AWA Ícone"
-                  className="h-[170px] w-auto"
+                  className="h-[150px] w-auto"
                   draggable={false}
                 />
               </div>

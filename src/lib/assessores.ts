@@ -3,17 +3,23 @@
  * Origem: planilha institucional "Assessores" (código + nome + e-mail),
  * com fotos disponíveis em /public/assessores.
  */
+export const unidades = ["Fortaleza", "Recife", "São Luís"] as const;
+
+export type Unidade = (typeof unidades)[number];
+
 export type Assessor = {
   codigo: string;
   nome: string;
   email: string;
   /** Caminho da foto em /public/assessores. Ausente quando não há imagem. */
   foto?: string;
+  /** Unidade regional em que o profissional está lotado. */
+  unidade: Unidade;
 };
 
 const foto = (arquivo: string) => `/assessores/${arquivo}`;
 
-export const assessores: Assessor[] = [
+const bruto: Omit<Assessor, "unidade">[] = [
   {
     codigo: "A30221",
     nome: "Auricelia Rodrigues Coutinho",
@@ -118,7 +124,7 @@ export const assessores: Assessor[] = [
   },
   {
     codigo: "A58052",
-    nome: "Wandelison Ferreiro de Oliveira",
+    nome: "Wandelison Ferreira de Oliveira",
     email: "wandelison.oliveira@grupoawacapital.com.br",
     foto: foto("WANDER.jpeg"),
   },
@@ -228,4 +234,54 @@ export const assessores: Assessor[] = [
     email: "mauricio.sampaio@grupoawacapital.com.br",
     foto: foto("MAURICIO.jpeg"),
   },
-].sort((a, b) => a.nome.localeCompare(b.nome, "pt-BR"));
+];
+
+/** Lotação por unidade regional — origem: documento de ajustes do cliente (out/2025). */
+const lotacao: Record<string, Unidade> = {
+  // Fortaleza
+  A41632: "Fortaleza", // Gustavo de Ipanema
+  A50823: "Fortaleza", // Euraseo
+  A51446: "Fortaleza", // John Lucas
+  A90166: "Fortaleza", // Carlos Victor
+  A97342: "Fortaleza", // Sergio Maia
+  // Recife
+  A70342: "Recife", // Charles Pierre
+  A70344: "Recife", // Claudia Von Sohsten
+  A31222: "Recife", // Danielly Teles
+  A38901: "Recife", // Guilherme Fischer
+  A53866: "Recife", // Adriano Marcio
+  A56528: "Recife", // Ricardo Cacciari
+  A58052: "Recife", // Wandelison Oliveira
+  A95668: "Recife", // Matheus Guerra
+  A96531: "Recife", // Felipe Augusto
+  A2877: "Recife", // Miguel Fernandes
+  A5241: "Recife", // Bruno Farias
+  A70679: "Recife", // Maria Eduarda
+  A42057: "Recife", // Carlos Ragner
+  A68663: "Recife", // Gustavo Matos
+  A95466: "Recife", // Augusto Leal
+  A33637: "Recife", // Daniella Karla
+  A71632: "Recife", // Mauricio Sampaio
+  // São Luís
+  A30221: "São Luís", // Auricelia
+  A33583: "São Luís", // Carla Alessandra
+  A27937: "São Luís", // Henrique Mateus
+  A67893: "São Luís", // Nazareno
+  A73339: "São Luís", // Ranieri
+  A28082: "São Luís", // Rodrigo Rocha
+  A51583: "São Luís", // Irineu Reis
+  A97090: "São Luís", // Francisco Matheus
+  A3092: "São Luís", // Christiano Pablo
+  A34128: "São Luís", // Raphael Vidal
+  A50488: "São Luís", // Elon Vieira
+};
+
+/** Profissionais excluídos da listagem a pedido do cliente. */
+const excluidos = new Set(["A50989", "A23748", "A32622"]);
+
+export const assessores: Assessor[] = bruto
+  .filter((a) => !excluidos.has(a.codigo))
+  .map((a) => ({ ...a, unidade: lotacao[a.codigo] ?? "Recife" }))
+  .sort((a, b) => a.nome.localeCompare(b.nome, "pt-BR"));
+
+export const porUnidade = (unidade: Unidade) => assessores.filter((a) => a.unidade === unidade);

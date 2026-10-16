@@ -25,6 +25,9 @@ export function Fundador() {
                   className="absolute inset-0 h-full w-full object-cover"
                 />
               </div>
+              <p className="mt-4 text-center font-display text-lg font-extrabold tracking-tight text-ink">
+                Nazareno Lima
+              </p>
             </div>
           </Reveal>
 
@@ -37,15 +40,14 @@ export function Fundador() {
             </Reveal>
             <Reveal delay={160}>
               <h3 className="mt-5 font-display text-[1.6rem] leading-[1.14] font-extrabold tracking-tight text-ink md:text-3xl">
-                Nazareno Lima — CEO e Fundador da A.W.A Capital
+                Conheça o nosso CEO e Fundador
               </h3>
             </Reveal>
             <Reveal delay={220}>
               <p className="mt-6 max-w-xl font-sans text-base leading-relaxed text-ink-muted md:text-lg">
                 Ex-camelô, Nazareno Lima construiu a A.W.A Capital a partir de uma trajetória
-                marcada por superação e reinvenção. Essa mentalidade transformadora carrega a
-                essência edificadora que a empresa busca transmitir a todos os seus clientes, por
-                meio dos seus profissionais.
+                marcada por superação e reinvenção. Esse espírito transformador de prosperidade e
+                realização de sonhos é o que buscamos desenvolver em todos os nossos clientes.
               </p>
             </Reveal>
 
