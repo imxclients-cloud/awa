@@ -43,11 +43,6 @@ export function Empresas() {
               Soluções Financeiras para Empresas
             </span>
           </Reveal>
-          <Reveal delay={110}>
-            <h2 className="mt-6 font-display text-[2rem] leading-[1.08] font-extrabold tracking-tight text-ink md:text-5xl lg:text-[3.4rem]">
-              Estratégia financeira também faz parte do crescimento de uma empresa.
-            </h2>
-          </Reveal>
         </div>
 
         <div className="mt-12 grid gap-5 sm:grid-cols-2 md:mt-16 lg:grid-cols-4">

@@ -52,13 +52,6 @@ export function Fundador() {
             </Reveal>
 
             <Reveal delay={280}>
-              <blockquote className="mt-8 border-l-2 border-accent pl-5 font-display text-lg leading-snug font-bold text-ink md:text-xl">
-                “Meu chamado é deixar uma marca edificadora no coração das pessoas por meio do
-                mercado financeiro e empresarial.”
-              </blockquote>
-            </Reveal>
-
-            <Reveal delay={340}>
               <div className="mt-8">
                 <div
                   className="relative aspect-video w-full max-w-md overflow-hidden rounded-2xl border border-ink-hairline bg-ink/5"

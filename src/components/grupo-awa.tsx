@@ -18,10 +18,10 @@ export function GrupoAwa() {
         {/* representação visual das três verticais, seguindo a peça de referência */}
         <div className="relative mt-16 md:mt-20">
           {/* ---- desktop / tablet ---- */}
-          <div className="relative hidden min-h-[400px] md:block">
-            {/* Wealth Services — topo, centralizado */}
+          <div className="mx-auto hidden w-full max-w-[900px] md:block">
+            {/* Wealth Services — topo, centralizado sobre as barras */}
             <Reveal delay={140}>
-              <div className="absolute top-0 left-1/2 max-w-[320px] -translate-x-1/2 text-center">
+              <div className="mx-auto max-w-[340px] text-center">
                 <h3 className="font-display text-xl font-extrabold text-accent lg:text-2xl">
                   Wealth Services
                 </h3>
@@ -33,43 +33,41 @@ export function GrupoAwa() {
               </div>
             </Reveal>
 
-            {/* A.W.A Investimentos — lado esquerdo */}
-            <Reveal delay={210}>
-              <div className="absolute top-[215px] left-0 max-w-[270px] text-left">
-                <h3 className="font-display text-xl font-extrabold text-accent lg:text-2xl">
-                  A.W.A Investimentos
-                </h3>
-                <p className="mt-2 font-sans text-sm leading-relaxed text-ink-muted">
-                  Assessoria em Investimentos XP
-                  <br />
-                  Patrimônio 100k – 3MM
-                </p>
-              </div>
-            </Reveal>
+            {/* Investimentos | barras | Empresas — textos encostados nas pontas do triângulo */}
+            <div className="mt-4 grid grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-end gap-5">
+              <Reveal delay={210}>
+                <div className="pb-2 text-left">
+                  <h3 className="font-display text-xl font-extrabold text-accent lg:text-2xl">
+                    A.W.A Investimentos
+                  </h3>
+                  <p className="mt-2 font-sans text-sm leading-relaxed text-ink-muted">
+                    Assessoria em Investimentos XP
+                    <br />
+                    Patrimônio 100k – 3MM
+                  </p>
+                </div>
+              </Reveal>
 
-            {/* A.W.A Empresas — lado direito, um pouco acima do ponto */}
-            <Reveal delay={280}>
-              <div className="absolute top-[165px] right-0 max-w-[270px] text-left lg:right-4">
-                <h3 className="font-display text-xl font-extrabold text-accent lg:text-2xl">
-                  A.W.A Empresas
-                </h3>
-                <p className="mt-2 font-sans text-sm leading-relaxed text-ink-muted">
-                  Soluções financeiras para pessoas jurídicas
-                </p>
-              </div>
-            </Reveal>
-
-            {/* substituído símbolo feio por imagem */}
-            <Reveal delay={180}>
-              <div className="pointer-events-none absolute top-[105px] left-1/2 flex -translate-x-1/2 items-center justify-center">
+              <Reveal delay={180}>
                 <img
                   src="/awa_icone.png"
-                  alt="AWA Ícone"
-                  className="h-[150px] w-auto"
+                  alt="Símbolo das três verticais do Grupo A.W.A Capital"
+                  className="h-[210px] w-auto"
                   draggable={false}
                 />
-              </div>
-            </Reveal>
+              </Reveal>
+
+              <Reveal delay={280}>
+                <div className="pb-14 text-left">
+                  <h3 className="font-display text-xl font-extrabold text-accent lg:text-2xl">
+                    A.W.A Empresas
+                  </h3>
+                  <p className="mt-2 font-sans text-sm leading-relaxed text-ink-muted">
+                    Soluções financeiras para pessoas jurídicas
+                  </p>
+                </div>
+              </Reveal>
+            </div>
           </div>
 
           {/* ---- mobile ---- */}

@@ -21,11 +21,6 @@ export function Hero() {
             Empresas.
           </h1>
 
-          <p className="mt-6 max-w-lg font-sans text-base leading-relaxed text-foreground/70 md:text-lg">
-            Mais do que investimentos, a A.W.A Capital conecta pessoas e empresas a estratégias
-            financeiras construídas com conhecimento, proximidade e visão de longo prazo.
-          </p>
-
           <div className="mt-9 flex flex-col gap-3 sm:flex-row sm:items-center">
             <a
               href="#investimentos"
