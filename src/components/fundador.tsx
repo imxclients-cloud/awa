@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Reveal } from "@/components/reveal";
+import { SectionBadge } from "@/components/section-badge";
 import fotoNazareno from "@/assets/Naza 2.jpeg";
 
 const PODCAST_VIDEO_ID = "bd1KNDiwY-I";
@@ -12,12 +13,10 @@ export function Fundador() {
       id="sobre"
       className="relative overflow-hidden bg-surface-light py-10 md:py-10 lg:py-20"
     >
-      <div className="mx-auto w-full max-w-[1280px] px-5 md:px-8">
+      <div className="mx-auto w-full max-w-[1280px] px-5 text-center md:px-8">
         {/* Selo "Sobre nós" abrindo a seção, seguido direto para o fundador e o vídeo */}
         <Reveal>
-          <span className="inline-flex items-center rounded-full border border-accent px-5 py-2 font-display text-[0.7rem] font-extrabold tracking-[0.06em] text-accent uppercase md:text-xs">
-            Sobre nós
-          </span>
+          <SectionBadge>Sobre nós</SectionBadge>
         </Reveal>
       </div>
 
@@ -44,11 +43,9 @@ export function Fundador() {
           </Reveal>
 
           {/* texto */}
-          <div>
-            <Reveal delay={100}>
-              <span className="font-display text-[0.7rem] font-extrabold tracking-[0.34em] text-accent uppercase">
-                Nosso fundador
-              </span>
+          <div className="text-center lg:text-left">
+            <Reveal className="flex justify-start">
+              <span className="inline-flex items-center font-display text-[0.8rem] font-extrabold tracking-[0.06em] text-ink uppercase md:text-[0.85rem]">Nosso fundador</span>
             </Reveal>
             <Reveal delay={160}>
               <h3 className="mt-5 font-display text-[1.6rem] leading-[1.14] font-extrabold tracking-tight text-ink md:text-3xl">
@@ -56,7 +53,7 @@ export function Fundador() {
               </h3>
             </Reveal>
             <Reveal delay={220}>
-              <p className="mt-6 max-w-xl font-sans text-base leading-relaxed text-ink-muted md:text-lg">
+              <p className="mx-auto mt-6 max-w-xl font-sans text-base leading-relaxed text-ink-muted md:text-lg lg:mx-0">
                 Ex-camelô, Nazareno Lima construiu a A.W.A Capital a partir de uma trajetória
                 marcada por superação e reinvenção. Esse espírito transformador de prosperidade e
                 realização de sonhos é o que buscamos desenvolver em todos os nossos clientes.
@@ -64,7 +61,7 @@ export function Fundador() {
             </Reveal>
 
             <Reveal delay={280}>
-              <div className="mt-8">
+              <div className="mt-8 flex justify-center lg:justify-start">
                 <div
                   className="relative aspect-video w-full max-w-md overflow-hidden rounded-2xl border border-ink-hairline bg-ink/5"
                   data-slot="video-podcast-raony"

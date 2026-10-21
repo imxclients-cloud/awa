@@ -1,16 +1,15 @@
 import { Reveal } from "@/components/reveal";
+import { SectionBadge } from "@/components/section-badge";
 
 export function GrupoAwa() {
   return (
     <section className="relative overflow-hidden bg-surface-light py-10 md:py-10 lg:py-20">
-      <div className="mx-auto w-full max-w-[1280px] px-5 md:px-8">
-        <Reveal>
-          <span className="font-display text-[0.7rem] font-extrabold tracking-[0.34em] text-accent uppercase">
-            Estrutura
-          </span>
+      <div className="mx-auto w-full max-w-[1280px] px-5 text-center md:px-8">
+        <Reveal className="flex justify-center">
+          <SectionBadge>Estrutura</SectionBadge>
         </Reveal>
         <Reveal delay={100}>
-          <h2 className="mt-5 max-w-2xl font-display text-[1.6rem] leading-[1.14] font-extrabold tracking-tight text-ink md:text-3xl lg:text-[2.2rem]">
+          <h2 className="mx-auto mt-5 max-w-2xl font-display text-[1.6rem] leading-[1.14] font-extrabold tracking-tight text-ink md:text-3xl lg:text-[2.2rem]">
             Grupo A.W.A Capital: um grupo financeiro com três verticais de negócio.
           </h2>
         </Reveal>

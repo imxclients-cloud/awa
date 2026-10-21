@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 
 import { Reveal } from "@/components/reveal";
+import { SectionBadge } from "@/components/section-badge";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { WhatsappFloat } from "@/components/whatsapp-float";
@@ -9,13 +10,13 @@ import { porUnidade, unidades } from "@/lib/assessores";
 export const Route = createFileRoute("/assessores")({
   head: () => ({
     meta: [
-      { title: "Assessores de Investimentos — A.W.A Capital" },
+      { title: "Nossa Equipe — A.W.A Capital" },
       {
         name: "description",
         content:
-          "Listagem completa dos profissionais do time de Assessores de Investimentos da A.W.A Capital, com código de assessor e e-mail de contato.",
+          "Conheça o time de Assessores de Investimentos da A.W.A Capital, com e-mail de contato de cada profissional.",
       },
-      { property: "og:title", content: "Assessores de Investimentos — A.W.A Capital" },
+      { property: "og:title", content: "Nossa Equipe — A.W.A Capital" },
       {
         property: "og:description",
         content: "Conheça o time de Assessores de Investimentos da A.W.A Capital.",
@@ -41,17 +42,8 @@ function Assessores() {
 
       <article className="relative overflow-hidden py-10 pt-32 md:py-10 md:pt-40 lg:py-20">
         <div className="mx-auto w-full max-w-[1100px] px-5 md:px-8">
-          <Reveal>
-            <p className="font-display text-[0.65rem] font-extrabold tracking-[0.3em] text-accent uppercase">
-              Nossa equipe
-            </p>
-            <h1 className="font-display mt-4 text-[1.9rem] leading-[1.1] font-extrabold tracking-tight text-ink md:text-[2.4rem]">
-              Assessores de Investimentos
-            </h1>
-            <p className="mt-5 max-w-2xl font-sans text-base leading-relaxed text-ink-muted">
-              Listagem completa dos profissionais do time de Assessores de Investimentos da A.W.A
-              Capital, em conformidade com as exigências regulatórias.
-            </p>
+          <Reveal className="flex justify-center">
+            <SectionBadge>Nossa Equipe</SectionBadge>
           </Reveal>
 
           {unidades.map((unidade, bloco) => {
@@ -63,9 +55,6 @@ function Assessores() {
                     <h2 className="font-display text-lg font-extrabold tracking-tight text-ink md:text-xl">
                       {unidade}
                     </h2>
-                    <p className="font-display text-[0.6rem] font-extrabold tracking-[0.16em] text-accent uppercase">
-                      {membros.length} assessores de investimentos
-                    </p>
                   </div>
                 </Reveal>
                 <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
@@ -97,7 +86,7 @@ function Assessores() {
                             {a.nome}
                           </p>
                           <p className="mt-0.5 font-display text-[0.6rem] font-extrabold tracking-[0.16em] text-accent uppercase">
-                            Assessor de Investimentos · {a.codigo}
+                            Código de registro: {a.codigo}
                           </p>
                           <a
                             href={`mailto:${a.email}`}

@@ -1,5 +1,5 @@
 import { Reveal } from "@/components/reveal";
-import planejamentoImg from "@/assets/selos/Planejamento_Patrimonial_light.png";
+import { SectionBadge } from "@/components/section-badge";
 
 export function PlanejamentoPilar() {
   return (
@@ -9,19 +9,8 @@ export function PlanejamentoPilar() {
     >
       <div className="mx-auto w-full max-w-[1280px] px-5 md:px-8">
         <div className="border-t border-ink-hairline pt-10 md:pt-12">
-          <Reveal>
-            <p className="font-display text-[0.9rem] font-extrabold tracking-[0.34em] text-accent uppercase">
-              Planejamento como pilar
-            </p>
-          </Reveal>
-
-          <Reveal delay={120}>
-            <img
-              src={planejamentoImg}
-              alt="Planejamento Patrimonial"
-              className="mx-auto mt-10 w-full max-w-[500px]"
-              loading="lazy"
-            />
+          <Reveal className="flex justify-center">
+            <SectionBadge>Planejamento como pilar</SectionBadge>
           </Reveal>
         </div>
       </div>

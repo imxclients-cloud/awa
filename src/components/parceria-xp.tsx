@@ -1,3 +1,5 @@
+import { SectionBadge } from "@/components/section-badge";
+
 const numerosXp = [
   "25 anos de mercado;",
   "2,2 trilhões de reais de ativos sob gestão;",
@@ -10,8 +12,14 @@ const diferenciais = [
   { titulo: "Ações", texto: "Invista em empresas e acompanhe seu desempenho na bolsa." },
   { titulo: "Fundos de Investimento", texto: "Diversifique sua carteira com gestão profissional." },
   { titulo: "Previdência Privada", texto: "Planeje seu futuro com previdência, PGBL ou VGBL." },
-  { titulo: "Fundos Imobiliários", texto: "Invista em imóveis pela bolsa e receba rendimentos sem burocracia." },
-  { titulo: "Ofertas Públicas", texto: "Invista em empresas que estão entrando na bolsa por meio de ofertas públicas." },
+  {
+    titulo: "Fundos Imobiliários",
+    texto: "Invista em imóveis pela bolsa e receba rendimentos sem burocracia.",
+  },
+  {
+    titulo: "Ofertas Públicas",
+    texto: "Invista em empresas que estão entrando na bolsa por meio de ofertas públicas.",
+  },
 ];
 
 const modelos: Array<{ n: string; titulo: string; texto: string; destaque: boolean }> = [
@@ -85,9 +93,9 @@ export function ParceriaXp() {
 
       {/* diferenciais da plataforma XP */}
       <div className="relative mx-auto mt-20 w-full max-w-[1280px] px-5 md:px-8 lg:mt-24">
-        <p className="text-center font-display text-[0.7rem] font-extrabold tracking-[0.28em] text-accent uppercase">
-          Diferenciais da plataforma
-        </p>
+        <div className="flex justify-center">
+          <SectionBadge>Diferenciais da plataforma</SectionBadge>
+        </div>
         <h3 className="mx-auto mt-4 max-w-2xl text-center font-display text-xl font-bold text-ink md:text-2xl">
           Acesso a um ecossistema completo de investimentos.
         </h3>

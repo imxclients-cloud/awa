@@ -1,6 +1,10 @@
 import fotoClaudia from "@/assets/diretoria-claudia-von-sohsten.png";
 import fotoGustavo from "@/assets/diretoria-gustavo-matos.png";
 import fotoNazareno from "@/assets/Naza 2.jpeg";
+import fotoMarcia from "@/assets/marcia-tavares.jpeg";
+import fotoRafael from "@/assets/rafael-feitosa.jpeg";
+import fotoGilson from "@/assets/gilson-valandro.jpeg";
+import fotoElon from "@/assets/elon-lima-2.jpeg";
 
 /**
  * Dados dos profissionais da equipe da A.W.A Capital.
@@ -59,7 +63,7 @@ export const especialistas: Especialista[] = [
   {
     nome: "Elon Lima",
     funcao: "Investor São Luís",
-    foto: fotoEspecialista("ELON.jpeg"),
+    foto: fotoElon,
   },
   {
     nome: "Maurício Sampaio",
@@ -74,13 +78,16 @@ export const especialistas: Especialista[] = [
   {
     nome: "Márcia Tavares",
     funcao: "Estratégias de Aquisição de Bens",
+    foto: fotoMarcia,
   },
   {
     nome: "Rafael Feitosa",
     funcao: "Proteção Empresarial",
+    foto: fotoRafael,
   },
   {
     nome: "Gilson Valandro",
     funcao: "Proteção e Sucessão Patrimonial",
+    foto: fotoGilson,
   },
 ];

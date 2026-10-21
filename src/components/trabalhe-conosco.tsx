@@ -1,5 +1,6 @@
 import { useState, type FormEvent } from "react";
 import { Reveal } from "@/components/reveal";
+import { SectionBadge } from "@/components/section-badge";
 import { whatsappExpansao } from "@/lib/contact";
 
 export function TrabalheConosco() {
@@ -19,10 +20,8 @@ export function TrabalheConosco() {
       <div className="mx-auto w-full max-w-[1280px] px-5 md:px-8">
         <div className="grid gap-14 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1fr)] lg:gap-16">
           <div>
-            <Reveal>
-              <span className="font-display text-[0.7rem] font-extrabold tracking-[0.34em] text-accent uppercase">
-                Trabalhe conosco
-              </span>
+            <Reveal className="flex justify-center">
+              <SectionBadge>Trabalhe conosco</SectionBadge>
             </Reveal>
             <Reveal delay={100}>
               <h2 className="mt-6 font-display text-[1.75rem] leading-[1.1] font-extrabold tracking-tight text-ink md:text-4xl lg:text-[2.4rem]">
@@ -31,8 +30,8 @@ export function TrabalheConosco() {
             </Reveal>
             <Reveal delay={180}>
               <p className="mt-6 max-w-md font-sans text-base leading-relaxed text-ink-muted md:text-lg">
-                Fale diretamente com o nosso time de Expansão pelo WhatsApp, ou deixe seus dados
-                que entraremos em contato.
+                Fale diretamente com o nosso time de Expansão pelo WhatsApp, ou deixe seus dados que
+                entraremos em contato.
               </p>
             </Reveal>
             <Reveal delay={240}>

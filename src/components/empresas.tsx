@@ -1,24 +1,35 @@
 import { Reveal } from "@/components/reveal";
-import iconeCaixa from "@/assets/Ativo_37.png.asset.json";
-import iconeInvest from "@/assets/Ativo_47.png.asset.json";
-import iconePlanejamento from "@/assets/Ativo_41.png.asset.json";
-import iconeProtecao from "@/assets/Ativo_31.png.asset.json";
-import iconeCredito from "@/assets/Ativo_43.png.asset.json";
-import iconeBeneficios from "@/assets/Ativo_45.png.asset.json";
+import { SectionBadge } from "@/components/section-badge";
+import {
+  ArrowLeftRight,
+  Building2,
+  Coins,
+  CreditCard,
+  HandCoins,
+  Landmark,
+  PiggyBank,
+  ShieldCheck,
+  Umbrella,
+  Wallet,
+  Zap,
+} from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 import { WHATSAPP_ESPECIALISTA } from "@/lib/contact";
 
-const modulos = [
-  { icone: iconeCredito.url, titulo: "Crédito" },
-  { icone: iconeCaixa.url, titulo: "Câmbio" },
-  { icone: iconeProtecao.url, titulo: "Seguro Vida em Grupo" },
-  { icone: iconeProtecao.url, titulo: "Seguros Corporativos" },
-  { icone: iconeInvest.url, titulo: "Restituição Tributária" },
-  { icone: iconePlanejamento.url, titulo: "Mercado Livre de Energia" },
-  { icone: iconeBeneficios.url, titulo: "Consórcios para compra planejada de bens" },
-  { icone: iconeBeneficios.url, titulo: "Conta Digital e Cartão de Crédito XP" },
-  { icone: iconeCredito.url, titulo: "Antecipação de precatórios" },
-  { icone: iconeCaixa.url, titulo: "Gestão de Fluxo de Caixa" },
-  { icone: iconeProtecao.url, titulo: "Holding Patrimonial" },
+type Modulo = { icone: LucideIcon; titulo: string };
+
+const modulos: Modulo[] = [
+  { icone: HandCoins, titulo: "Crédito" },
+  { icone: ArrowLeftRight, titulo: "Câmbio" },
+  { icone: Umbrella, titulo: "Seguro Vida em Grupo" },
+  { icone: ShieldCheck, titulo: "Seguros Corporativos" },
+  { icone: Coins, titulo: "Restituição Tributária" },
+  { icone: Zap, titulo: "Mercado Livre de Energia" },
+  { icone: PiggyBank, titulo: "Consórcios para compra planejada de bens" },
+  { icone: CreditCard, titulo: "Conta Digital e Cartão de Crédito XP" },
+  { icone: Landmark, titulo: "Antecipação de precatórios" },
+  { icone: Wallet, titulo: "Gestão de Fluxo de Caixa" },
+  { icone: Building2, titulo: "Holding Patrimonial" },
 ];
 
 export function Empresas() {
@@ -37,33 +48,34 @@ export function Empresas() {
       />
 
       <div className="relative mx-auto w-full max-w-[1280px] px-5 md:px-8">
-        <div className="max-w-3xl">
-          <Reveal>
-            <span className="font-display text-[0.7rem] font-extrabold tracking-[0.34em] text-accent uppercase">
-              Soluções Financeiras para Empresas
-            </span>
+        <div className="mx-auto max-w-3xl text-center">
+          <Reveal className="flex justify-center">
+            <SectionBadge>Soluções Financeiras para Empresas</SectionBadge>
           </Reveal>
         </div>
 
         <div className="mt-12 grid gap-5 sm:grid-cols-2 md:mt-16 lg:grid-cols-4">
-          {modulos.map((m, i) => (
-            <Reveal key={m.titulo} delay={100 + (i % 4) * 70} className="h-full">
-              <div className="group flex h-full flex-col items-center justify-center gap-5 rounded-2xl border border-ink-hairline bg-white px-5 py-8 text-center transition-transform duration-300 hover:-translate-y-1">
-                <span
-                  className="grid size-16 shrink-0 place-items-center rounded-2xl"
-                  style={{
-                    background: "rgba(254,178,2,0.1)",
-                    border: "1px solid rgba(254,178,2,0.3)",
-                  }}
-                >
-                  <img src={m.icone} alt="" aria-hidden loading="lazy" className="size-9" />
-                </span>
-                <h3 className="font-display text-sm leading-snug font-bold text-ink transition-colors duration-300 group-hover:text-accent md:text-base">
-                  {m.titulo}
-                </h3>
-              </div>
-            </Reveal>
-          ))}
+          {modulos.map((m, i) => {
+            const Icone = m.icone;
+            return (
+              <Reveal key={m.titulo} delay={100 + (i % 4) * 70} className="h-full">
+                <div className="group flex h-full flex-col items-center justify-center gap-5 rounded-2xl border border-ink-hairline bg-white px-5 py-8 text-center transition-transform duration-300 hover:-translate-y-1">
+                  <span
+                    className="grid size-16 shrink-0 place-items-center rounded-2xl text-accent"
+                    style={{
+                      background: "rgba(254,178,2,0.1)",
+                      border: "1px solid rgba(254,178,2,0.3)",
+                    }}
+                  >
+                    <Icone className="size-8" strokeWidth={1.75} aria-hidden />
+                  </span>
+                  <h3 className="font-display text-sm leading-snug font-bold text-ink transition-colors duration-300 group-hover:text-accent md:text-base">
+                    {m.titulo}
+                  </h3>
+                </div>
+              </Reveal>
+            );
+          })}
         </div>
 
         <Reveal delay={200}>

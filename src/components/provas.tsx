@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Check } from "lucide-react";
 import { Reveal } from "@/components/reveal";
+import { SectionBadge } from "@/components/section-badge";
 
 type Item = {
   prefixo: string;
@@ -117,17 +118,20 @@ export function Provas() {
       className="relative overflow-hidden py-10 md:py-10 lg:py-20"
       style={{ background: "#FFFFFF" }}
     >
-      <div className="relative mx-auto w-full max-w-[1200px] px-5 md:px-8">
-        <Reveal>
+      <div className="relative mx-auto w-full max-w-[1200px] px-5 text-center md:px-8">
+        <Reveal className="flex justify-center">
+          <SectionBadge>Trajetória</SectionBadge>
+        </Reveal>
+        <Reveal delay={100}>
           <h2
-            className="font-display text-[1.7rem] leading-[1.14] font-bold tracking-tight md:text-4xl lg:text-[2.4rem]"
+            className="mx-auto mt-5 max-w-2xl font-display text-[1.7rem] leading-[1.14] font-bold tracking-tight md:text-4xl lg:text-[2.4rem]"
             style={{ color: "#232323" }}
           >
             Um resumo da A.W.A Capital
           </h2>
         </Reveal>
 
-        <div className="mt-10 grid items-center gap-10 md:gap-12 lg:mt-14 lg:grid-cols-[1.05fr_1fr]">
+        <div className="mt-10 grid items-center gap-10 text-left md:gap-12 lg:mt-14 lg:grid-cols-[1.05fr_1fr]">
           <Reveal>
             <img
               src="/brazil-map.png"

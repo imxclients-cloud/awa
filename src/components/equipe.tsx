@@ -1,4 +1,5 @@
 import { Reveal } from "@/components/reveal";
+import { SectionBadge } from "@/components/section-badge";
 import { diretoria, especialistas } from "@/lib/diretoria";
 
 const iniciais = (nome: string) =>
@@ -13,20 +14,18 @@ const iniciais = (nome: string) =>
 export function Equipe() {
   return (
     <section className="relative overflow-hidden bg-white py-10 md:py-10 lg:py-20">
-      <div className="mx-auto w-full max-w-[1280px] px-5 md:px-8">
-        <Reveal>
-          <span className="font-display text-[0.7rem] font-extrabold tracking-[0.34em] text-accent uppercase">
-            Nossa equipe
-          </span>
+      <div className="mx-auto w-full max-w-[1280px] px-5 text-center md:px-8">
+        <Reveal className="flex justify-center">
+          <SectionBadge>Nossa equipe</SectionBadge>
         </Reveal>
         <Reveal delay={100}>
-          <h2 className="mt-5 max-w-2xl font-display text-[1.6rem] leading-[1.14] font-extrabold tracking-tight text-ink md:text-3xl lg:text-[2.2rem]">
+          <h2 className="mx-auto mt-5 max-w-2xl font-display text-[1.6rem] leading-[1.14] font-extrabold tracking-tight text-ink md:text-3xl lg:text-[2.2rem]">
             Diretoria, especialistas e assessores de investimentos.
           </h2>
         </Reveal>
 
         {/* Bloco 1 — Diretoria */}
-        <div className="mt-12">
+        <div className="mt-12 text-left">
           <Reveal delay={140}>
             <h3 className="font-display text-sm font-bold tracking-wide text-ink uppercase">
               Diretoria
@@ -63,7 +62,7 @@ export function Equipe() {
         </div>
 
         {/* Bloco 2 — Especialistas (4 por linha, apenas nome e função) */}
-        <div className="mt-16">
+        <div className="mt-16 text-left">
           <Reveal delay={140}>
             <h3 className="font-display text-sm font-bold tracking-wide text-ink uppercase">
               Especialistas
