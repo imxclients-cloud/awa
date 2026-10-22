@@ -1,14 +1,14 @@
-import { Equipe } from "@/components/equipe";
 import { createFileRoute } from "@tanstack/react-router";
 import { SiteHeader } from "@/components/site-header";
 import { Hero } from "@/components/hero";
 import { Fundador } from "@/components/fundador";
 import { MissaoVisaoValores } from "@/components/missao-visao-valores";
 import { GrupoAwa } from "@/components/grupo-awa";
+import { FraseTransicao } from "@/components/frase-transicao";
+import { Diretores } from "@/components/diretores";
+import { Especialistas } from "@/components/especialistas";
 import { Provas } from "@/components/provas";
 import { Premios } from "@/components/premios";
-import { PlanejamentoPilar } from "@/components/planejamento-pilar";
-import { FraseTransicao } from "@/components/frase-transicao";
 import { ParceriaXp } from "@/components/parceria-xp";
 import { WealthServices } from "@/components/wealth-services";
 import { Empresas } from "@/components/empresas";
@@ -58,18 +58,24 @@ function Index() {
       {/* Sobre nós */}
       <Fundador />
       <MissaoVisaoValores />
+
+      <FraseTransicao>"A.W.A Capital, sua boutique de serviços financeiros."</FraseTransicao>
+
+      {/* Estrutura */}
       <GrupoAwa />
-      <Equipe />
+
+      {/* Diretoria e Especialistas */}
+      <Diretores />
+
+      <FraseTransicao>"Seu patrimônio precisa de estratégia. Não de produtos."</FraseTransicao>
+
+      <Especialistas />
+
       <Provas />
       <Premios />
-      <PlanejamentoPilar />
-
-      <FraseTransicao>“A.W.A Capital, sua boutique de serviços financeiros.”</FraseTransicao>
 
       {/* Investimentos */}
       <ParceriaXp />
-
-      <FraseTransicao>“Seu patrimônio precisa de estratégia. Não de produtos.”</FraseTransicao>
 
       {/* Soluções Financeiras para Famílias */}
       <WealthServices />
@@ -77,7 +83,7 @@ function Index() {
       {/* Soluções Financeiras para Empresas */}
       <Empresas />
 
-      <FraseTransicao>“Muito mais que só Investimentos.”</FraseTransicao>
+      <FraseTransicao>"Muito mais que só Investimentos."</FraseTransicao>
 
       {/* Trabalhe conosco */}
       <TrabalheConosco />

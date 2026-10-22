@@ -44,9 +44,6 @@ export function Fundador() {
 
           {/* texto */}
           <div className="text-center lg:text-left">
-            <Reveal className="flex justify-start">
-              <span className="inline-flex items-center font-display text-[0.8rem] font-extrabold tracking-[0.06em] text-ink uppercase md:text-[0.85rem]">Nosso fundador</span>
-            </Reveal>
             <Reveal delay={160}>
               <h3 className="mt-5 font-display text-[1.6rem] leading-[1.14] font-extrabold tracking-tight text-ink md:text-3xl">
                 Conheça o nosso CEO e Fundador

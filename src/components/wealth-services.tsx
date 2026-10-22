@@ -9,14 +9,16 @@ import {
   HandCoins,
   Landmark,
   Receipt,
+  Car,
+  Shield,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
 type Item = { icone: LucideIcon; titulo: string };
 
 const itens: Item[] = [
-  { icone: Receipt, titulo: "Seguros — proteção, sucessão patrimonial e gestão de risco" },
-  { icone: GraduationCap, titulo: "Consórcios — compra planejada de bens" },
+  { icone: Shield, titulo: "Seguros — proteção, sucessão patrimonial e gestão de risco" },
+  { icone: Car, titulo: "Consórcios — compra planejada de bens" },
   { icone: ArrowLeftRight, titulo: "Câmbio" },
   { icone: CreditCard, titulo: "Conta Digital e Cartão de Crédito XP" },
   { icone: HandCoins, titulo: "Crédito e Financiamento" },
@@ -44,11 +46,6 @@ export function WealthServices() {
         <div className="mx-auto max-w-3xl text-center">
           <Reveal className="flex justify-center">
             <SectionBadge>Soluções Financeiras para Famílias</SectionBadge>
-          </Reveal>
-          <Reveal delay={110}>
-            <h2 className="mt-6 font-display text-[2rem] leading-[1.08] font-extrabold tracking-tight text-ink md:text-5xl lg:text-[3.4rem]">
-              Patrimônio exige mais do que uma carteira de investimentos.
-            </h2>
           </Reveal>
         </div>
 

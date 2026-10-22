@@ -15,7 +15,6 @@ const itens: Item[] = [
   { prefixo: "+ ", valor: 1300, sufixo: " clientes;" },
   { prefixo: "+ ", valor: 40, sufixo: " profissionais." },
 ];
-
 function NumeroAnimado({ valor, ativo }: { valor: number; ativo: boolean }) {
   const [atual, setAtual] = useState(0);
 
@@ -73,14 +72,14 @@ function ItemResumo({ item, ativo, indice }: { item: Item; ativo: boolean; indic
         <Check className="size-3.5 md:size-4" strokeWidth={3.5} color="#FFFFFF" />
       </span>
       <p
-        className="font-sans text-[1.05rem] leading-relaxed font-medium md:text-lg"
+        className="font-sans text-[1.2rem] leading-relaxed font-medium md:text-xl"
         style={{ color: "#232323" }}
       >
         <TextoComCidades texto={item.prefixo} />
         {item.valor !== undefined && (
           <strong
             className="font-display font-extrabold tracking-tight tabular-nums text-accent"
-            style={{ fontSize: "1.4em", lineHeight: 1 }}
+            style={{ fontSize: "1.6em", lineHeight: 1 }}
           >
             <NumeroAnimado valor={item.valor} ativo={ativo} />
           </strong>
@@ -119,9 +118,6 @@ export function Provas() {
       style={{ background: "#FFFFFF" }}
     >
       <div className="relative mx-auto w-full max-w-[1200px] px-5 text-center md:px-8">
-        <Reveal className="flex justify-center">
-          <SectionBadge>Trajetória</SectionBadge>
-        </Reveal>
         <Reveal delay={100}>
           <h2
             className="mx-auto mt-5 max-w-2xl font-display text-[1.7rem] leading-[1.14] font-bold tracking-tight md:text-4xl lg:text-[2.4rem]"
@@ -136,7 +132,7 @@ export function Provas() {
             <img
               src="/brazil-map.png"
               alt="Mapa do Brasil com destaque para as unidades em São Luís (MA), Fortaleza (CE) e Recife (PE)"
-              className="h-auto w-full max-w-[620px] select-none"
+              className="h-auto w-full max-w-[720px] select-none"
               width={1536}
               height={1024}
               loading="lazy"
@@ -146,7 +142,7 @@ export function Provas() {
 
           <ul className="flex flex-col gap-6 md:gap-8">
             {itens.map((item, i) => (
-              <ItemResumo key={item.prefixo} item={item} ativo={ativo} indice={i} />
+              <ItemResumo key={`${item.prefixo}-${i}`} item={item} ativo={ativo} indice={i} />
             ))}
           </ul>
         </div>

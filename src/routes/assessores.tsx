@@ -5,7 +5,9 @@ import { SectionBadge } from "@/components/section-badge";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { WhatsappFloat } from "@/components/whatsapp-float";
+import { ModalFoto } from "@/components/modal-foto";
 import { porUnidade, unidades } from "@/lib/assessores";
+import { useState } from "react";
 
 export const Route = createFileRoute("/assessores")({
   head: () => ({
@@ -36,6 +38,12 @@ const iniciais = (nome: string) =>
     .toUpperCase();
 
 function Assessores() {
+  const [fotoAberta, setFotoAberta] = useState<{
+    nome: string;
+    cargo: string;
+    src: string;
+  } | null>(null);
+
   return (
     <main className="min-h-screen bg-surface-light">
       <SiteHeader variant="light" />
@@ -55,6 +63,9 @@ function Assessores() {
                     <h2 className="font-display text-lg font-extrabold tracking-tight text-ink md:text-xl">
                       {unidade}
                     </h2>
+                    <p className="font-display text-[0.6rem] font-extrabold tracking-[0.16em] text-accent uppercase">
+                      {membros.length} assessores de investimentos
+                    </p>
                   </div>
                 </Reveal>
                 <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
@@ -62,7 +73,15 @@ function Assessores() {
                     <Reveal key={a.codigo} delay={(i % 3) * 60}>
                       <article
                         data-slot={`assessor-pagina-${a.codigo}`}
-                        className="flex h-full items-center gap-3 rounded-xl border border-ink-hairline bg-white px-4 py-3"
+                        className="flex h-full items-center gap-3 rounded-xl border border-ink-hairline bg-white px-4 py-3 cursor-pointer"
+                        onClick={() =>
+                          a.foto &&
+                          setFotoAberta({
+                            nome: a.nome,
+                            cargo: "Assessor de Investimentos",
+                            src: a.foto,
+                          })
+                        }
                       >
                         {a.foto ? (
                           <img
@@ -86,11 +105,12 @@ function Assessores() {
                             {a.nome}
                           </p>
                           <p className="mt-0.5 font-display text-[0.6rem] font-extrabold tracking-[0.16em] text-accent uppercase">
-                            Código de registro: {a.codigo}
+                            Assessor de Investimentos
                           </p>
                           <a
                             href={`mailto:${a.email}`}
                             className="mt-1 block truncate font-sans text-xs text-ink-muted transition-colors duration-300 hover:text-accent"
+                            onClick={(e) => e.stopPropagation()}
                           >
                             {a.email}
                           </a>
@@ -119,6 +139,9 @@ function Assessores() {
           </div>
         </div>
       </article>
+
+      {/* Modal para ampliar foto — mesmo padrão visual do diálogo "Gerenciar Cookies" */}
+      <ModalFoto foto={fotoAberta} onClose={() => setFotoAberta(null)} />
 
       <SiteFooter />
       <WhatsappFloat />

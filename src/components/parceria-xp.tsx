@@ -1,3 +1,4 @@
+import { Reveal } from "@/components/reveal";
 import { SectionBadge } from "@/components/section-badge";
 
 const numerosXp = [
@@ -51,6 +52,15 @@ export function ParceriaXp() {
       className="relative overflow-hidden py-10 md:py-10 lg:py-20"
       style={{ background: "#FFFFFF" }}
     >
+      {/* Título INVESTIMENTOS */}
+      <div className="relative mx-auto mb-10 w-full max-w-[1280px] px-5 md:px-8">
+        <div className="mx-auto max-w-3xl text-center">
+          <Reveal className="flex justify-center">
+            <SectionBadge>Investimentos</SectionBadge>
+          </Reveal>
+        </div>
+      </div>
+
       {/* Orgulho em sermos um escritório XP */}
       <div className="relative mx-auto w-full max-w-[1280px] px-5 md:px-8">
         <div
@@ -93,11 +103,8 @@ export function ParceriaXp() {
 
       {/* diferenciais da plataforma XP */}
       <div className="relative mx-auto mt-20 w-full max-w-[1280px] px-5 md:px-8 lg:mt-24">
-        <div className="flex justify-center">
-          <SectionBadge>Diferenciais da plataforma</SectionBadge>
-        </div>
         <h3 className="mx-auto mt-4 max-w-2xl text-center font-display text-xl font-bold text-ink md:text-2xl">
-          Acesso a um ecossistema completo de investimentos.
+          Ecossistema XP completo em investimentos.
         </h3>
         <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {diferenciais.map((d) => (

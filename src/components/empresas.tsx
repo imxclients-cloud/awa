@@ -12,6 +12,7 @@ import {
   Umbrella,
   Wallet,
   Zap,
+  Car,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { WHATSAPP_ESPECIALISTA } from "@/lib/contact";
@@ -25,7 +26,7 @@ const modulos: Modulo[] = [
   { icone: ShieldCheck, titulo: "Seguros Corporativos" },
   { icone: Coins, titulo: "Restituição Tributária" },
   { icone: Zap, titulo: "Mercado Livre de Energia" },
-  { icone: PiggyBank, titulo: "Consórcios para compra planejada de bens" },
+  { icone: Car, titulo: "Consórcios para compra planejada de bens" },
   { icone: CreditCard, titulo: "Conta Digital e Cartão de Crédito XP" },
   { icone: Landmark, titulo: "Antecipação de precatórios" },
   { icone: Wallet, titulo: "Gestão de Fluxo de Caixa" },
