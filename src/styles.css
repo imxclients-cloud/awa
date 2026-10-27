@@ -248,3 +248,22 @@
     }
   }
 }
+
+/* Luzes dos prédios (seção Empresas): looping contínuo de acender/apagar
+   controlado via data-on em cenas-fundo.tsx. */
+@layer utilities {
+  .luz {
+    opacity: 0.05;
+    transition: opacity 0.6s ease-in-out;
+  }
+
+  [data-acesa="true"] .luz[data-on="1"] {
+    opacity: 1;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .luz {
+      transition: none;
+    }
+  }
+}

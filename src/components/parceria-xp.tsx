@@ -108,8 +108,17 @@ export function ParceriaXp() {
         </h3>
         <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {diferenciais.map((d) => (
-            <div key={d.titulo} className="rounded-2xl border border-ink-hairline p-6">
-              <h4 className="font-display text-base font-bold text-ink">{d.titulo}</h4>
+            <div
+              key={d.titulo}
+              className="rounded-2xl p-6"
+              style={{ background: "#F1F0ED" }}
+            >
+              <span
+                aria-hidden="true"
+                className="block h-1.5 w-6 rounded-full"
+                style={{ background: "#FEB202" }}
+              />
+              <h4 className="mt-4 font-display text-base font-bold text-ink">{d.titulo}</h4>
               <p className="mt-2 font-sans text-sm leading-relaxed text-ink-muted">{d.texto}</p>
             </div>
           ))}
@@ -122,23 +131,31 @@ export function ParceriaXp() {
           Na A.W.A, o cliente escolhe o nosso modelo de remuneração
         </h3>
 
-        <div className="mt-10 grid gap-4 sm:grid-cols-3">
+        <div className="mt-10 grid gap-5 sm:grid-cols-3">
           {modelos.map((m) => (
             <div
               key={m.n}
-              className="rounded-2xl border p-6"
+              className="relative flex flex-col rounded-[28px] rounded-tl-none p-7 md:p-8"
               style={{
-                borderColor: m.destaque ? "#FEB202" : "rgba(35,35,35,0.12)",
-                background: m.destaque ? "rgba(254,178,2,0.06)" : "transparent",
+                background: m.destaque ? "#FEB202" : "#232323",
+                color: m.destaque ? "#111111" : "#FFFFFF",
               }}
             >
-              <span className="font-display text-xs font-extrabold tracking-[0.2em] text-accent">
-                {m.n}
-              </span>
-              <h4 className="mt-3 font-display text-base font-bold text-ink">
-                {m.titulo} {m.destaque && "★ (mais recomendado)"}
-              </h4>
-              <p className="mt-2 font-sans text-sm leading-relaxed text-ink-muted">{m.texto}</p>
+              {m.destaque && (
+                <span
+                  className="mb-4 w-fit rounded-full px-3 py-1 font-display text-xs font-bold"
+                  style={{ background: "#111111", color: "#FEB202" }}
+                >
+                  Mais recomendado
+                </span>
+              )}
+              <h4 className="font-display text-xl font-bold md:text-[1.4rem]">{m.titulo}</h4>
+              <p
+                className="mt-3 font-sans text-sm leading-relaxed md:text-[0.95rem]"
+                style={{ color: m.destaque ? "rgba(17,17,17,0.82)" : "rgba(255,255,255,0.72)" }}
+              >
+                {m.texto}
+              </p>
             </div>
           ))}
         </div>

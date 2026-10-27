@@ -20,7 +20,7 @@ export function Hero() {
         <div className="grid items-center gap-10 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:gap-8">
           <div className="max-w-xl lg:max-w-2xl">
             <h1 className="font-display text-[1.6rem] leading-[1.12] font-extrabold tracking-tight text-foreground md:text-4xl lg:text-5xl">
-              Oferecemos soluções completas de planejamento e gestão patrimonial para famílias e empresas.
+              Soluções completas de planejamento e gestão patrimonial para famílias e empresas.
             </h1>
           </div>
 

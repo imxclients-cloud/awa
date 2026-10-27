@@ -1,5 +1,6 @@
 import { Reveal } from "@/components/reveal";
 import { SectionBadge } from "@/components/section-badge";
+import { CenaFamilias } from "@/components/cenas-fundo";
 import {
   ArrowLeftRight,
   Building2,
@@ -31,32 +32,40 @@ export function WealthServices() {
   return (
     <section
       id="familias"
-      className="relative overflow-hidden bg-surface-light py-10 md:py-10 lg:py-20"
+      className="relative overflow-hidden pt-10 pb-36 md:pt-10 md:pb-44 lg:pt-20 lg:pb-52"
+      style={{ background: "linear-gradient(180deg, #F9F9FA 0%, #F1EEE1 45%, #E1DECD 100%)" }}
     >
+      {/* luz quente de fim de tarde */}
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0"
         style={{
-          backgroundImage: "radial-gradient(rgba(35,35,35,0.05) 0.6px, transparent 0.6px)",
-          backgroundSize: "16px 16px",
+          background:
+            "radial-gradient(70% 55% at 50% 100%, rgba(254,178,2,0.22), rgba(254,178,2,0) 70%)",
         }}
       />
+      <CenaFamilias />
 
       <div className="relative mx-auto w-full max-w-[1280px] px-5 md:px-8">
         <div className="mx-auto max-w-3xl text-center">
           <Reveal className="flex justify-center">
             <SectionBadge>Soluções Financeiras para Famílias</SectionBadge>
           </Reveal>
+          <Reveal delay={100}>
+            <p className="mx-auto mt-6 max-w-xl font-sans text-base leading-relaxed text-ink-muted md:text-lg">
+              Proteção, sucessão e crescimento do patrimônio de quem você mais ama.
+            </p>
+          </Reveal>
         </div>
 
-        <div className="mt-12 grid gap-5 sm:grid-cols-2 md:mt-16 lg:grid-cols-4">
+        <div className="mt-10 grid gap-5 sm:grid-cols-2 md:mt-12 lg:grid-cols-4">
           {itens.map((item, i) => {
             const Icone = item.icone;
             return (
               <Reveal key={item.titulo} delay={100 + i * 70} className="h-full">
-                <div className="group flex h-full flex-col items-center justify-center gap-5 rounded-2xl border border-ink-hairline bg-white px-5 py-8 text-center transition-transform duration-300 hover:-translate-y-1">
+                <div className="group flex h-full flex-col items-center justify-center gap-5 rounded-3xl border border-ink-hairline bg-white/95 px-5 py-8 text-center backdrop-blur-glass transition-transform duration-300 hover:-translate-y-1">
                   <span
-                    className="grid size-16 shrink-0 place-items-center rounded-2xl text-accent"
+                    className="grid size-16 shrink-0 place-items-center rounded-full text-accent"
                     style={{
                       background: "rgba(254,178,2,0.1)",
                       border: "1px solid rgba(254,178,2,0.3)",

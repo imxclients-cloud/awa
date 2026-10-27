@@ -1,5 +1,6 @@
 import { Reveal } from "@/components/reveal";
 import { SectionBadge } from "@/components/section-badge";
+import { CenaEmpresas } from "@/components/cenas-fundo";
 import {
   ArrowLeftRight,
   Building2,
@@ -35,42 +36,41 @@ const modulos: Modulo[] = [
 
 export function Empresas() {
   return (
-    <section id="empresas" className="relative overflow-hidden bg-white py-10 md:py-10 lg:py-20">
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0"
-        style={{
-          backgroundImage:
-            "linear-gradient(rgba(35,35,35,0.05) 0.5px, transparent 0.5px), linear-gradient(90deg, rgba(35,35,35,0.05) 0.5px, transparent 0.5px), linear-gradient(rgba(35,35,35,0.03) 0.5px, transparent 0.5px), linear-gradient(90deg, rgba(35,35,35,0.03) 0.5px, transparent 0.5px)",
-          backgroundSize: "160px 160px, 160px 160px, 32px 32px, 32px 32px",
-          maskImage: "radial-gradient(120% 90% at 50% 50%, transparent 30%, black 100%)",
-          WebkitMaskImage: "radial-gradient(120% 90% at 50% 50%, transparent 30%, black 100%)",
-        }}
-      />
+    <section
+      id="empresas"
+      className="relative overflow-hidden pt-10 pb-44 md:pt-10 md:pb-60 lg:pt-20 lg:pb-0"
+      style={{ background: "linear-gradient(180deg, #111111 0%, #161616 50%, #232323 100%)" }}
+    >
+      <CenaEmpresas />
 
       <div className="relative mx-auto w-full max-w-[1280px] px-5 md:px-8">
         <div className="mx-auto max-w-3xl text-center">
           <Reveal className="flex justify-center">
             <SectionBadge>Soluções Financeiras para Empresas</SectionBadge>
           </Reveal>
+          <Reveal delay={100}>
+            <p className="mx-auto mt-6 max-w-xl font-sans text-base leading-relaxed text-white/70 md:text-lg">
+              Crédito, caixa, seguros e energia para a sua empresa crescer com segurança.
+            </p>
+          </Reveal>
         </div>
 
-        <div className="mt-12 grid gap-5 sm:grid-cols-2 md:mt-16 lg:grid-cols-4">
+        <div className="mt-10 grid gap-5 sm:grid-cols-2 md:mt-12 lg:grid-cols-4">
           {modulos.map((m, i) => {
             const Icone = m.icone;
             return (
               <Reveal key={m.titulo} delay={100 + (i % 4) * 70} className="h-full">
-                <div className="group flex h-full flex-col items-center justify-center gap-5 rounded-2xl border border-ink-hairline bg-white px-5 py-8 text-center transition-transform duration-300 hover:-translate-y-1">
+                <div className="group flex h-full flex-col items-center justify-center gap-5 rounded-lg border border-white/10 bg-glass-dark px-5 py-8 text-center backdrop-blur-glass transition-transform duration-300 hover:-translate-y-1">
                   <span
-                    className="grid size-16 shrink-0 place-items-center rounded-2xl text-accent"
+                    className="grid size-16 shrink-0 place-items-center rounded-lg text-accent"
                     style={{
-                      background: "rgba(254,178,2,0.1)",
-                      border: "1px solid rgba(254,178,2,0.3)",
+                      background: "rgba(254,178,2,0.12)",
+                      border: "1px solid rgba(254,178,2,0.35)",
                     }}
                   >
                     <Icone className="size-8" strokeWidth={1.75} aria-hidden />
                   </span>
-                  <h3 className="font-display text-sm leading-snug font-bold text-ink transition-colors duration-300 group-hover:text-accent md:text-base">
+                  <h3 className="font-display text-sm leading-snug font-bold text-white transition-colors duration-300 group-hover:text-accent md:text-base">
                     {m.titulo}
                   </h3>
                 </div>
@@ -80,7 +80,7 @@ export function Empresas() {
         </div>
 
         <Reveal delay={200}>
-          <div className="mt-12 md:mt-14">
+          <div className="mt-12 flex justify-center md:mt-14">
             <a
               href={WHATSAPP_ESPECIALISTA}
               target="_blank"
