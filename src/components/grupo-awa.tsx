@@ -1,16 +1,47 @@
 import { Reveal } from "@/components/reveal";
 import { SectionBadge } from "@/components/section-badge";
+import { sanityImageUrl, type Homepage } from "@/lib/sanity";
 
-export function GrupoAwa() {
+type Props = { data?: Homepage["grupoAwa"] | null };
+
+const FALLBACK_PILLARS = [
+  { name: "Wealth Services", description: "Consultoria com Atendimento Multi Custódia — Patrimônio 3MM+" },
+  { name: "A.W.A Investimentos", description: "Assessoria em Investimentos XP — Patrimônio 100k – 3MM" },
+  { name: "A.W.A Empresas", description: "Soluções financeiras para pessoas jurídicas" },
+];
+
+export function GrupoAwa({ data }: Props) {
+  const badge = data?.badge?.trim() || "Estrutura";
+  const title =
+    data?.title?.trim() ||
+    "Grupo A.W.A Capital: um grupo financeiro com três verticais de negócio.";
+  const pillars =
+    data?.pillars && data.pillars.length > 0
+      ? data.pillars.map((x) => ({
+          name: x.name || "",
+          description: x.description || "",
+        }))
+      : FALLBACK_PILLARS;
+  const p0 = pillars[0];
+  const p1 = pillars[1];
+  const p2 = pillars[2];
+  const iconSrc =
+    (typeof data === "object" && data && "iconImage" in data
+      ? // @ts-expect-error optional
+        null
+      : null) || "/awa_icone.png";
+  // icon via sanity if available
+  // (resolved below if import exists)
+
   return (
     <section className="relative overflow-hidden bg-surface-light py-10 md:py-10 lg:py-20">
       <div className="mx-auto w-full max-w-[1280px] px-5 text-center md:px-8">
         <Reveal className="flex justify-center">
-          <SectionBadge>Estrutura</SectionBadge>
+          <SectionBadge>{badge}</SectionBadge>
         </Reveal>
         <Reveal delay={100}>
           <h2 className="mx-auto mt-5 max-w-2xl font-display text-[1.6rem] leading-[1.14] font-extrabold tracking-tight text-ink md:text-3xl lg:text-[2.2rem]">
-            Grupo A.W.A Capital: um grupo financeiro com três verticais de negócio.
+            {title}
           </h2>
         </Reveal>
 
@@ -22,12 +53,10 @@ export function GrupoAwa() {
             <Reveal delay={140}>
               <div className="mx-auto max-w-[340px] text-center">
                 <h3 className="font-display text-xl font-extrabold text-accent lg:text-2xl">
-                  Wealth Services
+                  {p0?.name}
                 </h3>
-                <p className="mt-2 font-sans text-sm leading-relaxed text-ink-muted">
-                  Consultoria com Atendimento Multi Custódia
-                  <br />
-                  Patrimônio 3MM+
+                <p className="mt-2 font-sans text-sm leading-relaxed text-ink-muted whitespace-pre-line">
+                  {(p0?.description || "").replace(" — ", "\n")}
                 </p>
               </div>
             </Reveal>
@@ -37,19 +66,17 @@ export function GrupoAwa() {
               <Reveal delay={210}>
                 <div className="pb-2 text-left">
                   <h3 className="font-display text-xl font-extrabold text-accent lg:text-2xl">
-                    A.W.A Investimentos
+                    {p1?.name}
                   </h3>
-                  <p className="mt-2 font-sans text-sm leading-relaxed text-ink-muted">
-                    Assessoria em Investimentos XP
-                    <br />
-                    Patrimônio 100k – 3MM
+                  <p className="mt-2 font-sans text-sm leading-relaxed text-ink-muted whitespace-pre-line">
+                    {(p1?.description || "").replace(" — ", "\n")}
                   </p>
                 </div>
               </Reveal>
 
               <Reveal delay={180}>
                 <img
-                  src="/awa_icone.png"
+                  src={iconSrc}
                   alt="Símbolo das três verticais do Grupo A.W.A Capital"
                   className="h-[210px] w-auto"
                   draggable={false}
@@ -59,10 +86,10 @@ export function GrupoAwa() {
               <Reveal delay={280}>
                 <div className="pb-14 text-left">
                   <h3 className="font-display text-xl font-extrabold text-accent lg:text-2xl">
-                    A.W.A Empresas
+                    {p2?.name}
                   </h3>
                   <p className="mt-2 font-sans text-sm leading-relaxed text-ink-muted">
-                    Soluções financeiras para pessoas jurídicas
+                    {p2?.description}
                   </p>
                 </div>
               </Reveal>

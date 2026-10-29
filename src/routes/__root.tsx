@@ -13,6 +13,7 @@ import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { MirandaSansFonts } from "@/components/miranda-sans-fonts";
 import { CookieConsent } from "@/components/cookie-consent";
+import { VisualEditing } from "@/components/visual-editing";
 
 function NotFoundComponent() {
   return (
@@ -131,6 +132,7 @@ function RootComponent() {
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
       <Outlet />
       {/* Aviso de cookies global (aparece em todas as páginas). */}
+      <VisualEditing />
       <CookieConsent />
     </QueryClientProvider>
   );

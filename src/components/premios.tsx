@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Reveal } from "@/components/reveal";
 import { SectionBadge } from "@/components/section-badge";
 import bgMural from "@/assets/background-mural-conquista.png";
+import type { Homepage } from "@/lib/sanity";
 
 const selos = [
   { titulo: "S20", texto: "2020: 20 melhores escritórios XP do Brasil com até 2 anos de vida" },
@@ -95,10 +96,22 @@ function usePinMobile<S extends Element, L extends HTMLElement>() {
   return { sectionRef, layerRef, mobile, progresso };
 }
 
-export function Premios() {
+type Props = { data?: Homepage["premios"] | null };
+
+export function Premios({ data }: Props) {
+  const badge = data?.badge?.trim() || "Mural de conquistas";
+  const title = data?.title?.trim() || "Mural de conquistas";
+  const awards =
+    data?.awards && data.awards.length > 0
+      ? data.awards.map((a) => ({
+          titulo: a.title || "",
+          texto: `${a.year || ""}: ${a.description || ""}`.replace(/^: /, ""),
+        }))
+      : selos;
+
   const { ref: timelineRef, visivel } = useVisivelUmaVez<HTMLOListElement>();
   const { sectionRef, layerRef, mobile, progresso } = usePinMobile<HTMLElement, HTMLDivElement>();
-  const total = selos.length;
+  const total = awards.length;
 
   return (
     // mobile: 220vh de altura para o pin; desktop: altura natural
@@ -118,7 +131,7 @@ export function Premios() {
 
         <div className="relative mx-auto w-full max-w-[1280px] px-6 text-center md:px-8">
           <Reveal className="flex justify-center">
-            <SectionBadge>Mural de conquistas</SectionBadge>
+            <SectionBadge>{title}</SectionBadge>
           </Reveal>
           <Reveal delay={100}>
             <h2 className="mx-auto mt-3 max-w-2xl font-display text-[1.3rem] leading-[1.14] font-extrabold tracking-tight text-white md:mt-5 md:text-3xl lg:text-[2.2rem]">
@@ -143,7 +156,7 @@ export function Premios() {
               style={{ transform: visivel ? "scaleX(1)" : "scaleX(0)" }}
             />
 
-            {selos.map((s, i) => {
+            {awards.map((s, i) => {
               const { ano, corpo } = separar(s.texto);
               // mobile: cada item aparece quando o scroll passa do seu ponto; desktop: ao entrar na tela
               const limiar = 0.1 + i * (0.8 / (total - 1));

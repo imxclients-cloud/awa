@@ -1,5 +1,6 @@
 import { Reveal } from "@/components/reveal";
 import { SectionBadge } from "@/components/section-badge";
+import type { Homepage } from "@/lib/sanity";
 
 const numerosXp = [
   "25 anos de mercado;",
@@ -45,10 +46,25 @@ const modelos: Array<{ n: string; titulo: string; texto: string; destaque: boole
   },
 ];
 
-export function ParceriaXp() {
+type Props = { data?: Homepage["parceriaXp"] | null };
+
+export function ParceriaXp({ data }: Props) {
+  const sectionId = data?.sectionId || "investimentos";
+  const badge = data?.badge?.trim() || "Investimentos";
+  const title = data?.title?.trim() || "Orgulho em sermos um escritório XP";
+  const subtitle = data?.subtitle?.trim() || "Ecossistema XP completo em investimentos.";
+
+  const cardsDiferenciais =
+    data?.highlights && data.highlights.length > 0
+      ? data.highlights.map((h) => ({
+          titulo: h.title || "",
+          texto: h.text || "",
+        }))
+      : diferenciais;
+
   return (
     <section
-      id="investimentos"
+      id={sectionId}
       className="relative overflow-hidden py-10 md:py-10 lg:py-20"
       style={{ background: "#FFFFFF" }}
     >
@@ -56,7 +72,7 @@ export function ParceriaXp() {
       <div className="relative mx-auto mb-10 w-full max-w-[1280px] px-5 md:px-8">
         <div className="mx-auto max-w-3xl text-center">
           <Reveal className="flex justify-center">
-            <SectionBadge>Investimentos</SectionBadge>
+            <SectionBadge>{badge}</SectionBadge>
           </Reveal>
         </div>
       </div>
@@ -107,7 +123,7 @@ export function ParceriaXp() {
           Ecossistema XP completo em investimentos.
         </h3>
         <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {diferenciais.map((d) => (
+          {cardsDiferenciais.map((d) => (
             <div
               key={d.titulo}
               className="rounded-2xl p-6"

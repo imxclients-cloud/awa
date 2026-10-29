@@ -2,6 +2,8 @@
  * Dados dos Assessores de Investimentos da A.W.A Capital.
  * Origem: planilha institucional "Assessores" (código + nome + e-mail),
  * com fotos disponíveis em /public/assessores.
+ *
+ * Lista SEPARADA dos Especialistas da home (ver src/lib/diretoria.ts).
  */
 export const unidades = ["Fortaleza", "Recife", "São Luís"] as const;
 
@@ -239,41 +241,41 @@ const bruto: Omit<Assessor, "unidade">[] = [
 /** Lotação por unidade regional — origem: documento de ajustes do cliente (out/2025). */
 const lotacao: Record<string, Unidade> = {
   // Fortaleza
-  A41632: "Fortaleza", // Gustavo de Ipanema
-  A50823: "Fortaleza", // Euraseo
-  A51446: "Fortaleza", // John Lucas
-  A90166: "Fortaleza", // Carlos Victor
-  A97342: "Fortaleza", // Sergio Maia
+  A41632: "Fortaleza",
+  A50823: "Fortaleza",
+  A51446: "Fortaleza",
+  A90166: "Fortaleza",
+  A97342: "Fortaleza",
   // Recife
-  A70342: "Recife", // Charles Pierre
-  A70344: "Recife", // Claudia Von Sohsten
-  A31222: "Recife", // Danielly Teles
-  A38901: "Recife", // Guilherme Fischer
-  A53866: "Recife", // Adriano Marcio
-  A56528: "Recife", // Ricardo Cacciari
-  A58052: "Recife", // Wandelison Oliveira
-  A95668: "Recife", // Matheus Guerra
-  A96531: "Recife", // Felipe Augusto
-  A2877: "Recife", // Miguel Fernandes
-  A5241: "Recife", // Bruno Farias
-  A70679: "Recife", // Maria Eduarda
-  A42057: "Recife", // Carlos Ragner
-  A68663: "Recife", // Gustavo Matos
-  A95466: "Recife", // Augusto Leal
-  A33637: "Recife", // Daniella Karla
-  A71632: "Recife", // Mauricio Sampaio
+  A70342: "Recife",
+  A70344: "Recife",
+  A31222: "Recife",
+  A38901: "Recife",
+  A53866: "Recife",
+  A56528: "Recife",
+  A58052: "Recife",
+  A95668: "Recife",
+  A96531: "Recife",
+  A2877: "Recife",
+  A5241: "Recife",
+  A70679: "Recife",
+  A42057: "Recife",
+  A68663: "Recife",
+  A95466: "Recife",
+  A33637: "Recife",
+  A71632: "Recife",
   // São Luís
-  A30221: "São Luís", // Auricelia
-  A33583: "São Luís", // Carla Alessandra
-  A27937: "São Luís", // Henrique Mateus
-  A67893: "São Luís", // Nazareno
-  A73339: "São Luís", // Ranieri
-  A28082: "São Luís", // Rodrigo Rocha
-  A51583: "São Luís", // Irineu Reis
-  A97090: "São Luís", // Francisco Matheus
-  A3092: "São Luís", // Christiano Pablo
-  A34128: "São Luís", // Raphael Vidal
-  A50488: "São Luís", // Elon Vieira
+  A30221: "São Luís",
+  A33583: "São Luís",
+  A27937: "São Luís",
+  A67893: "São Luís",
+  A73339: "São Luís",
+  A28082: "São Luís",
+  A51583: "São Luís",
+  A97090: "São Luís",
+  A3092: "São Luís",
+  A34128: "São Luís",
+  A50488: "São Luís",
 };
 
 /** Profissionais excluídos da listagem a pedido do cliente. */
@@ -284,4 +286,5 @@ export const assessores: Assessor[] = bruto
   .map((a) => ({ ...a, unidade: lotacao[a.codigo] ?? "Recife" }))
   .sort((a, b) => a.nome.localeCompare(b.nome, "pt-BR"));
 
-export const porUnidade = (unidade: Unidade) => assessores.filter((a) => a.unidade === unidade);
+export const porUnidade = (unidade: Unidade) =>
+  assessores.filter((a) => a.unidade === unidade);

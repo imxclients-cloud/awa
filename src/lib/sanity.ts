@@ -1,0 +1,350 @@
+import { createClient, type SanityClient } from "@sanity/client";
+import { createImageUrlBuilder } from "@sanity/image-url";
+import type { SanityImageSource } from "@sanity/image-url/lib/types/types";
+
+const projectId =
+  (typeof import.meta !== "undefined" &&
+    (import.meta as ImportMeta & { env?: Record<string, string> }).env?.VITE_SANITY_PROJECT_ID) ||
+  process.env["VITE_SANITY_PROJECT_ID"] ||
+  process.env["SANITY_PROJECT_ID"] ||
+  "9io7em6p";
+
+const dataset =
+  (typeof import.meta !== "undefined" &&
+    (import.meta as ImportMeta & { env?: Record<string, string> }).env?.VITE_SANITY_DATASET) ||
+  process.env["VITE_SANITY_DATASET"] ||
+  process.env["SANITY_DATASET"] ||
+  "production";
+
+export const sanityClient: SanityClient = createClient({
+  projectId,
+  dataset,
+  apiVersion: "2024-01-01",
+  useCdn: false, // dados sempre frescos após publish no Studio
+});
+
+const studioUrl =
+  (typeof import.meta !== "undefined" &&
+    (import.meta as ImportMeta & { env?: Record<string, string> }).env?.["VITE_SANITY_STUDIO_URL"]) ||
+  process.env["VITE_SANITY_STUDIO_URL"] ||
+  "https://grupoawa.sanity.studio";
+
+/** Cliente com stega + drafts — só em preview/Presentation */
+export function getSanityClient(opts?: { preview?: boolean }): SanityClient {
+  if (!opts?.preview) return sanityClient;
+  const token = process.env["SANITY_API_READ_TOKEN"] || process.env["SANITY_API_WRITE_TOKEN"];
+  // Stega funciona sem token (conteúdo publicado). Token habilita drafts.
+  return createClient({
+    projectId,
+    dataset,
+    apiVersion: "2024-01-01",
+    useCdn: false,
+    ...(token ? { token, perspective: "previewDrafts" as const } : {}),
+    stega: {
+      enabled: true,
+      studioUrl,
+    },
+  });
+}
+
+
+const builder = createImageUrlBuilder(sanityClient);
+
+export function urlFor(source: SanityImageSource) {
+  return builder.image(source);
+}
+
+/** URL de imagem Sanity ou undefined */
+export function sanityImageUrl(
+  image: SanityImageSource | null | undefined,
+  width?: number,
+): string | undefined {
+  if (!image) return undefined;
+  try {
+    let img = urlFor(image);
+    if (width) img = img.width(width);
+    return img.auto("format").url();
+  } catch {
+    return undefined;
+  }
+}
+
+/** Extrai texto plano de Portable Text simples */
+export function portableTextToPlain(
+  blocks: Array<{ children?: Array<{ text?: string }> }> | null | undefined,
+): string {
+  if (!blocks?.length) return "";
+  return blocks
+    .map((b) => (b.children ?? []).map((c) => c.text ?? "").join(""))
+    .filter(Boolean)
+    .join("\n\n");
+}
+
+// ——— Types (espelham o schema do Studio) ———
+
+export type SanityLink = {
+  label?: string;
+  linkType?: "hash" | "internal" | "external";
+  hash?: string;
+  internalPath?: string;
+  href?: string;
+  openInNewTab?: boolean;
+};
+
+export type SanityCta = {
+  label?: string;
+  action?: "whatsapp_especialista" | "whatsapp_expansao" | "custom";
+  whatsappMessage?: string;
+  customLink?: SanityLink;
+};
+
+export type SanitySeo = {
+  title?: string;
+  description?: string;
+  keywords?: string;
+  ogTitle?: string;
+  ogDescription?: string;
+  ogImage?: SanityImageSource;
+  twitterCard?: string;
+  noIndex?: boolean;
+};
+
+export type SanityTeamMember = {
+  _id: string;
+  name?: string;
+  role?: string;
+  bio?: string;
+  photo?: SanityImageSource & { alt?: string };
+  category?: string;
+  order?: number;
+};
+
+export type SiteSettings = {
+  siteName?: string;
+  logo?: SanityImageSource & { alt?: string };
+  logoLight?: SanityImageSource & { alt?: string };
+  defaultSeo?: SanitySeo;
+  headScripts?: Array<{
+    label?: string;
+    enabled?: boolean;
+    position?: string;
+    code?: string;
+  }>;
+  mainNav?: SanityLink[];
+  headerCta?: SanityCta;
+  footerColumns?: Array<{ title?: string; links?: SanityLink[] }>;
+  footerLegalText?: Array<{ children?: Array<{ text?: string }> }>;
+  footerCopyright?: string;
+  footerLegalLinks?: SanityLink[];
+  phoneEspecialista?: string;
+  messageEspecialista?: string;
+  phoneExpansao?: string;
+  messageExpansao?: string;
+  email?: string;
+  leadsNotifyEmail?: string;
+  leadsNotifyCc?: string;
+  leadsEmailSubject?: string;
+  leadsFromName?: string;
+  leadsSaveToSanity?: boolean;
+  addresses?: Array<{ city?: string; label?: string; address?: string; mapsUrl?: string }>;
+  socialLinks?: Array<{ network?: string; label?: string; url?: string }>;
+};
+
+export type Homepage = {
+  seo?: SanitySeo;
+  hero?: {
+    headline?: string;
+    backgroundImage?: SanityImageSource & { alt?: string };
+    sideImage?: SanityImageSource & { alt?: string };
+    cta?: SanityCta;
+  };
+  fundador?: {
+    badge?: string;
+    name?: string;
+    title?: string;
+    body?: Array<{ children?: Array<{ text?: string }> }>;
+    photo?: SanityImageSource & { alt?: string };
+    podcastVideoId?: string;
+    podcastTitle?: string;
+  };
+  missaoVisaoValores?: {
+    badge?: string;
+    title?: string;
+    items?: Array<{ label?: string; text?: string }>;
+  };
+  grupoAwa?: {
+    badge?: string;
+    title?: string;
+    subtitle?: string;
+    pillars?: Array<{ name?: string; description?: string }>;
+    diagramImage?: SanityImageSource & { alt?: string };
+  };
+  diretoria?: {
+    badge?: string;
+    title?: string;
+    subtitle?: string;
+    members?: SanityTeamMember[];
+  };
+  especialistas?: {
+    badge?: string;
+    title?: string;
+    subtitle?: string;
+    members?: SanityTeamMember[];
+  };
+  provas?: {
+    badge?: string;
+    title?: string;
+    subtitle?: string;
+    stats?: Array<{ value?: string; label?: string; suffix?: string }>;
+  };
+  premios?: {
+    badge?: string;
+    title?: string;
+    subtitle?: string;
+    awards?: Array<{
+      title?: string;
+      year?: string;
+      description?: string;
+      image?: SanityImageSource & { alt?: string };
+    }>;
+  };
+  parceriaXp?: {
+    sectionId?: string;
+    badge?: string;
+    title?: string;
+    subtitle?: string;
+    body?: Array<{ children?: Array<{ text?: string }> }>;
+    logo?: SanityImageSource & { alt?: string };
+    cta?: SanityCta;
+    highlights?: Array<{ title?: string; text?: string }>;
+  };
+  wealthServices?: {
+    sectionId?: string;
+    badge?: string;
+    title?: string;
+    subtitle?: string;
+    services?: Array<{ title?: string; description?: string }>;
+    cta?: SanityCta;
+  };
+  empresas?: {
+    sectionId?: string;
+    badge?: string;
+    title?: string;
+    subtitle?: string;
+    services?: Array<{ title?: string; description?: string }>;
+    cta?: SanityCta;
+  };
+  trabalheConosco?: {
+    sectionId?: string;
+    badge?: string;
+    title?: string;
+    subtitle?: string;
+    body?: Array<{ children?: Array<{ text?: string }> }>;
+    image?: SanityImageSource & { alt?: string };
+    cta?: SanityCta;
+    formTitle?: string;
+    labelNome?: string;
+    placeholderNome?: string;
+    labelEmail?: string;
+    placeholderEmail?: string;
+    labelTelefone?: string;
+    placeholderTelefone?: string;
+    labelLinkedin?: string;
+    placeholderLinkedin?: string;
+    submitLabel?: string;
+    successMessage?: string;
+    alsoOpenWhatsapp?: boolean;
+  };
+  frasesTransicao?: Array<{ text?: string }>;
+};
+
+export const HOMEPAGE_QUERY = `{
+  "seo": coalesce(*[_id == "home-seo"][0].seo, *[_id == "site-seo"][0].defaultSeo, *[_id == "siteSettings"][0].defaultSeo),
+  "hero": *[_id == "home-hero"][0]{ visible, sectionId, headline, backgroundImage, sideImage },
+  "fundador": *[_id == "home-sobre"][0]{ visible, "data": fundador{ badge, name, title, body, photo, podcastVideoId, podcastTitle } }.data,
+  "missaoVisaoValores": *[_id == "home-sobre"][0].missaoVisaoValores{ items[]{ label, text } },
+  "grupoAwa": *[_id == "home-estrutura"][0]{ visible, "data": grupoAwa{ badge, title, subtitle, pillars[]{ name, description }, diagramImage, iconImage } }.data,
+  "diretoria": *[_id == "home-diretoria"][0]{ visible, "data": diretoria{ badge, title, subtitle, members[]->{ _id, name, role, bio, photo, category, order } } }.data,
+  "especialistas": *[_id == "home-especialistas"][0]{ visible, "data": especialistas{ title, members[]->{ _id, name, role, bio, photo, category, order } } }.data,
+  "provas": *[_id == "home-provas"][0]{ visible, "data": provas{ badge, title, subtitle, stats[]{ prefix, value, label, suffix }, mapImage } }.data,
+  "premios": *[_id == "home-provas"][0]{ visible, "data": premios{ badge, title, subtitle, awards[]{ title, year, description, image } } }.data,
+  "parceriaXp": *[_id == "home-investimentos"][0]{ visible, "data": parceriaXp{ sectionId, badge, title, subtitle, body, logo, cta, highlights[]{ title, text } } }.data,
+  "wealthServices": *[_id == "home-solucoes"][0]{ visible, "data": wealthServices{ sectionId, badge, title, subtitle, services[]{ title, description }, cta } }.data,
+  "empresas": *[_id == "home-solucoes"][0]{ visible, "data": empresas{ sectionId, badge, title, subtitle, services[]{ title, description }, cta } }.data,
+  "trabalheConosco": *[_id == "home-trabalhe"][0]{ visible, "data": trabalheConosco } .data,
+  "frasesTransicao": *[_id == "home-frases"][0].frasesTransicao[]{ text },
+  "sectionVisibility": {
+    "hero": *[_id == "home-hero"][0].visible,
+    "sobre": *[_id == "home-sobre"][0].visible,
+    "estrutura": *[_id == "home-estrutura"][0].visible,
+    "diretoria": *[_id == "home-diretoria"][0].visible,
+    "especialistas": *[_id == "home-especialistas"][0].visible,
+    "provas": *[_id == "home-provas"][0].visible,
+    "investimentos": *[_id == "home-investimentos"][0].visible,
+    "solucoes": *[_id == "home-solucoes"][0].visible,
+    "trabalhe": *[_id == "home-trabalhe"][0].visible,
+    "frases": *[_id == "home-frases"][0].visible
+  }
+}`;
+
+export const SITE_SETTINGS_QUERY = `{
+  "siteName": coalesce(*[_id == "siteSettings"][0].siteName, "A.W.A Capital"),
+  "logo": *[_id == "site-header"][0].logo,
+  "logoLight": *[_id == "site-header"][0].logoLight,
+  "mainNav": *[_id == "site-header"][0].mainNav[]->{ label, linkType, hash, internalPath, href, openInNewTab },
+  "headerCta": *[_id == "site-header"][0].headerCta,
+  "footerColumns": coalesce(*[_id == "site-footer-columns"][0].footerColumns, *[_id == "site-footer"][0].footerColumns, *[_id == "siteSettings"][0].footerColumns)[]{ title, links[]{ label, linkType, hash, internalPath, href, openInNewTab } },
+  "footerLegalText": coalesce(*[_id == "site-footer-legal"][0].footerLegalText, *[_id == "site-footer"][0].footerLegalText, *[_id == "siteSettings"][0].footerLegalText),
+  "footerCopyright": coalesce(*[_id == "site-footer-legal"][0].footerCopyright, *[_id == "site-footer"][0].footerCopyright, *[_id == "siteSettings"][0].footerCopyright),
+  "footerLegalLinks": coalesce(*[_id == "site-footer-legal"][0].footerLegalLinks, *[_id == "site-footer"][0].footerLegalLinks, *[_id == "siteSettings"][0].footerLegalLinks)[]{ label, linkType, hash, internalPath, href, openInNewTab },
+  "logoAwaFooter": coalesce(*[_id == "site-footer-logos"][0].logoAwa, *[_id == "site-footer"][0].logoAwa),
+  "logoXpFooter": coalesce(*[_id == "site-footer-logos"][0].logoXp, *[_id == "site-footer"][0].logoXp),
+  "socialLinks": coalesce(*[_id == "site-footer-social"][0].socialLinks, *[_id == "site-footer"][0].socialLinks, *[_id == "siteSettings"][0].socialLinks)[]{ network, label, url },
+  "defaultSeo": coalesce(*[_id == "site-seo"][0].defaultSeo, *[_id == "siteSettings"][0].defaultSeo){ ..., ogImage },
+  "headScripts": coalesce(*[_id == "site-scripts"][0].headScripts, *[_id == "siteSettings"][0].headScripts)[]{ label, enabled, position, code },
+  "phoneEspecialista": *[_id == "site-contact"][0].phoneEspecialista,
+  "messageEspecialista": *[_id == "site-contact"][0].messageEspecialista,
+  "phoneExpansao": *[_id == "site-contact"][0].phoneExpansao,
+  "messageExpansao": *[_id == "site-contact"][0].messageExpansao,
+  "phoneSecundario": *[_id == "site-contact"][0].phoneSecundario,
+  "messageSecundario": *[_id == "site-contact"][0].messageSecundario,
+  "email": *[_id == "site-contact"][0].email,
+  "addresses": *[_id == "site-contact"][0].addresses[]{ city, label, address, mapsUrl },
+  "leadsNotifyEmail": *[_id == "site-leads"][0].leadsNotifyEmail,
+  "leadsNotifyCc": *[_id == "site-leads"][0].leadsNotifyCc,
+  "leadsEmailSubject": *[_id == "site-leads"][0].leadsEmailSubject,
+  "leadsFromName": *[_id == "site-leads"][0].leadsFromName,
+  "leadsSaveToSanity": *[_id == "site-leads"][0].leadsSaveToSanity
+}`;
+
+export async function fetchHomepage(opts?: { preview?: boolean }): Promise<Homepage | null> {
+  try {
+    const client = getSanityClient({ preview: opts?.preview });
+    return await client.fetch<Homepage | null>(HOMEPAGE_QUERY);
+  } catch (err) {
+    console.error("[sanity] homepage fetch failed", err);
+    return null;
+  }
+}
+
+export async function fetchSiteSettings(opts?: { preview?: boolean }): Promise<SiteSettings | null> {
+  try {
+    const client = getSanityClient({ preview: opts?.preview });
+    return await client.fetch<SiteSettings | null>(SITE_SETTINGS_QUERY);
+  } catch (err) {
+    console.error("[sanity] siteSettings fetch failed", err);
+    return null;
+  }
+}
+
+/** Monta URL do WhatsApp a partir das settings ou fallback */
+export function buildWhatsappUrl(
+  phone: string | undefined,
+  message: string | undefined,
+  fallbackPhone: string,
+  fallbackMessage: string,
+) {
+  const p = (phone || fallbackPhone).replace(/\D/g, "");
+  const m = message || fallbackMessage;
+  return `https://wa.me/${p}?text=${encodeURIComponent(m)}`;
+}

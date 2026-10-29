@@ -4,11 +4,10 @@ import fotoNazareno from "@/assets/Naza 2.jpeg";
 import fotoMarcia from "@/assets/marcia-tavares.jpeg";
 import fotoRafael from "@/assets/rafael-feitosa.jpeg";
 import fotoGilson from "@/assets/gilson-valandro.jpeg";
-import fotoElon from "@/assets/elon-lima-2.jpeg";
 
 /**
- * Dados dos profissionais da equipe da A.W.A Capital.
- * Origem: documento de ajustes do cliente (Diretoria + Especialistas, out/2025).
+ * Diretoria + Especialistas da HOME.
+ * Lista SEPARADA dos Assessores de Investimentos (ver src/lib/assessores.ts).
  */
 export type Profissional = {
   nome: string;
@@ -17,7 +16,7 @@ export type Profissional = {
   foto: string;
 };
 
-/** Diretoria — ordem definida pelo cliente: Nazareno, Cláudia e Gustavo. */
+/** Diretoria — ordem: Nazareno, Cláudia e Gustavo. */
 export const diretoria: Profissional[] = [
   {
     nome: "Nazareno Carvalho de Lima",
@@ -42,38 +41,41 @@ export const diretoria: Profissional[] = [
 export type Especialista = {
   nome: string;
   funcao: string;
-  /** Caminho da foto em /public/assessores. Ausente quando não há imagem. */
+  /** Caminho em /public/assessores ou URL de asset importado. */
   foto?: string;
 };
 
-const fotoEspecialista = (arquivo: string) => `/assessores/${arquivo}`;
+const fotoPublic = (arquivo: string) => `/assessores/${arquivo}`;
 
-/** Especialistas — agrupados de 4 em 4, somente nome e função. */
+/**
+ * Especialistas da home (8 pessoas) — NÃO é a lista de Assessores.
+ * Fotos preferencialmente em /public/assessores quando existirem.
+ */
 export const especialistas: Especialista[] = [
   {
     nome: "Carlos Ragner",
     funcao: "Crédito e BackOffice",
-    foto: fotoEspecialista("CARLOS.jpeg"),
+    foto: fotoPublic("CARLOS.jpeg"),
   },
   {
     nome: "Duda Florêncio",
     funcao: "Investor Recife e Fortaleza",
-    foto: fotoEspecialista("MARIA EDUARDA.jpeg"),
+    foto: fotoPublic("MARIA EDUARDA.jpeg"),
   },
   {
     nome: "Elon Lima",
     funcao: "Investor São Luís",
-    foto: fotoElon,
+    foto: fotoPublic("ELON.jpeg"),
   },
   {
     nome: "Maurício Sampaio",
     funcao: "Head PJ",
-    foto: fotoEspecialista("MAURICIO.jpeg"),
+    foto: fotoPublic("MAURICIO.jpeg"),
   },
   {
     nome: "Augusto Leal",
     funcao: "Especialista PJ e Câmbio",
-    foto: fotoEspecialista("AUGUSTO.jpeg"),
+    foto: fotoPublic("AUGUSTO.jpeg"),
   },
   {
     nome: "Márcia Tavares",
@@ -91,3 +93,24 @@ export const especialistas: Especialista[] = [
     foto: fotoGilson,
   },
 ];
+
+/**
+ * Aliases de nome (Sanity / nome completo) → chave do especialista local.
+ * Usado só para resolver foto quando o CMS manda nome completo.
+ */
+export const especialistaNomeAliases: Record<string, string> = {
+  "carlos ragner monteiro": "carlos ragner",
+  "carlos ragner": "carlos ragner",
+  "duda florencio": "duda florencio",
+  "maria eduarda von sohsten florencio": "duda florencio",
+  "maria eduarda": "duda florencio",
+  "elon lima": "elon lima",
+  "elon vieira lima": "elon lima",
+  "mauricio sampaio": "mauricio sampaio",
+  "mauricio sergio sampaio dos santos": "mauricio sampaio",
+  "augusto leal": "augusto leal",
+  "augusto henrique ferreira leal": "augusto leal",
+  "marcia tavares": "marcia tavares",
+  "rafael feitosa": "rafael feitosa",
+  "gilson valandro": "gilson valandro",
+};

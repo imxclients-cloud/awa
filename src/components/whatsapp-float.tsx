@@ -1,9 +1,23 @@
-import { WHATSAPP_ESPECIALISTA } from "@/lib/contact";
+import {
+  WHATSAPP_ESPECIALISTA,
+  MENSAGEM_ESPECIALISTA,
+  TELEFONE_ESPECIALISTA,
+} from "@/lib/contact";
+import { buildWhatsappUrl, type SiteSettings } from "@/lib/sanity";
 
-export function WhatsappFloat() {
+type Props = { settings?: SiteSettings | null };
+
+export function WhatsappFloat({ settings }: Props) {
+  const href = buildWhatsappUrl(
+    settings?.phoneEspecialista,
+    settings?.messageEspecialista,
+    TELEFONE_ESPECIALISTA,
+    MENSAGEM_ESPECIALISTA,
+  );
+
   return (
     <a
-      href={WHATSAPP_ESPECIALISTA}
+      href={href || WHATSAPP_ESPECIALISTA}
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Falar no WhatsApp com um especialista da A.W.A Capital"

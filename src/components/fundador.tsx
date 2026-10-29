@@ -2,11 +2,32 @@ import { useState } from "react";
 import { Reveal } from "@/components/reveal";
 import { SectionBadge } from "@/components/section-badge";
 import fotoNazareno from "@/assets/Naza 2.jpeg";
+import {
+  portableTextToPlain,
+  sanityImageUrl,
+  type Homepage,
+} from "@/lib/sanity";
 
-const PODCAST_VIDEO_ID = "bd1KNDiwY-I";
+type Props = {
+  data?: Homepage["fundador"] | null;
+};
 
-export function Fundador() {
+const FALLBACK_BODY =
+  "Ex-camelô, Nazareno Lima construiu a A.W.A Capital a partir de uma trajetória marcada por superação e reinvenção. Esse espírito transformador de prosperidade e realização de sonhos é o que buscamos desenvolver em todos os nossos clientes.";
+
+export function Fundador({ data }: Props) {
   const [videoStarted, setVideoStarted] = useState(false);
+
+  const badge = data?.badge?.trim() || "Sobre nós";
+  const name = data?.name?.trim() || "Nazareno Lima";
+  const title = data?.title?.trim() || "Conheça o nosso CEO e Fundador";
+  const body = portableTextToPlain(data?.body) || FALLBACK_BODY;
+  const photoSrc = sanityImageUrl(data?.photo, 840) || fotoNazareno;
+  const photoAlt =
+    (data?.photo as { alt?: string } | undefined)?.alt ||
+    `Foto de ${name}, CEO e Fundador da A.W.A Capital`;
+  const videoId = data?.podcastVideoId?.trim() || "bd1KNDiwY-I";
+  const podcastTitle = data?.podcastTitle?.trim() || "Vídeo do podcast com Raony";
 
   return (
     <section
@@ -14,15 +35,13 @@ export function Fundador() {
       className="relative overflow-hidden bg-surface-light py-10 md:py-10 lg:py-20"
     >
       <div className="mx-auto w-full max-w-[1280px] px-5 text-center md:px-8">
-        {/* Selo "Sobre nós" abrindo a seção, seguido direto para o fundador e o vídeo */}
         <Reveal>
-          <SectionBadge>Sobre nós</SectionBadge>
+          <SectionBadge>{badge}</SectionBadge>
         </Reveal>
       </div>
 
       <div className="mt-10 mx-auto w-full max-w-[1280px] px-5 md:px-8">
         <div className="grid gap-12 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] lg:items-center lg:gap-16">
-          {/* foto / vídeo do podcast */}
           <Reveal>
             <div className="mx-auto w-full max-w-[420px]">
               <div
@@ -30,30 +49,27 @@ export function Fundador() {
                 data-slot="foto-nazareno-lima"
               >
                 <img
-                  src={fotoNazareno}
-                  alt="Foto de Nazareno Lima, CEO e Fundador da A.W.A Capital"
+                  src={photoSrc}
+                  alt={photoAlt}
                   loading="lazy"
                   className="absolute inset-0 h-full w-full object-cover"
                 />
               </div>
               <p className="mt-4 text-center font-display text-lg font-extrabold tracking-tight text-ink">
-                Nazareno Lima
+                {name}
               </p>
             </div>
           </Reveal>
 
-          {/* texto */}
           <div className="text-center lg:text-left">
             <Reveal delay={160}>
               <h3 className="mt-5 font-display text-[1.6rem] leading-[1.14] font-extrabold tracking-tight text-ink md:text-3xl">
-                Conheça o nosso CEO e Fundador
+                {title}
               </h3>
             </Reveal>
             <Reveal delay={220}>
-              <p className="mx-auto mt-6 max-w-xl font-sans text-base leading-relaxed text-ink-muted md:text-lg lg:mx-0">
-                Ex-camelô, Nazareno Lima construiu a A.W.A Capital a partir de uma trajetória
-                marcada por superação e reinvenção. Esse espírito transformador de prosperidade e
-                realização de sonhos é o que buscamos desenvolver em todos os nossos clientes.
+              <p className="mx-auto mt-6 max-w-xl font-sans text-base leading-relaxed text-ink-muted md:text-lg lg:mx-0 whitespace-pre-line">
+                {body}
               </p>
             </Reveal>
 
@@ -62,13 +78,13 @@ export function Fundador() {
                 <div
                   className="relative aspect-video w-full max-w-md overflow-hidden rounded-2xl border border-ink-hairline bg-ink/5"
                   data-slot="video-podcast-raony"
-                  aria-label="Vídeo do podcast com Raony"
+                  aria-label={podcastTitle}
                 >
                   {videoStarted ? (
                     <iframe
                       className="absolute inset-0 h-full w-full"
-                      src={`https://www.youtube-nocookie.com/embed/${PODCAST_VIDEO_ID}?autoplay=1&rel=0`}
-                      title="Vídeo do podcast com Raony"
+                      src={`https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&rel=0`}
+                      title={podcastTitle}
                       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                       allowFullScreen
                     />
@@ -77,11 +93,11 @@ export function Fundador() {
                       type="button"
                       onClick={() => setVideoStarted(true)}
                       className="group absolute inset-0 h-full w-full cursor-pointer"
-                      aria-label="Reproduzir vídeo do podcast com Raony"
+                      aria-label={`Reproduzir ${podcastTitle}`}
                     >
                       <img
-                        src={`https://i.ytimg.com/vi/${PODCAST_VIDEO_ID}/maxresdefault.jpg`}
-                        alt="Capa do vídeo do podcast com Raony"
+                        src={`https://i.ytimg.com/vi/${videoId}/maxresdefault.jpg`}
+                        alt={`Capa: ${podcastTitle}`}
                         loading="lazy"
                         className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                       />

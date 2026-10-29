@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Check } from "lucide-react";
 import { Reveal } from "@/components/reveal";
 import { SectionBadge } from "@/components/section-badge";
+import { sanityImageUrl, type Homepage } from "@/lib/sanity";
 
 type Item = {
   prefixo: string;
@@ -9,12 +10,26 @@ type Item = {
   sufixo?: string;
 };
 
-const itens: Item[] = [
+const FALLBACK_ITENS: Item[] = [
   { prefixo: "Unidades em São Luís (MA), Fortaleza (CE) e Recife (PE);" },
   { prefixo: "+ R$ ", valor: 850, sufixo: " milhões sob custódia;" },
   { prefixo: "+ ", valor: 1300, sufixo: " clientes;" },
   { prefixo: "+ ", valor: 40, sufixo: " profissionais." },
 ];
+
+function statsFromCms(
+  stats?: Array<{ prefix?: string; value?: string; suffix?: string; label?: string }> | null,
+): Item[] {
+  if (!stats?.length) return FALLBACK_ITENS;
+  return stats.map((s) => {
+    const num = s.value?.trim() ? Number(String(s.value).replace(/\D/g, "")) : undefined;
+    return {
+      prefixo: s.prefix || (num ? "" : s.label || ""),
+      valor: Number.isFinite(num) && num! > 0 ? num : undefined,
+      sufixo: s.suffix || (num ? s.label || "" : ""),
+    };
+  });
+}
 function NumeroAnimado({ valor, ativo }: { valor: number; ativo: boolean }) {
   const [atual, setAtual] = useState(0);
 
@@ -90,7 +105,41 @@ function ItemResumo({ item, ativo, indice }: { item: Item; ativo: boolean; indic
   );
 }
 
-export function Provas() {
+type Props = { data?: Homepage["provas"] | null };
+
+export function Provas({ data }: Props) {
+  const badge = data?.badge?.trim() || "Trajetória";
+  const title = data?.title?.trim() || "Um resumo da A.W.A Capital";
+  const itens = statsFromCms(data?.stats as any);
+
+  const listaProvas: Item[] =
+    data?.stats && data.stats.length > 0
+      ? data.stats.map((s): Item => {
+          const raw = String(s.value ?? "").trim();
+          const digits = raw.replace(/[^0-9]/g, "");
+          const num = digits ? Number(digits) : NaN;
+          const label = (s.label || "").trim();
+          const suffix = (s.suffix || "").trim();
+          if (digits && !Number.isNaN(num)) {
+            if (/cust[oó]dia|milh/i.test(`${label} ${suffix}`)) {
+              return {
+                prefixo: "+ R$ ",
+                valor: num,
+                sufixo: ` ${suffix || "milhões"} sob custódia;`,
+              };
+            }
+            const tail = [suffix, label].filter(Boolean).join(" ").trim();
+            return {
+              prefixo: "+ ",
+              valor: num,
+              sufixo: tail ? ` ${tail};` : ";",
+            };
+          }
+          const text = [raw, suffix, label].filter(Boolean).join(" ").trim();
+          return { prefixo: text.endsWith(";") ? text : `${text};` };
+        })
+      : itens;
+
   const ref = useRef<HTMLDivElement>(null);
   const [ativo, setAtivo] = useState(false);
 
@@ -123,14 +172,14 @@ export function Provas() {
             className="mx-auto mt-5 max-w-2xl font-display text-[1.7rem] leading-[1.14] font-bold tracking-tight md:text-4xl lg:text-[2.4rem]"
             style={{ color: "#232323" }}
           >
-            Um resumo da A.W.A Capital
+            {title}
           </h2>
         </Reveal>
 
         <div className="mt-10 grid items-center gap-10 text-left md:gap-12 lg:mt-14 lg:grid-cols-[1.05fr_1fr]">
           <Reveal>
             <img
-              src="/brazil-map.png"
+              src={sanityImageUrl((data as any)?.mapImage, 800) || "/brazil-map.png"}
               alt="Mapa do Brasil com destaque para as unidades em São Luís (MA), Fortaleza (CE) e Recife (PE)"
               className="h-auto w-full max-w-[720px] select-none"
               width={1536}
@@ -141,7 +190,7 @@ export function Provas() {
           </Reveal>
 
           <ul className="flex flex-col gap-6 md:gap-8">
-            {itens.map((item, i) => (
+            {listaProvas.map((item, i) => (
               <ItemResumo key={`${item.prefixo}-${i}`} item={item} ativo={ativo} indice={i} />
             ))}
           </ul>

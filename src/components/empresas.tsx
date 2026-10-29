@@ -17,6 +17,9 @@ import {
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { WHATSAPP_ESPECIALISTA } from "@/lib/contact";
+import type { Homepage } from "@/lib/sanity";
+
+type Props = { data?: Homepage["empresas"] | null };
 
 type Modulo = { icone: LucideIcon; titulo: string };
 
@@ -34,10 +37,23 @@ const modulos: Modulo[] = [
   { icone: Building2, titulo: "Holding Patrimonial" },
 ];
 
-export function Empresas() {
+export function Empresas({ data }: Props) {
+  const sectionId = data?.sectionId || "empresas";
+  const badge = data?.badge?.trim() || "Soluções Financeiras para Empresas";
+  const subtitle =
+    data?.subtitle?.trim() ||
+    "{subtitle}";
+  const lista: Modulo[] =
+    data?.services && data.services.length > 0
+      ? data.services.map((s, i) => ({
+          icone: modulos[i % modulos.length].icone,
+          titulo: s.title || "",
+        }))
+      : modulos;
+
   return (
     <section
-      id="empresas"
+      id={sectionId}
       className="relative overflow-hidden pt-10 pb-44 md:pt-10 md:pb-60 lg:pt-20 lg:pb-0"
       style={{ background: "linear-gradient(180deg, #111111 0%, #161616 50%, #232323 100%)" }}
     >
@@ -46,17 +62,17 @@ export function Empresas() {
       <div className="relative mx-auto w-full max-w-[1280px] px-5 md:px-8">
         <div className="mx-auto max-w-3xl text-center">
           <Reveal className="flex justify-center">
-            <SectionBadge>Soluções Financeiras para Empresas</SectionBadge>
+            <SectionBadge>{badge}</SectionBadge>
           </Reveal>
           <Reveal delay={100}>
             <p className="mx-auto mt-6 max-w-xl font-sans text-base leading-relaxed text-white/70 md:text-lg">
-              Crédito, caixa, seguros e energia para a sua empresa crescer com segurança.
+              {subtitle}
             </p>
           </Reveal>
         </div>
 
         <div className="mt-10 grid gap-5 sm:grid-cols-2 md:mt-12 lg:grid-cols-4">
-          {modulos.map((m, i) => {
+          {lista.map((m, i) => {
             const Icone = m.icone;
             return (
               <Reveal key={m.titulo} delay={100 + (i % 4) * 70} className="h-full">

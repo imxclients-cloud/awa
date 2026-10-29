@@ -4,6 +4,7 @@ import { Instagram } from "lucide-react";
 import awaLogo from "@/assets/logo-horizontal.svg.asset.json";
 import { OPEN_COOKIE_SETTINGS_EVENT } from "@/components/cookie-consent";
 import { WHATSAPP_ESPECIALISTA } from "@/lib/contact";
+import type { SiteSettings } from "@/lib/sanity";
 
 /** Rotas internas das páginas institucionais/legais — linkadas somente no rodapé. */
 type LegalRoute =
@@ -93,7 +94,30 @@ function LinkFooter({ href, to, hash, external, children }: LinkFooterProps) {
   );
 }
 
-export function SiteFooter() {
+export function SiteFooter({ settings }: { settings?: SiteSettings | null } = {}) {
+  const resolvedColumns =
+    settings?.footerColumns && settings.footerColumns.length > 0
+      ? settings.footerColumns.map((c) => ({
+          titulo: c.title || "",
+          links: (c.links || []).map((l) => ({
+            label: l.label || "",
+            to: (l.linkType === "internal" ? (l.internalPath as any) : l.linkType === "hash" ? "/" : undefined),
+            hash: l.linkType === "hash" ? l.hash : undefined,
+            href: l.linkType === "external" ? l.href : undefined,
+            external: l.linkType === "external",
+          })),
+        }))
+      : colunas;
+
+  const copyright =
+    settings?.footerCopyright?.trim() ||
+    (settings?.siteName?.trim()
+      ? (settings.siteName.trim().startsWith("©")
+          ? settings.siteName.trim()
+          : `© ${settings.siteName.trim()}`)
+      : "© A.W.A Capital");
+  const socials = settings?.socialLinks;
+
   return (
     <footer
       className="relative overflow-hidden border-t"
@@ -136,7 +160,7 @@ export function SiteFooter() {
 
         {/* grade editorial de colunas */}
         <div className="mt-14 grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr] lg:gap-0">
-          {colunas.map((c, i) => (
+          {resolvedColumns.map((c, i) => (
             <div
               key={c.titulo}
               className={`${
@@ -228,7 +252,7 @@ export function SiteFooter() {
           style={{ borderColor: "rgba(225,222,205,0.1)" }}
         >
           <p className="font-sans text-xs" style={{ color: "rgba(225,222,205,0.5)" }}>
-            © A.W.A Capital
+            {copyright}
           </p>
           <div className="flex items-center gap-4">
             <button
