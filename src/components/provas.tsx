@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Check } from "lucide-react";
 import { Reveal } from "@/components/reveal";
 import { SectionBadge } from "@/components/section-badge";
+import type { Homepage } from "@/lib/sanity";
 
 type Item = {
   prefixo: string;
@@ -90,7 +91,40 @@ function ItemResumo({ item, ativo, indice }: { item: Item; ativo: boolean; indic
   );
 }
 
-export function Provas() {
+type Props = { data?: Homepage["provas"] | null };
+
+export function Provas({ data }: Props) {
+  const badge = data?.badge?.trim() || "Trajetória";
+  const title = data?.title?.trim() || "Um resumo da A.W.A Capital";
+
+  const listaProvas: Item[] =
+    data?.stats && data.stats.length > 0
+      ? data.stats.map((s): Item => {
+          const raw = String(s.value ?? "").trim();
+          const digits = raw.replace(/[^0-9]/g, "");
+          const num = digits ? Number(digits) : NaN;
+          const label = (s.label || "").trim();
+          const suffix = (s.suffix || "").trim();
+          if (digits && !Number.isNaN(num)) {
+            if (/cust[oó]dia|milh/i.test(`${label} ${suffix}`)) {
+              return {
+                prefixo: "+ R$ ",
+                valor: num,
+                sufixo: ` ${suffix || "milhões"} sob custódia;`,
+              };
+            }
+            const tail = [suffix, label].filter(Boolean).join(" ").trim();
+            return {
+              prefixo: "+ ",
+              valor: num,
+              sufixo: tail ? ` ${tail};` : ";",
+            };
+          }
+          const text = [raw, suffix, label].filter(Boolean).join(" ").trim();
+          return { prefixo: text.endsWith(";") ? text : `${text};` };
+        })
+      : itens;
+
   const ref = useRef<HTMLDivElement>(null);
   const [ativo, setAtivo] = useState(false);
 
@@ -123,7 +157,7 @@ export function Provas() {
             className="mx-auto mt-5 max-w-2xl font-display text-[1.7rem] leading-[1.14] font-bold tracking-tight md:text-4xl lg:text-[2.4rem]"
             style={{ color: "#232323" }}
           >
-            Um resumo da A.W.A Capital
+            {title}
           </h2>
         </Reveal>
 
@@ -141,7 +175,7 @@ export function Provas() {
           </Reveal>
 
           <ul className="flex flex-col gap-6 md:gap-8">
-            {itens.map((item, i) => (
+            {listaProvas.map((item, i) => (
               <ItemResumo key={`${item.prefixo}-${i}`} item={item} ativo={ativo} indice={i} />
             ))}
           </ul>

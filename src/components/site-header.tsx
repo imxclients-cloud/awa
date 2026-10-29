@@ -3,7 +3,8 @@ import { createPortal } from "react-dom";
 import { Link } from "@tanstack/react-router";
 import { Menu, X } from "lucide-react";
 import logo from "@/assets/logo-horizontal.svg.asset.json";
-import { WHATSAPP_ESPECIALISTA } from "@/lib/contact";
+import { WHATSAPP_ESPECIALISTA, MENSAGEM_ESPECIALISTA, TELEFONE_ESPECIALISTA } from "@/lib/contact";
+import { buildWhatsappUrl, sanityImageUrl, type SiteSettings } from "@/lib/sanity";
 
 /** Âncoras da página inicial — navegam para "/" e rolam até a seção correspondente. */
 const navItems = [
@@ -14,10 +15,51 @@ const navItems = [
   { label: "Trabalhe conosco", to: "/", hash: "trabalhe-conosco" },
 ] as const;
 
-export function SiteHeader({ variant = "dark" }: { variant?: "dark" | "light" } = {}) {
+export function SiteHeader({
+  variant = "dark",
+  settings,
+}: {
+  variant?: "dark" | "light";
+  settings?: SiteSettings | null;
+} = {}) {
+
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const isLight = variant === "light";
+
+  const resolvedNav =
+    settings?.mainNav && settings.mainNav.length > 0
+      ? settings.mainNav.map((item) => ({
+          label: item.label || "",
+          to: item.linkType === "internal" ? (item.internalPath || "/") : "/",
+          hash: item.linkType === "hash" ? item.hash : undefined,
+          href: item.linkType === "external" ? item.href : undefined,
+          external: item.linkType === "external",
+        }))
+      : navItems.map((item) => ({
+          label: item.label,
+          to: item.to,
+          hash: item.hash,
+          href: undefined as string | undefined,
+          external: false,
+        }));
+
+  const logoSrc =
+    sanityImageUrl(isLight ? settings?.logo : settings?.logoLight || settings?.logo, 240) ||
+    logo.url;
+
+  const whatsappHref = buildWhatsappUrl(
+    settings?.phoneEspecialista,
+    settings?.messageEspecialista || settings?.headerCta?.whatsappMessage,
+    TELEFONE_ESPECIALISTA,
+    MENSAGEM_ESPECIALISTA,
+  );
+  const ctaLabel = settings?.headerCta?.label || "Falar com um Especialista";
+  const ctaHref =
+    settings?.headerCta?.action === "custom" && settings.headerCta.customLink?.href
+      ? settings.headerCta.customLink.href
+      : whatsappHref;
+
 
   const logoClass = isLight ? "h-7 w-auto md:h-8" : "h-7 w-auto brightness-0 invert md:h-8";
   const navLinkClass = isLight
@@ -60,11 +102,11 @@ export function SiteHeader({ variant = "dark" }: { variant?: "dark" | "light" } 
         </button>
 
         <Link to="/" className="flex justify-center lg:justify-start" aria-label="A.W.A Capital">
-          <img src={logo.url} alt="A.W.A Capital" className={logoClass} width={338} height={52} />
+          <img src={logoSrc} alt="A.W.A Capital" className={logoClass} width={338} height={52} />
         </Link>
 
         <nav className="hidden items-center justify-end gap-6 lg:flex">
-          {navItems.map((item) => (
+          {resolvedNav.map((item) => (
             <Link key={item.label} to={item.to} hash={item.hash} className={navLinkClass}>
               {item.label}
               <span className="absolute -bottom-1.5 left-0 h-px w-0 bg-accent transition-all duration-300 group-hover:w-full" />
@@ -74,12 +116,12 @@ export function SiteHeader({ variant = "dark" }: { variant?: "dark" | "light" } 
 
         <div className="hidden justify-self-end lg:block">
           <a
-            href={WHATSAPP_ESPECIALISTA}
+            href={ctaHref}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center rounded-full bg-accent px-5 py-2.5 font-sans text-sm font-semibold text-accent-foreground transition-colors hover:bg-accent-hover"
           >
-            Falar com um Especialista
+            {ctaLabel}
           </a>
         </div>
 
@@ -95,7 +137,7 @@ export function SiteHeader({ variant = "dark" }: { variant?: "dark" | "light" } 
               }`}
             >
               <img
-                src={logo.url}
+                src={logoSrc}
                 alt="A.W.A Capital"
                 className={isLight ? "h-7 w-auto" : "h-7 w-auto brightness-0 invert"}
                 width={338}
@@ -111,7 +153,7 @@ export function SiteHeader({ variant = "dark" }: { variant?: "dark" | "light" } 
               </button>
             </div>
             <nav className="flex flex-1 flex-col gap-1 overflow-y-auto px-5 pt-6">
-              {navItems.map((item) => (
+              {resolvedNav.map((item) => (
                 <Link
                   key={item.label}
                   to={item.to}
@@ -127,13 +169,13 @@ export function SiteHeader({ variant = "dark" }: { variant?: "dark" | "light" } 
             </nav>
             <div className="shrink-0 p-5 pb-10">
               <a
-                href={WHATSAPP_ESPECIALISTA}
+                href={ctaHref}
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => setOpen(false)}
                 className="flex w-full items-center justify-center rounded-full bg-accent px-6 py-4 font-sans text-base font-semibold text-accent-foreground"
               >
-                Falar com um Especialista
+                {ctaLabel}
               </a>
             </div>
           </div>,

@@ -4,6 +4,7 @@ import { Instagram } from "lucide-react";
 import awaLogo from "@/assets/logo-horizontal.svg.asset.json";
 import { OPEN_COOKIE_SETTINGS_EVENT } from "@/components/cookie-consent";
 import { WHATSAPP_ESPECIALISTA } from "@/lib/contact";
+import type { SiteSettings } from "@/lib/sanity";
 
 /** Rotas internas das páginas institucionais/legais — linkadas somente no rodapé. */
 type LegalRoute =
@@ -93,7 +94,16 @@ function LinkFooter({ href, to, hash, external, children }: LinkFooterProps) {
   );
 }
 
-export function SiteFooter() {
+export function SiteFooter({ settings }: { settings?: SiteSettings | null } = {}) {
+  const copyright =
+    settings?.footerCopyright?.trim() ||
+    (settings?.siteName?.trim()
+      ? (settings.siteName.trim().startsWith("©")
+          ? settings.siteName.trim()
+          : `© ${settings.siteName.trim()}`)
+      : "© A.W.A Capital");
+  const socials = settings?.socialLinks;
+
   return (
     <footer
       className="relative overflow-hidden border-t"
@@ -228,7 +238,7 @@ export function SiteFooter() {
           style={{ borderColor: "rgba(225,222,205,0.1)" }}
         >
           <p className="font-sans text-xs" style={{ color: "rgba(225,222,205,0.5)" }}>
-            © A.W.A Capital
+            {copyright}
           </p>
           <div className="flex items-center gap-4">
             <button

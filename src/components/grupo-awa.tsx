@@ -1,16 +1,37 @@
 import { Reveal } from "@/components/reveal";
 import { SectionBadge } from "@/components/section-badge";
+import type { Homepage } from "@/lib/sanity";
 
-export function GrupoAwa() {
+type Props = { data?: Homepage["grupoAwa"] | null };
+
+const FALLBACK_PILLARS = [
+  { name: "Wealth Services", description: "Consultoria com Atendimento Multi Custódia — Patrimônio 3MM+" },
+  { name: "A.W.A Investimentos", description: "Assessoria em Investimentos XP — Patrimônio 100k – 3MM" },
+  { name: "A.W.A Empresas", description: "Soluções financeiras para pessoas jurídicas" },
+];
+
+export function GrupoAwa({ data }: Props) {
+  const badge = data?.badge?.trim() || "Estrutura";
+  const title =
+    data?.title?.trim() ||
+    "Grupo A.W.A Capital: um grupo financeiro com três verticais de negócio.";
+  const pillars =
+    data?.pillars && data.pillars.length > 0
+      ? data.pillars.map((x) => ({
+          name: x.name || "",
+          description: x.description || "",
+        }))
+      : FALLBACK_PILLARS;
+
   return (
     <section className="relative overflow-hidden bg-surface-light py-10 md:py-10 lg:py-20">
       <div className="mx-auto w-full max-w-[1280px] px-5 text-center md:px-8">
         <Reveal className="flex justify-center">
-          <SectionBadge>Estrutura</SectionBadge>
+          <SectionBadge>{badge}</SectionBadge>
         </Reveal>
         <Reveal delay={100}>
           <h2 className="mx-auto mt-5 max-w-2xl font-display text-[1.6rem] leading-[1.14] font-extrabold tracking-tight text-ink md:text-3xl lg:text-[2.2rem]">
-            Grupo A.W.A Capital: um grupo financeiro com três verticais de negócio.
+            {title}
           </h2>
         </Reveal>
 
