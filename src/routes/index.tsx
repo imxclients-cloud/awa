@@ -19,6 +19,7 @@ import { SiteFooter } from "@/components/site-footer";
 import { WhatsappFloat } from "@/components/whatsapp-float";
 import type { Homepage, SiteSettings } from "@/lib/sanity";
 import { loadHomeData } from "@/lib/load-home.server";
+import { buildSeoMeta, siteOrigin } from "@/lib/seo-meta";
 
 const DEFAULT_SEO = {
   title: "A.W.A Capital — Assessoria de Investimentos e Planejamento Patrimonial",
@@ -37,34 +38,13 @@ export const Route = createFileRoute("/")({
     const data = await loadHomeData();
     return { homepage: data.homepage, settings: data.settings };
   },
-  head: ({ loaderData }) => {
-    const seo = loaderData?.homepage?.seo;
-    const fallback = loaderData?.settings?.defaultSeo;
-    const title = seo?.title || fallback?.title || DEFAULT_SEO.title;
-    const description =
-      seo?.description || fallback?.description || DEFAULT_SEO.description;
-    const keywords = seo?.keywords || fallback?.keywords || DEFAULT_SEO.keywords;
-    const ogTitle = seo?.ogTitle || fallback?.ogTitle || DEFAULT_SEO.ogTitle;
-    const ogDescription =
-      seo?.ogDescription || fallback?.ogDescription || DEFAULT_SEO.ogDescription;
-    const twitter =
-      seo?.twitterCard || fallback?.twitterCard || "summary_large_image";
-
-    return {
-      meta: [
-        { title },
-        { name: "description", content: description },
-        { name: "keywords", content: keywords },
-        { property: "og:title", content: ogTitle },
-        { property: "og:description", content: ogDescription },
-        { property: "og:type", content: "website" },
-        { name: "twitter:card", content: twitter },
-        ...(seo?.noIndex || fallback?.noIndex
-          ? [{ name: "robots", content: "noindex, nofollow" }]
-          : []),
-      ],
-    };
-  },
+  head: ({ loaderData }) =>
+    buildSeoMeta({
+      defaults: DEFAULT_SEO,
+      page: loaderData?.homepage?.seo ?? null,
+      site: loaderData?.settings?.defaultSeo ?? null,
+      pageUrl: `${siteOrigin()}/`,
+    }),
   component: Index,
 });
 

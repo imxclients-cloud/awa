@@ -31,7 +31,7 @@ export function Especialistas({ data }: Props) {
             <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
               {lista.map((m, i) => {
                 const doc = { id: m._id, type: "teamMember" };
-                const foto = sanityImageUrl(m.photo, 400);
+                const foto = sanityImageUrl(m.photo, 800);
                 const alt = clean((m.photo as { alt?: string } | undefined)?.alt) || `Foto de ${m.name ?? ""}`;
                 return (
                   <Reveal key={m._id} delay={180 + (i % 4) * 80} className="h-full">

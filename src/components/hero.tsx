@@ -1,6 +1,4 @@
 import { Reveal } from "@/components/reveal";
-import heroImage from "@/assets/hero-banner.png.asset.json";
-import mandalaHero from "@/assets/selos/planejamento-patrimonial-hero.svg";
 import { sanityImageUrl, type Homepage } from "@/lib/sanity";
 import { Doc, clean, editAttr } from "@/lib/sanity-attr";
 
@@ -9,13 +7,13 @@ type Props = { data?: Homepage["hero"] | null };
 // Assets padrão só servem de "moldura" até o CMS ter imagem; o overlay continua
 // existindo para o usuário trocar pelo Presentation.
 export function Hero({ data }: Props) {
-  const bgSrc = sanityImageUrl(data?.backgroundImage, 1920) || heroImage.url;
-  const sideSrc = sanityImageUrl(data?.sideImage, 966) || mandalaHero;
+  const bgSrc = sanityImageUrl(data?.backgroundImage, 1920);
+  const sideSrc = sanityImageUrl(data?.sideImage, 966);
   const sideAlt = clean((data?.sideImage as { alt?: string } | undefined)?.alt);
 
   return (
     <section className="relative flex min-h-[100svh] flex-col justify-end overflow-hidden bg-background">
-      <img
+      {bgSrc && <img
         src={bgSrc}
         alt=""
         aria-hidden
@@ -23,7 +21,7 @@ export function Hero({ data }: Props) {
         height={1080}
         className="absolute inset-0 h-full w-full object-cover"
         data-sanity={editAttr(Doc.hero, "backgroundImage")}
-      />
+      />}
       <div className="absolute inset-0 bg-hero-overlay" />
 
       <div className="relative mx-auto w-full max-w-[1280px] px-5 pb-20 pt-32 md:px-8 md:pb-24 lg:pb-28">
@@ -38,7 +36,7 @@ export function Hero({ data }: Props) {
           </div>
 
           <Reveal delay={160} className="justify-self-center lg:justify-self-end">
-            <img
+            {sideSrc && <img
               src={sideSrc}
               alt={sideAlt}
               width={966}
@@ -47,7 +45,7 @@ export function Hero({ data }: Props) {
               loading="lazy"
               decoding="async"
               data-sanity={editAttr(Doc.hero, "sideImage")}
-            />
+            />}
           </Reveal>
         </div>
       </div>

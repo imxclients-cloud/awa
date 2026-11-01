@@ -9,8 +9,8 @@ type FotoAmpliada = {
 };
 
 /**
- * Modal de ampliação de foto no mesmo padrão visual do diálogo "Gerenciar Cookies":
- * painel escuro centralizado, cantos arredondados, borda suave e título na barra superior.
+ * Modal de ampliação de foto (assessores e especialistas).
+ * Foto em destaque, tamanho generoso — mesmo padrão visual nas duas seções.
  */
 export function ModalFoto({
   foto,
@@ -22,7 +22,7 @@ export function ModalFoto({
   return (
     <Dialog open={!!foto} onOpenChange={(aberto) => !aberto && onClose()}>
       <DialogContent
-        className="z-[80] max-h-[88vh] w-[calc(100vw-2rem)] max-w-[520px] gap-0 overflow-hidden rounded-2xl border p-0 sm:rounded-2xl"
+        className="z-[80] max-h-[92vh] w-[calc(100vw-2rem)] max-w-[560px] gap-0 overflow-hidden rounded-2xl border p-0 sm:rounded-2xl"
         style={{ background: "#151515", borderColor: "rgba(225,222,205,0.14)" }}
       >
         <DialogTitle
@@ -35,13 +35,13 @@ export function ModalFoto({
           Foto ampliada de {foto?.nome}, {foto?.cargo} da A.W.A Capital.
         </DialogDescription>
 
-        <div className="max-h-[64vh] overflow-y-auto px-6 py-6">
-          <div className="flex flex-col items-center gap-4">
+        <div className="max-h-[78vh] overflow-y-auto px-6 py-8 sm:px-8 sm:py-10">
+          <div className="flex flex-col items-center gap-5">
             {foto && (
               <img
                 src={encodeURI(foto.src)}
                 alt={`Foto de ${foto.nome}, ${foto.cargo} da A.W.A Capital`}
-                className="max-h-[46vh] w-auto max-w-[320px] rounded-2xl object-contain"
+                className="h-auto w-full max-h-[min(62vh,520px)] max-w-[440px] rounded-2xl object-contain object-top shadow-[0_12px_40px_rgba(0,0,0,0.45)]"
               />
             )}
             {foto && (

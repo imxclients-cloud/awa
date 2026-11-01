@@ -67,15 +67,13 @@ function Assessores() {
                 <Reveal delay={bloco * 80}>
                   <div className="flex flex-wrap items-baseline justify-between gap-2 border-b border-ink-hairline pb-3">
                     <h2 className="font-display text-lg font-extrabold tracking-tight text-ink md:text-xl">{unidade}</h2>
-                    <p className="font-display text-[0.6rem] font-extrabold tracking-[0.16em] text-accent uppercase">
-                      {membros.length} <span data-sanity={at("countLabel")}>{page?.countLabel}</span>
-                    </p>
                   </div>
                 </Reveal>
                 <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
                   {membros.map((a, i) => {
                     const doc = { id: a._id, type: "teamMember" };
-                    const foto = sanityImageUrl(a.photo as Parameters<typeof sanityImageUrl>[0], 80);
+                    const fotoThumb = sanityImageUrl(a.photo as Parameters<typeof sanityImageUrl>[0], 80);
+                    const fotoGrande = sanityImageUrl(a.photo as Parameters<typeof sanityImageUrl>[0], 800);
                     const nome = clean(a.name);
                     const email = clean(a.email);
                     return (
@@ -83,12 +81,19 @@ function Assessores() {
                         <article
                           data-slot={`assessor-pagina-${a.codigo ?? i}`}
                           className="flex h-full cursor-pointer items-center gap-3 rounded-xl border border-ink-hairline bg-white px-4 py-3"
-                          onClick={() => foto && setFotoAberta({ nome, cargo: clean(page?.roleLabel), src: foto })}
+                          onClick={() =>
+                            fotoGrande &&
+                            setFotoAberta({
+                              nome,
+                              cargo: clean(page?.roleLabel),
+                              src: fotoGrande,
+                            })
+                          }
                         >
                           <div className="shrink-0" data-sanity={editAttr(doc, "photo")}>
-                            {foto ? (
+                            {fotoThumb ? (
                               <img
-                                src={foto}
+                                src={fotoThumb}
                                 alt={clean((a.photo as { alt?: string } | undefined)?.alt) || `Foto de ${nome}`}
                                 loading="lazy"
                                 width={40}
@@ -106,7 +111,7 @@ function Assessores() {
                               {a.name}
                             </p>
                             <p data-sanity={at("roleLabel")} className="mt-0.5 font-display text-[0.6rem] font-extrabold tracking-[0.16em] text-accent uppercase">
-                              {page?.roleLabel}
+                              Código de registro: {a.codigo}
                             </p>
                             <a
                               href={`mailto:${email}`}

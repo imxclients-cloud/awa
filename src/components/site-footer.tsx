@@ -3,10 +3,8 @@ import { portableTextToPlain } from "@/lib/sanity";
 import type { ReactNode } from "react";
 import { Link } from "@tanstack/react-router";
 import { Instagram } from "lucide-react";
-import awaLogo from "@/assets/logo-horizontal.svg.asset.json";
 import { sanityImageUrl } from "@/lib/sanity";
 
-const LOGO_XP_DEFAULT = "/logo-xp-investimentos-icon-4096.png";
 import { OPEN_COOKIE_SETTINGS_EVENT } from "@/components/cookie-consent";
 import { WHATSAPP_ESPECIALISTA } from "@/lib/contact";
 import type { SiteSettings } from "@/lib/sanity";
@@ -121,7 +119,7 @@ export function SiteFooter({ settings }: { settings?: SiteSettings | null } = {}
         <div className="flex flex-wrap items-center gap-6">
           <img
             data-slot="logo-awa"
-            src={sanityImageUrl(settings?.logoAwaFooter, 338) || awaLogo.url}
+            src={sanityImageUrl(settings?.logoAwaFooter, 338)}
             alt={clean((settings?.logoAwaFooter as { alt?: string } | undefined)?.alt)}
             loading="lazy"
             width={338}
@@ -132,7 +130,7 @@ export function SiteFooter({ settings }: { settings?: SiteSettings | null } = {}
           <span aria-hidden className="h-8 w-px" style={{ background: "rgba(254,178,2,0.45)" }} />
           <img
             data-slot="logo-xp"
-            src={sanityImageUrl(settings?.logoXpFooter, 320) || LOGO_XP_DEFAULT}
+            src={sanityImageUrl(settings?.logoXpFooter, 320)}
             alt={clean((settings?.logoXpFooter as { alt?: string } | undefined)?.alt)}
             loading="lazy"
             width={1600}
@@ -219,7 +217,7 @@ export function SiteFooter({ settings }: { settings?: SiteSettings | null } = {}
         <div className="mt-14 border-t pt-8" style={{ borderColor: "rgba(225,222,205,0.1)" }}>
           <p
             data-sanity={editAttr(DocExtra.footerLegal, "footerLegalText")}
-            className="max-w-4xl font-sans text-[0.7rem] leading-relaxed"
+            className="font-sans text-[0.7rem] leading-relaxed"
             style={{ color: "rgba(225,222,205,0.45)" }}
           >
             {portableTextToPlain(settings?.footerLegalText as any)}

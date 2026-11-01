@@ -4,6 +4,7 @@ import { Reveal } from "@/components/reveal";
 import { SectionBadge } from "@/components/section-badge";
 import { whatsappExpansao } from "@/lib/contact";
 import type { Homepage } from "@/lib/sanity";
+import { isValidPhoneBr, maskPhoneBr } from "@/lib/phone-br";
 
 type Props = { data?: Homepage["trabalheConosco"] | null };
 
@@ -42,8 +43,25 @@ export function TrabalheConosco({ data }: Props) {
     e.preventDefault();
     if (status === "sending") return;
 
-    setStatus("sending");
     setErrorMsg("");
+
+    if (!form.nome.trim() || form.nome.trim().length < 2) {
+      setStatus("error");
+      setErrorMsg("Informe seu nome completo.");
+      return;
+    }
+    if (!/[^\s@]+@[^\s@]+\.[^\s@]+/.test(form.email.trim())) {
+      setStatus("error");
+      setErrorMsg("Informe um e-mail válido.");
+      return;
+    }
+    if (!isValidPhoneBr(form.telefone)) {
+      setStatus("error");
+      setErrorMsg("Informe um telefone válido com DDD. Ex.: (11) 98765-4321");
+      return;
+    }
+
+    setStatus("sending");
 
     try {
       const res = await fetch("/api/leads", {
@@ -171,8 +189,13 @@ export function TrabalheConosco({ data }: Props) {
                     <span data-sanity={editAttr(Doc.trabalhe, "trabalheConosco.labelTelefone")}>{labelTelefone}</span>
                   </span>
                   <input
+                    type="tel"
+                    name="telefone"
                     value={form.telefone}
-                    onChange={(e) => setForm((f) => ({ ...f, telefone: e.target.value }))}
+                    onChange={(e) => setForm((f) => ({ ...f, telefone: maskPhoneBr(e.target.value) }))}
+                    inputMode="numeric"
+                    autoComplete="tel"
+                    maxLength={16}
                     placeholder={placeholderTelefone} data-sanity={editAttr(Doc.trabalhe, "trabalheConosco.placeholderTelefone")}
                     className="rounded-xl border border-ink-hairline bg-white px-4 py-3 font-sans text-sm text-ink outline-none focus:border-accent"
                   />

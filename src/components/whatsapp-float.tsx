@@ -1,8 +1,4 @@
-import {
-  WHATSAPP_ESPECIALISTA,
-  MENSAGEM_ESPECIALISTA,
-  TELEFONE_ESPECIALISTA,
-} from "@/lib/contact";
+import { WHATSAPP_ESPECIALISTA, TELEFONE_ESPECIALISTA } from "@/lib/contact";
 import { buildWhatsappUrl, type SiteSettings } from "@/lib/sanity";
 
 type Props = { settings?: SiteSettings | null };
@@ -12,7 +8,7 @@ export function WhatsappFloat({ settings }: Props) {
     settings?.phoneEspecialista,
     settings?.messageEspecialista,
     TELEFONE_ESPECIALISTA,
-    MENSAGEM_ESPECIALISTA,
+    "",
   );
 
   return (

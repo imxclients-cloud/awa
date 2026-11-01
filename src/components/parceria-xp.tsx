@@ -5,8 +5,6 @@ import { Doc, clean, editAttr } from "@/lib/sanity-attr";
 
 type Props = { data?: Homepage["parceriaXp"] | null };
 
-const LOGO_DEFAULT = "/logo-xp-investimentos-icon-4096.png";
-const NASDAQ_DEFAULT = "/nasdaq.png";
 
 export function ParceriaXp({ data }: Props) {
   const p = "parceriaXp.";
@@ -27,7 +25,7 @@ export function ParceriaXp({ data }: Props) {
     text?: string;
   }>;
 
-  const logoSrc = sanityImageUrl(data?.logo, 320) || LOGO_DEFAULT;
+  const logoSrc = sanityImageUrl(data?.logo, 320);
   const logoAlt = clean((data?.logo as { alt?: string } | undefined)?.alt);
 
   return (
@@ -47,7 +45,7 @@ export function ParceriaXp({ data }: Props) {
       <div className="relative mx-auto w-full max-w-[1280px] px-5 md:px-8">
         <div className="grid overflow-hidden rounded-3xl lg:grid-cols-2" style={{ background: "#F1F0ED" }}>
           <div className="flex flex-col justify-center px-7 py-10 md:px-12 md:py-14">
-            <img
+            {logoSrc && <img
               src={logoSrc}
               alt={logoAlt}
               className="h-16 w-16 rounded-2xl md:h-[76px] md:w-[76px]"
@@ -55,7 +53,7 @@ export function ParceriaXp({ data }: Props) {
               height={1600}
               loading="lazy"
               data-sanity={attr("logo")}
-            />
+            />}
             <h2
               data-sanity={attr("title")}
               className="mt-8 font-display text-[1.55rem] leading-[1.16] font-bold tracking-tight md:text-[2rem]"
@@ -76,7 +74,7 @@ export function ParceriaXp({ data }: Props) {
 
           <div className="relative min-h-[300px] lg:min-h-[540px]">
             <img
-              src={sanityImageUrl(data?.nasdaqImage, 1200) || NASDAQ_DEFAULT}
+              src={sanityImageUrl(data?.nasdaqImage, 1200)}
               alt={clean((data?.nasdaqImage as { alt?: string } | undefined)?.alt)}
               className="absolute inset-0 h-full w-full object-cover"
               loading="lazy"

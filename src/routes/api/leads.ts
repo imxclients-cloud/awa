@@ -61,6 +61,20 @@ function writeClient() {
   });
 }
 
+
+function onlyDigits(value: string) {
+  return (value || "").replace(/\D/g, "");
+}
+
+function isValidPhoneBr(value: string) {
+  const d = onlyDigits(value);
+  if (d.length !== 10 && d.length !== 11) return false;
+  const ddd = Number(d.slice(0, 2));
+  if (ddd < 11 || ddd > 99) return false;
+  if (d.length === 11 && d[2] !== "9") return false;
+  return true;
+}
+
 function isValidEmail(email: string) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
@@ -140,7 +154,6 @@ function buildEmailBody(data: {
 }
 
 // Rota registrada pelo plugin do TanStack no build (routeTree.gen.ts).
-// @ts-expect-error TS2345 — id literal válido; tipo FileRoutesByPath atualiza após generate
 export const Route = createFileRoute("/api/leads")({
   server: {
     handlers: {
@@ -168,6 +181,18 @@ export const Route = createFileRoute("/api/leads")({
         }
         if (!email || !isValidEmail(email)) {
           return json({ ok: false, message: "E-mail inválido." }, { status: 400 });
+        }
+        if (telefone && !isValidPhoneBr(telefone)) {
+          return json(
+            { ok: false, message: "Telefone inválido. Use DDD + número. Ex.: (11) 98765-4321" },
+            { status: 400 },
+          );
+        }
+        if (!telefone) {
+          return json(
+            { ok: false, message: "Informe um telefone com DDD." },
+            { status: 400 },
+          );
         }
 
         var cms = await fetchLeadsConfig();

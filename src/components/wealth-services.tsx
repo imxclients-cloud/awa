@@ -29,7 +29,7 @@ export function WealthServices({ data }: Props) {
             <SectionBadge data-sanity={editAttr(Doc.solucoes, "wealthServices.badge")}>{data?.badge}</SectionBadge>
           </Reveal>
           <Reveal delay={100}>
-            <p data-sanity={editAttr(Doc.solucoes, "wealthServices.subtitle")} className="mx-auto mt-6 max-w-xl font-sans text-base leading-relaxed text-ink-muted md:text-lg">
+            <p data-sanity={editAttr(Doc.solucoes, "wealthServices.subtitle")} className="mx-auto mt-6 font-sans text-base leading-relaxed text-ink-muted md:text-lg">
               {data?.subtitle}
             </p>
           </Reveal>
@@ -37,7 +37,7 @@ export function WealthServices({ data }: Props) {
 
         <div className="mt-10 grid gap-5 sm:grid-cols-2 md:mt-12 lg:grid-cols-4">
           {services.map((item, i) => {
-            const Icone = iconeDoServico(item.icone);
+            const Icone = iconeDoServico(item.icone, item.title);
             return (
               <Reveal key={item._key ?? i} delay={100 + i * 70} className="h-full">
                 <div className="group flex h-full flex-col items-center justify-center gap-5 rounded-2xl border border-ink-hairline bg-white/80 px-5 py-8 text-center backdrop-blur-sm transition-shadow hover:shadow-md">

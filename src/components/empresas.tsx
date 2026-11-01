@@ -29,7 +29,7 @@ export function Empresas({ data }: Props) {
             <SectionBadge data-sanity={editAttr(Doc.solucoes, "empresas.badge")}>{data?.badge}</SectionBadge>
           </Reveal>
           <Reveal delay={100}>
-            <p data-sanity={editAttr(Doc.solucoes, "empresas.subtitle")} className="mx-auto mt-6 max-w-xl font-sans text-base leading-relaxed text-white/70 md:text-lg">
+            <p data-sanity={editAttr(Doc.solucoes, "empresas.subtitle")} className="mx-auto mt-6 font-sans text-base leading-relaxed text-white/70 md:text-lg">
               {data?.subtitle}
             </p>
           </Reveal>
@@ -37,7 +37,7 @@ export function Empresas({ data }: Props) {
 
         <div className="mt-10 grid gap-5 sm:grid-cols-2 md:mt-12 lg:grid-cols-4">
           {services.map((m, i) => {
-            const Icone = iconeDoServico(m.icone);
+            const Icone = iconeDoServico(m.icone, m.title);
             return (
               <Reveal key={m._key ?? i} delay={100 + (i % 4) * 70} className="h-full">
                 <div className="group flex h-full flex-col items-center justify-center gap-5 rounded-lg border border-white/10 bg-glass-dark px-5 py-8 text-center backdrop-blur-glass transition-transform duration-300 hover:-translate-y-1">

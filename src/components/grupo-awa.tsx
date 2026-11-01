@@ -5,7 +5,6 @@ import { Doc, clean, editAttr } from "@/lib/sanity-attr";
 
 type Props = { data?: Homepage["grupoAwa"] | null };
 
-const ICON_DEFAULT = "/awa_icone.png";
 
 export function GrupoAwa({ data }: Props) {
   const p = "grupoAwa.";
@@ -17,7 +16,7 @@ export function GrupoAwa({ data }: Props) {
   const at = (i: number) => (pillars[i]?._key ? `pillars[_key=="${pillars[i]._key}"]` : `pillars[${i}]`);
   const attr = (path: string) => editAttr(Doc.estrutura, p + path);
 
-  const iconSrc = sanityImageUrl(data?.iconImage, 420) || ICON_DEFAULT;
+  const iconSrc = sanityImageUrl(data?.iconImage, 420);
   const iconAlt = clean((data?.iconImage as { alt?: string } | undefined)?.alt);
 
   const p0 = pillars[0];
@@ -48,7 +47,7 @@ export function GrupoAwa({ data }: Props) {
                   {p0?.name}
                 </h3>
                 <p data-sanity={p0 && attr(`${at(0)}.description`)} className="mt-2 font-sans text-sm leading-relaxed text-ink-muted whitespace-pre-line">
-                  {p0?.description}
+                  {(p0?.description ?? "").replace(" — ", "\n")}
                 </p>
               </div>
             </Reveal>
@@ -60,20 +59,20 @@ export function GrupoAwa({ data }: Props) {
                     {p1?.name}
                   </h3>
                   <p data-sanity={p1 && attr(`${at(1)}.description`)} className="mt-2 font-sans text-sm leading-relaxed text-ink-muted whitespace-pre-line">
-                    {p1?.description}
+                    {(p1?.description ?? "").replace(" — ", "\n")}
                   </p>
                 </div>
               </Reveal>
 
               <Reveal delay={180}>
                 {/* clicar no ícone abre o objeto imageWithAlt, que contém o campo alt */}
-                <img
+                {iconSrc && <img
                   src={iconSrc}
                   alt={iconAlt}
                   className="h-[210px] w-auto"
                   draggable={false}
                   data-sanity={attr("iconImage")}
-                />
+                />}
               </Reveal>
 
               <Reveal delay={280}>
@@ -99,8 +98,8 @@ export function GrupoAwa({ data }: Props) {
                     <h3 data-sanity={attr(`${at(i)}.name`)} className="font-display text-lg font-extrabold text-accent">
                       {v.name}
                     </h3>
-                    <p data-sanity={attr(`${at(i)}.description`)} className="mt-1 font-sans text-sm leading-relaxed text-ink-muted">
-                      {v.description}
+                    <p data-sanity={attr(`${at(i)}.description`)} className="mt-1 font-sans text-sm leading-relaxed text-ink-muted whitespace-pre-line">
+                      {(v.description ?? "").replace(" — ", "\n")}
                     </p>
                   </div>
                 </div>

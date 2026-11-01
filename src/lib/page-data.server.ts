@@ -24,6 +24,17 @@ function isPreviewRequest(): boolean {
 
 export type LegalBlock = { _key: string; kind?: "p" | "list"; text?: string; items?: string[] };
 export type LegalSection = { _key: string; id?: string; title?: string; blocks?: LegalBlock[] };
+export type LegalSeo = {
+  title?: string;
+  description?: string;
+  keywords?: string;
+  ogTitle?: string;
+  ogDescription?: string;
+  ogImage?: Record<string, unknown> | null;
+  twitterCard?: string;
+  noIndex?: boolean;
+};
+
 export type LegalDoc = {
   _id: string;
   title?: string;
@@ -34,6 +45,7 @@ export type LegalDoc = {
   intro?: string;
   footnote?: string;
   sections?: LegalSection[];
+  seo?: LegalSeo;
 };
 
 export type CookieConfig = {
@@ -72,6 +84,7 @@ export type PageAssessores = {
 
 const LEGAL_QUERY = `*[_type == "legalPage" && slug.current == $slug][0]{
   _id, title, eyebrow, updatedAt, updatedLabel, backLabel, intro, footnote,
+  seo{ title, description, keywords, ogTitle, ogDescription, ogImage, twitterCard, noIndex },
   "sections": sections[]{ _key, "id": anchor, title, "blocks": blocks[]{ _key, kind, text, items } }
 }`;
 

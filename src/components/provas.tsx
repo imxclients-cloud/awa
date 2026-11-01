@@ -113,37 +113,19 @@ function ItemResumo({
 type Props = { data?: Homepage["provas"] | null };
 
 export function Provas({ data }: Props) {
-  const badge = data?.badge?.trim() || "Trajetória";
-  const title = data?.title?.trim() || "Um resumo da A.W.A Capital";
-  const itens = statsFromCms(data?.stats as any);
+  const badge = data?.badge?.trim() ?? "";
+  const title = data?.title?.trim() ?? "";
 
-  const listaProvas: Item[] =
-    data?.stats && data.stats.length > 0
-      ? data.stats.map((s): Item => {
-          const raw = String(s.value ?? "").trim();
-          const digits = raw.replace(/[^0-9]/g, "");
-          const num = digits ? Number(digits) : NaN;
-          const label = (s.label || "").trim();
-          const suffix = (s.suffix || "").trim();
-          if (digits && !Number.isNaN(num)) {
-            if (/cust[oó]dia|milh/i.test(`${label} ${suffix}`)) {
-              return {
-                prefixo: "+ R$ ",
-                valor: num,
-                sufixo: ` ${suffix || "milhões"} sob custódia;`,
-              };
-            }
-            const tail = [suffix, label].filter(Boolean).join(" ").trim();
-            return {
-              prefixo: "+ ",
-              valor: num,
-              sufixo: tail ? ` ${tail};` : ";",
-            };
-          }
-          const text = [raw, suffix, label].filter(Boolean).join(" ").trim();
-          return { prefixo: text.endsWith(";") ? text : `${text};` };
-        })
-      : itens;
+  const listaProvas: Item[] = (data?.stats ?? []).map((s): Item => {
+    const digits = String(s.value ?? "").replace(/[^0-9]/g, "");
+    const num = digits ? Number(digits) : undefined;
+    // Sem número: o texto inteiro fica no prefixo (ex.: "Unidades em ...")
+    return {
+      prefixo: num !== undefined ? (s.prefix ?? "") : (s.prefix || s.label || ""),
+      valor: num,
+      sufixo: num !== undefined ? (s.suffix ?? "") : "",
+    };
+  });
 
   const ref = useRef<HTMLDivElement>(null);
   const [ativo, setAtivo] = useState(false);
@@ -188,7 +170,7 @@ export function Provas({ data }: Props) {
         <div className="mt-10 grid items-center gap-10 text-left md:gap-12 lg:mt-14 lg:grid-cols-[1.05fr_1fr]">
           <Reveal>
             <img
-              src={sanityImageUrl((data as any)?.mapImage, 800) || "/brazil-map.png"}
+              src={sanityImageUrl((data as any)?.mapImage, 800)}
               alt={clean((data as any)?.mapImage?.alt)}
               data-sanity={editAttr(Doc.provas, "mapImage")}
               className="h-auto w-full max-w-[720px] select-none"

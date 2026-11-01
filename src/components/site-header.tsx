@@ -1,9 +1,9 @@
+import { clean } from "@/lib/sanity-attr";
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { Link } from "@tanstack/react-router";
 import { Menu, X } from "lucide-react";
-import logo from "@/assets/logo-horizontal.svg.asset.json";
-import { WHATSAPP_ESPECIALISTA, MENSAGEM_ESPECIALISTA, TELEFONE_ESPECIALISTA } from "@/lib/contact";
+import { WHATSAPP_ESPECIALISTA, TELEFONE_ESPECIALISTA } from "@/lib/contact";
 import { buildWhatsappUrl, sanityImageUrl, type SiteSettings } from "@/lib/sanity";
 import { Doc, sanityAttr } from "@/lib/sanity-attr";
 
@@ -45,17 +45,17 @@ export function SiteHeader({
           external: false,
         }));
 
-  const logoSrc =
-    sanityImageUrl(isLight ? settings?.logo : settings?.logoLight || settings?.logo, 240) ||
-    logo.url;
+  // Usa o logo claro só se ele tiver arquivo; senão, o logo principal
+  const logoObj = (isLight ? settings?.logo : (settings?.logoLight?.asset ? settings?.logoLight : settings?.logo)) as { alt?: string } | undefined;
+  const logoSrc = sanityImageUrl(logoObj as never, 240);
 
   const whatsappHref = buildWhatsappUrl(
     settings?.phoneEspecialista,
     settings?.messageEspecialista || settings?.headerCta?.whatsappMessage,
     TELEFONE_ESPECIALISTA,
-    MENSAGEM_ESPECIALISTA,
+    "",
   );
-  const ctaLabel = settings?.headerCta?.label || "Falar com um Especialista";
+  const ctaLabel = settings?.headerCta?.label ?? "";
   const ctaHref =
     settings?.headerCta?.action === "custom" && settings.headerCta.customLink?.href
       ? settings.headerCta.customLink.href
@@ -108,7 +108,7 @@ export function SiteHeader({
         </button>
 
         <Link to="/" className="flex justify-center lg:justify-start" aria-label="A.W.A Capital">
-          <img src={logoSrc} alt="A.W.A Capital" className={logoClass} width={338} height={52} data-sanity={logoAttr} />
+          {logoSrc && <img src={logoSrc} alt={clean(logoObj?.alt)} className={logoClass} width={338} height={52} data-sanity={logoAttr} />}
         </Link>
 
         <nav className="hidden items-center justify-end gap-6 lg:flex">

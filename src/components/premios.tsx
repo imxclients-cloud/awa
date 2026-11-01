@@ -100,8 +100,8 @@ function usePinMobile<S extends Element, L extends HTMLElement>() {
 type Props = { data?: Homepage["premios"] | null };
 
 export function Premios({ data }: Props) {
-  const badge = data?.badge?.trim() || "Mural de conquistas";
-  const title = data?.title?.trim() || "Mural de conquistas";
+  const badge = data?.badge?.trim() ?? "";
+  const title = data?.title?.trim() ?? "";
   const subtitle = data?.subtitle?.trim() || "";
   const awards =
     data?.awards && data.awards.length > 0

@@ -15,6 +15,11 @@ import { Route as AvisosLegaisRouteImport } from './routes/avisos-legais'
 import { Route as InformacoesRegulatoriasRouteImport } from './routes/informacoes-regulatorias'
 import { Route as PoliticaDePrivacidadeRouteImport } from './routes/politica-de-privacidade'
 import { Route as TermosDeUsoRouteImport } from './routes/termos-de-uso'
+import { Route as ApiCmsBackupRouteImport } from './routes/api/cms-backup'
+import { Route as ApiLeadsRouteImport } from './routes/api/leads'
+import { Route as ApiRevalidateRouteImport } from './routes/api/revalidate'
+import { Route as ApiDraftModeDisableRouteImport } from './routes/api/draft-mode/disable'
+import { Route as ApiDraftModeEnableRouteImport } from './routes/api/draft-mode/enable'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -46,6 +51,31 @@ const TermosDeUsoRoute = TermosDeUsoRouteImport.update({
   path: '/termos-de-uso',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiCmsBackupRoute = ApiCmsBackupRouteImport.update({
+  id: '/api/cms-backup',
+  path: '/api/cms-backup',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiLeadsRoute = ApiLeadsRouteImport.update({
+  id: '/api/leads',
+  path: '/api/leads',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiRevalidateRoute = ApiRevalidateRouteImport.update({
+  id: '/api/revalidate',
+  path: '/api/revalidate',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiDraftModeDisableRoute = ApiDraftModeDisableRouteImport.update({
+  id: '/api/draft-mode/disable',
+  path: '/api/draft-mode/disable',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiDraftModeEnableRoute = ApiDraftModeEnableRouteImport.update({
+  id: '/api/draft-mode/enable',
+  path: '/api/draft-mode/enable',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -54,6 +84,11 @@ export interface FileRoutesByFullPath {
   '/informacoes-regulatorias': typeof InformacoesRegulatoriasRoute
   '/politica-de-privacidade': typeof PoliticaDePrivacidadeRoute
   '/termos-de-uso': typeof TermosDeUsoRoute
+  '/api/cms-backup': typeof ApiCmsBackupRoute
+  '/api/leads': typeof ApiLeadsRoute
+  '/api/revalidate': typeof ApiRevalidateRoute
+  '/api/draft-mode/disable': typeof ApiDraftModeDisableRoute
+  '/api/draft-mode/enable': typeof ApiDraftModeEnableRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -62,6 +97,11 @@ export interface FileRoutesByTo {
   '/informacoes-regulatorias': typeof InformacoesRegulatoriasRoute
   '/politica-de-privacidade': typeof PoliticaDePrivacidadeRoute
   '/termos-de-uso': typeof TermosDeUsoRoute
+  '/api/cms-backup': typeof ApiCmsBackupRoute
+  '/api/leads': typeof ApiLeadsRoute
+  '/api/revalidate': typeof ApiRevalidateRoute
+  '/api/draft-mode/disable': typeof ApiDraftModeDisableRoute
+  '/api/draft-mode/enable': typeof ApiDraftModeEnableRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -71,6 +111,11 @@ export interface FileRoutesById {
   '/informacoes-regulatorias': typeof InformacoesRegulatoriasRoute
   '/politica-de-privacidade': typeof PoliticaDePrivacidadeRoute
   '/termos-de-uso': typeof TermosDeUsoRoute
+  '/api/cms-backup': typeof ApiCmsBackupRoute
+  '/api/leads': typeof ApiLeadsRoute
+  '/api/revalidate': typeof ApiRevalidateRoute
+  '/api/draft-mode/disable': typeof ApiDraftModeDisableRoute
+  '/api/draft-mode/enable': typeof ApiDraftModeEnableRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -81,6 +126,11 @@ export interface FileRouteTypes {
     | '/informacoes-regulatorias'
     | '/politica-de-privacidade'
     | '/termos-de-uso'
+    | '/api/cms-backup'
+    | '/api/leads'
+    | '/api/revalidate'
+    | '/api/draft-mode/disable'
+    | '/api/draft-mode/enable'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -89,6 +139,11 @@ export interface FileRouteTypes {
     | '/informacoes-regulatorias'
     | '/politica-de-privacidade'
     | '/termos-de-uso'
+    | '/api/cms-backup'
+    | '/api/leads'
+    | '/api/revalidate'
+    | '/api/draft-mode/disable'
+    | '/api/draft-mode/enable'
   id:
     | '__root__'
     | '/'
@@ -97,6 +152,11 @@ export interface FileRouteTypes {
     | '/informacoes-regulatorias'
     | '/politica-de-privacidade'
     | '/termos-de-uso'
+    | '/api/cms-backup'
+    | '/api/leads'
+    | '/api/revalidate'
+    | '/api/draft-mode/disable'
+    | '/api/draft-mode/enable'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -106,6 +166,11 @@ export interface RootRouteChildren {
   InformacoesRegulatoriasRoute: typeof InformacoesRegulatoriasRoute
   PoliticaDePrivacidadeRoute: typeof PoliticaDePrivacidadeRoute
   TermosDeUsoRoute: typeof TermosDeUsoRoute
+  ApiCmsBackupRoute: typeof ApiCmsBackupRoute
+  ApiLeadsRoute: typeof ApiLeadsRoute
+  ApiRevalidateRoute: typeof ApiRevalidateRoute
+  ApiDraftModeDisableRoute: typeof ApiDraftModeDisableRoute
+  ApiDraftModeEnableRoute: typeof ApiDraftModeEnableRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -152,6 +217,41 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TermosDeUsoRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/cms-backup': {
+      id: '/api/cms-backup'
+      path: '/api/cms-backup'
+      fullPath: '/api/cms-backup'
+      preLoaderRoute: typeof ApiCmsBackupRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/leads': {
+      id: '/api/leads'
+      path: '/api/leads'
+      fullPath: '/api/leads'
+      preLoaderRoute: typeof ApiLeadsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/revalidate': {
+      id: '/api/revalidate'
+      path: '/api/revalidate'
+      fullPath: '/api/revalidate'
+      preLoaderRoute: typeof ApiRevalidateRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/draft-mode/disable': {
+      id: '/api/draft-mode/disable'
+      path: '/api/draft-mode/disable'
+      fullPath: '/api/draft-mode/disable'
+      preLoaderRoute: typeof ApiDraftModeDisableRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/draft-mode/enable': {
+      id: '/api/draft-mode/enable'
+      path: '/api/draft-mode/enable'
+      fullPath: '/api/draft-mode/enable'
+      preLoaderRoute: typeof ApiDraftModeEnableRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -162,6 +262,11 @@ const rootRouteChildren: RootRouteChildren = {
   InformacoesRegulatoriasRoute: InformacoesRegulatoriasRoute,
   PoliticaDePrivacidadeRoute: PoliticaDePrivacidadeRoute,
   TermosDeUsoRoute: TermosDeUsoRoute,
+  ApiCmsBackupRoute: ApiCmsBackupRoute,
+  ApiLeadsRoute: ApiLeadsRoute,
+  ApiRevalidateRoute: ApiRevalidateRoute,
+  ApiDraftModeDisableRoute: ApiDraftModeDisableRoute,
+  ApiDraftModeEnableRoute: ApiDraftModeEnableRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

@@ -60,7 +60,12 @@ export function sanityImageUrl(
   width?: number,
 ): string | undefined {
   if (!image) return undefined;
+  // Objeto sem arquivo (ex.: só alt, vindo de seed) gera URL inválida: não usar
+  const ref = (image as { asset?: { _ref?: string } }).asset?._ref ?? "";
+  if (!ref) return undefined;
   try {
+    // SVG não aceita redimensionamento/conversão de formato: usa a URL original
+    if (ref.endsWith("-svg")) return urlFor(image).url();
     let img = urlFor(image);
     if (width) img = img.width(width);
     return img.auto("format").url();
@@ -177,7 +182,7 @@ export type Homepage = {
   missaoVisaoValores?: {
     badge?: string;
     title?: string;
-    items?: Array<{ label?: string; text?: string }>;
+    items?: Array<{ label?: string; text?: string; bullets?: string[] }>;
   };
   grupoAwa?: {
     badge?: string;
@@ -203,7 +208,7 @@ export type Homepage = {
     badge?: string;
     title?: string;
     subtitle?: string;
-    stats?: Array<{ value?: string; label?: string; suffix?: string }>;
+    stats?: Array<{ prefix?: string; value?: string; label?: string; suffix?: string }>;
   };
   premios?: {
     badge?: string;
@@ -271,14 +276,19 @@ export type Homepage = {
 };
 
 export const HOMEPAGE_QUERY = `{
-  "seo": coalesce(*[_id == "home-seo"][0].seo, *[_id == "site-seo"][0].defaultSeo, *[_id == "siteSettings"][0].defaultSeo),
+  "seo": coalesce(
+    *[_id == "home-seo"][0].seo{ title, description, keywords, ogTitle, ogDescription, ogImage, twitterCard, noIndex },
+    *[_id == "site-seo"][0]{ title, description, keywords, ogTitle, ogDescription, ogImage, twitterCard, noIndex },
+    *[_id == "site-seo"][0].defaultSeo,
+    *[_id == "siteSettings"][0].defaultSeo
+  ),
   "hero": *[_id == "home-hero"][0]{ visible, sectionId, headline, backgroundImage, sideImage },
   "fundador": *[_id == "home-sobre"][0]{ visible, "data": fundador{ badge, name, title, body, photo, podcastVideoId, podcastTitle, podcastCover } }.data,
-  "missaoVisaoValores": *[_id == "home-sobre"][0].missaoVisaoValores{ items[]{ label, text } },
+  "missaoVisaoValores": *[_id == "home-sobre"][0].missaoVisaoValores{ items[]{ label, text, bullets } },
   "grupoAwa": *[_id == "home-estrutura"][0]{ visible, "data": grupoAwa{ badge, title, subtitle, pillars[]{ _key, name, description }, diagramImage, iconImage } }.data,
   "diretoria": *[_id == "home-diretoria"][0]{ visible, "data": diretoria{ badge, title, subtitle, members[]->{ _id, name, role, bio, photo, category, order } } }.data,
   "especialistas": *[_id == "home-especialistas"][0]{ visible, "data": especialistas{ title, members[]->{ _id, name, role, bio, photo, category, order } } }.data,
-  "provas": *[_id == "home-provas"][0]{ visible, "data": provas{ badge, title, subtitle, stats[]{ prefix, value, label, suffix }, mapImage } }.data,
+  "provas": *[_id == "home-provas"][0]{ visible, "data": provas{ badge, title, subtitle, stats[]{ prefix, value, label, suffix }, "mapImage": coalesce(mapImage, ^.mapImage) } }.data,
   "premios": *[_id == "home-provas"][0]{ visible, "data": premios{ badge, title, subtitle, awards[]{ title, year, description, image } } }.data,
   "parceriaXp": *[_id == "home-investimentos"][0]{ visible, "data": parceriaXp{ sectionId, badge, title, subtitle, body, logo, cta, numerosXp, modelosTitle, nasdaqImage, modelos[]{ _key, titulo, texto, destaque, destaqueLabel }, highlights[]{ _key, title, text } } }.data,
   "wealthServices": *[_id == "home-solucoes"][0]{ visible, "data": wealthServices{ sectionId, badge, title, subtitle, services[]{ _key, title, description, icone }, cta } }.data,
@@ -315,7 +325,11 @@ export const SITE_SETTINGS_QUERY = `{
   "socialTitle": *[_id == "site-footer-social"][0].socialTitle,
   "cookiesLabel": *[_id == "site-footer-legal"][0].cookiesLabel,
   "regulatoryLabel": *[_id == "site-footer-legal"][0].regulatoryLabel,
-  "defaultSeo": coalesce(*[_id == "site-seo"][0].defaultSeo, *[_id == "siteSettings"][0].defaultSeo){ ..., ogImage },
+  "defaultSeo": coalesce(
+    *[_id == "site-seo"][0]{ title, description, keywords, ogTitle, ogDescription, ogImage, twitterCard, noIndex },
+    *[_id == "site-seo"][0].defaultSeo,
+    *[_id == "siteSettings"][0].defaultSeo
+  ){ ..., ogImage },
   "headScripts": coalesce(*[_id == "site-scripts"][0].headScripts, *[_id == "siteSettings"][0].headScripts)[]{ label, enabled, position, code },
   "phoneEspecialista": *[_id == "site-contact"][0].phoneEspecialista,
   "messageEspecialista": *[_id == "site-contact"][0].messageEspecialista,
