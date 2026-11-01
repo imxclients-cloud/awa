@@ -1,3 +1,4 @@
+import { Doc, clean, editAttr } from "@/lib/sanity-attr";
 import { useEffect, useRef, useState } from "react";
 import { Check } from "lucide-react";
 import { Reveal } from "@/components/reveal";
@@ -10,17 +11,11 @@ type Item = {
   sufixo?: string;
 };
 
-const FALLBACK_ITENS: Item[] = [
-  { prefixo: "Unidades em São Luís (MA), Fortaleza (CE) e Recife (PE);" },
-  { prefixo: "+ R$ ", valor: 850, sufixo: " milhões sob custódia;" },
-  { prefixo: "+ ", valor: 1300, sufixo: " clientes;" },
-  { prefixo: "+ ", valor: 40, sufixo: " profissionais." },
-];
 
 function statsFromCms(
   stats?: Array<{ prefix?: string; value?: string; suffix?: string; label?: string }> | null,
 ): Item[] {
-  if (!stats?.length) return FALLBACK_ITENS;
+  if (!stats?.length) return [];
   return stats.map((s) => {
     const num = s.value?.trim() ? Number(String(s.value).replace(/\D/g, "")) : undefined;
     return {
@@ -70,7 +65,17 @@ function TextoComCidades({ texto }: { texto: string }) {
   );
 }
 
-function ItemResumo({ item, ativo, indice }: { item: Item; ativo: boolean; indice: number }) {
+function ItemResumo({
+  item,
+  ativo,
+  indice,
+  editPath,
+}: {
+  item: Item;
+  ativo: boolean;
+  indice: number;
+  editPath?: string;
+}) {
   const anim = {
     opacity: ativo ? 1 : 0,
     transform: ativo ? "translateY(0)" : "translateY(14px)",
@@ -78,7 +83,7 @@ function ItemResumo({ item, ativo, indice }: { item: Item; ativo: boolean; indic
   };
 
   return (
-    <li className="flex items-start gap-4" style={anim}>
+    <li className="flex items-start gap-4" style={anim} data-sanity={editPath ? editAttr(Doc.provas, editPath) : undefined}>
       <span
         aria-hidden
         className="mt-1 flex size-6 shrink-0 items-center justify-center rounded-full md:size-7"
@@ -167,8 +172,12 @@ export function Provas({ data }: Props) {
       style={{ background: "#FFFFFF" }}
     >
       <div className="relative mx-auto w-full max-w-[1200px] px-5 text-center md:px-8">
+        <Reveal className="flex justify-center">
+          <SectionBadge data-sanity={editAttr(Doc.provas, "badge")}>{badge}</SectionBadge>
+        </Reveal>
         <Reveal delay={100}>
           <h2
+            data-sanity={editAttr(Doc.provas, "title")}
             className="mx-auto mt-5 max-w-2xl font-display text-[1.7rem] leading-[1.14] font-bold tracking-tight md:text-4xl lg:text-[2.4rem]"
             style={{ color: "#232323" }}
           >
@@ -180,7 +189,8 @@ export function Provas({ data }: Props) {
           <Reveal>
             <img
               src={sanityImageUrl((data as any)?.mapImage, 800) || "/brazil-map.png"}
-              alt="Mapa do Brasil com destaque para as unidades em São Luís (MA), Fortaleza (CE) e Recife (PE)"
+              alt={clean((data as any)?.mapImage?.alt)}
+              data-sanity={editAttr(Doc.provas, "mapImage")}
               className="h-auto w-full max-w-[720px] select-none"
               width={1536}
               height={1024}
@@ -191,7 +201,7 @@ export function Provas({ data }: Props) {
 
           <ul className="flex flex-col gap-6 md:gap-8">
             {listaProvas.map((item, i) => (
-              <ItemResumo key={`${item.prefixo}-${i}`} item={item} ativo={ativo} indice={i} />
+              <ItemResumo key={`${item.prefixo}-${i}`} item={item} ativo={ativo} indice={i} editPath={`stats[${i}]`} />
             ))}
           </ul>
         </div>

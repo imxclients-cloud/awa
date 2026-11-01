@@ -1,7 +1,12 @@
+import { Doc, DocExtra, clean, editAttr } from "@/lib/sanity-attr";
+import { portableTextToPlain } from "@/lib/sanity";
 import type { ReactNode } from "react";
 import { Link } from "@tanstack/react-router";
 import { Instagram } from "lucide-react";
 import awaLogo from "@/assets/logo-horizontal.svg.asset.json";
+import { sanityImageUrl } from "@/lib/sanity";
+
+const LOGO_XP_DEFAULT = "/logo-xp-investimentos-icon-4096.png";
 import { OPEN_COOKIE_SETTINGS_EVENT } from "@/components/cookie-consent";
 import { WHATSAPP_ESPECIALISTA } from "@/lib/contact";
 import type { SiteSettings } from "@/lib/sanity";
@@ -26,30 +31,6 @@ type ItemFooter = {
   href?: string;
   external?: boolean;
 };
-
-const colunas: Array<{ titulo: string; links: ItemFooter[] }> = [
-  {
-    titulo: "Institucional",
-    links: [
-      { label: "Sobre nós", to: "/", hash: "sobre" },
-      { label: "Investimentos", to: "/", hash: "investimentos" },
-      { label: "Soluções para Famílias", to: "/", hash: "familias" },
-      { label: "Soluções para Empresas", to: "/", hash: "empresas" },
-      { label: "Trabalhe conosco", to: "/", hash: "trabalhe-conosco" },
-      { label: "Assessores de Investimentos", to: "/assessores" },
-      { label: "Falar com um Especialista", href: WHATSAPP_ESPECIALISTA, external: true },
-    ],
-  },
-  {
-    titulo: "Legal",
-    links: [
-      { label: "Política de Privacidade", to: "/politica-de-privacidade" },
-      { label: "Termos de Uso", to: "/termos-de-uso" },
-      { label: "Avisos legais", to: "/avisos-legais" },
-      { label: "Informações regulatórias", to: "/informacoes-regulatorias" },
-    ],
-  },
-];
 
 const linkClassName =
   "group relative inline-flex font-sans text-sm text-[rgba(225,222,205,0.7)] transition-colors duration-300 hover:text-[#FEB202]";
@@ -107,7 +88,7 @@ export function SiteFooter({ settings }: { settings?: SiteSettings | null } = {}
             external: l.linkType === "external",
           })),
         }))
-      : colunas;
+      : [];
 
   const copyright =
     settings?.footerCopyright?.trim() ||
@@ -115,7 +96,7 @@ export function SiteFooter({ settings }: { settings?: SiteSettings | null } = {}
       ? (settings.siteName.trim().startsWith("©")
           ? settings.siteName.trim()
           : `© ${settings.siteName.trim()}`)
-      : "© A.W.A Capital");
+      : "");
   const socials = settings?.socialLinks;
 
   return (
@@ -140,22 +121,25 @@ export function SiteFooter({ settings }: { settings?: SiteSettings | null } = {}
         <div className="flex flex-wrap items-center gap-6">
           <img
             data-slot="logo-awa"
-            src={awaLogo.url}
-            alt="A.W.A Capital"
+            src={sanityImageUrl(settings?.logoAwaFooter, 338) || awaLogo.url}
+            alt={clean((settings?.logoAwaFooter as { alt?: string } | undefined)?.alt)}
             loading="lazy"
             width={338}
             height={52}
             className="h-7 w-auto brightness-0 invert md:h-8"
+            data-sanity={editAttr(Doc.footerLogos, "logoAwa")}
           />
           <span aria-hidden className="h-8 w-px" style={{ background: "rgba(254,178,2,0.45)" }} />
-          <span
+          <img
             data-slot="logo-xp"
-            aria-label="XP Investimentos"
-            className="font-display text-sm font-extrabold tracking-[0.2em] uppercase"
-            style={{ color: "rgba(225,222,205,0.7)" }}
-          >
-            XP Investimentos
-          </span>
+            src={sanityImageUrl(settings?.logoXpFooter, 320) || LOGO_XP_DEFAULT}
+            alt={clean((settings?.logoXpFooter as { alt?: string } | undefined)?.alt)}
+            loading="lazy"
+            width={1600}
+            height={1600}
+            className="h-8 w-auto md:h-9"
+            data-sanity={editAttr(Doc.footerLogos, "logoXp")}
+          />
         </div>
 
         {/* grade editorial de colunas */}
@@ -169,16 +153,17 @@ export function SiteFooter({ settings }: { settings?: SiteSettings | null } = {}
               style={{ borderColor: "rgba(225,222,205,0.1)" }}
             >
               <h3
+                data-sanity={editAttr(DocExtra.footerColumns, `footerColumns[${i}].title`)}
                 className="font-display text-[0.65rem] font-extrabold tracking-[0.3em] uppercase"
                 style={{ color: "rgba(254,178,2,0.85)" }}
               >
                 {c.titulo}
               </h3>
               <ul className="mt-5 flex flex-col gap-3">
-                {c.links.map((l) => (
-                  <li key={l.label}>
+                {c.links.map((l, j) => (
+                  <li key={`${l.label}-${j}`}>
                     <LinkFooter href={l.href} to={l.to} hash={l.hash} external={l.external}>
-                      {l.label}
+                      <span data-sanity={editAttr(DocExtra.footerColumns, `footerColumns[${i}].links[${j}].label`)}>{l.label}</span>
                     </LinkFooter>
                   </li>
                 ))}
@@ -194,7 +179,7 @@ export function SiteFooter({ settings }: { settings?: SiteSettings | null } = {}
               className="font-display text-[0.65rem] font-extrabold tracking-[0.3em] uppercase"
               style={{ color: "rgba(254,178,2,0.85)" }}
             >
-              Redes sociais
+              <span data-sanity={editAttr(DocExtra.footerSocial, "socialTitle")}>{settings?.socialTitle}</span>
             </h3>
             <div className="mt-5 flex items-center gap-4">
               <a
@@ -233,16 +218,11 @@ export function SiteFooter({ settings }: { settings?: SiteSettings | null } = {}
         {/* disclaimers regulatórios XP */}
         <div className="mt-14 border-t pt-8" style={{ borderColor: "rgba(225,222,205,0.1)" }}>
           <p
+            data-sanity={editAttr(DocExtra.footerLegal, "footerLegalText")}
             className="max-w-4xl font-sans text-[0.7rem] leading-relaxed"
             style={{ color: "rgba(225,222,205,0.45)" }}
           >
-            A A.W.A Capital é um escritório de agentes autônomos de investimento credenciado à XP
-            Investimentos CCTVM S.A. Este material tem caráter meramente informativo e não deve ser
-            considerado como oferta, recomendação ou análise de investimento. Rentabilidade passada
-            não representa garantia de rentabilidade futura. Antes de investir, consulte um
-            especialista e leia atentamente o material informativo dos produtos indicados. [Texto de
-            disclaimer regulatório a ser substituído pelo conteúdo jurídico do site anterior,
-            conforme exigências da XP.]
+            {portableTextToPlain(settings?.footerLegalText as any)}
           </p>
         </div>
 
@@ -251,7 +231,7 @@ export function SiteFooter({ settings }: { settings?: SiteSettings | null } = {}
           className="mt-8 flex flex-col gap-3 border-t pt-6 md:flex-row md:items-center md:justify-between"
           style={{ borderColor: "rgba(225,222,205,0.1)" }}
         >
-          <p className="font-sans text-xs" style={{ color: "rgba(225,222,205,0.5)" }}>
+          <p data-sanity={editAttr(DocExtra.footerLegal, "footerCopyright")} className="font-sans text-xs" style={{ color: "rgba(225,222,205,0.5)" }}>
             {copyright}
           </p>
           <div className="flex items-center gap-4">
@@ -261,7 +241,7 @@ export function SiteFooter({ settings }: { settings?: SiteSettings | null } = {}
               className="cursor-pointer font-sans text-xs transition-colors duration-300 hover:text-accent"
               style={{ color: "rgba(225,222,205,0.5)" }}
             >
-              Gerenciar cookies
+              <span data-sanity={editAttr(DocExtra.footerLegal, "cookiesLabel")}>{settings?.cookiesLabel}</span>
             </button>
             <span
               aria-hidden
@@ -273,7 +253,7 @@ export function SiteFooter({ settings }: { settings?: SiteSettings | null } = {}
               className="font-sans text-xs transition-colors duration-300 hover:text-accent"
               style={{ color: "rgba(225,222,205,0.5)" }}
             >
-              Informações regulatórias
+              <span data-sanity={editAttr(DocExtra.footerLegal, "regulatoryLabel")}>{settings?.regulatoryLabel}</span>
             </Link>
           </div>
         </div>

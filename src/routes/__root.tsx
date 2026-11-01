@@ -13,6 +13,7 @@ import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { MirandaSansFonts } from "@/components/miranda-sans-fonts";
 import { CookieConsent } from "@/components/cookie-consent";
+import { loadCookieConfig } from "@/lib/page-data.server";
 import { VisualEditing } from "@/components/visual-editing";
 
 function NotFoundComponent() {
@@ -104,6 +105,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
   }),
 
   shellComponent: RootShell,
+  loader: () => loadCookieConfig(),
   component: RootComponent,
   notFoundComponent: NotFoundComponent,
   errorComponent: ErrorComponent,
@@ -125,6 +127,7 @@ function RootShell({ children }: { children: ReactNode }) {
 }
 
 function RootComponent() {
+  const cookieConfig = Route.useLoaderData();
   const { queryClient } = Route.useRouteContext();
 
   return (
@@ -133,7 +136,7 @@ function RootComponent() {
       <Outlet />
       {/* Aviso de cookies global (aparece em todas as páginas). */}
       <VisualEditing />
-      <CookieConsent />
+      <CookieConsent config={cookieConfig} />
     </QueryClientProvider>
   );
 }

@@ -1,3 +1,4 @@
+import { Doc, editAttr } from "@/lib/sanity-attr";
 import { useEffect, useRef, useState } from "react";
 import { Reveal } from "@/components/reveal";
 import { SectionBadge } from "@/components/section-badge";
@@ -101,6 +102,7 @@ type Props = { data?: Homepage["premios"] | null };
 export function Premios({ data }: Props) {
   const badge = data?.badge?.trim() || "Mural de conquistas";
   const title = data?.title?.trim() || "Mural de conquistas";
+  const subtitle = data?.subtitle?.trim() || "";
   const awards =
     data?.awards && data.awards.length > 0
       ? data.awards.map((a) => ({
@@ -131,11 +133,11 @@ export function Premios({ data }: Props) {
 
         <div className="relative mx-auto w-full max-w-[1280px] px-6 text-center md:px-8">
           <Reveal className="flex justify-center">
-            <SectionBadge>{title}</SectionBadge>
+            <SectionBadge data-sanity={editAttr(Doc.provas, "premios.badge")}>{title}</SectionBadge>
           </Reveal>
           <Reveal delay={100}>
-            <h2 className="mx-auto mt-3 max-w-2xl font-display text-[1.3rem] leading-[1.14] font-extrabold tracking-tight text-white md:mt-5 md:text-3xl lg:text-[2.2rem]">
-              Selos e prêmios que marcam nossa trajetória.
+            <h2 data-sanity={editAttr(Doc.provas, "premios.subtitle")} className="mx-auto mt-3 max-w-2xl font-display text-[1.3rem] leading-[1.14] font-extrabold tracking-tight text-white md:mt-5 md:text-3xl lg:text-[2.2rem]">
+              {subtitle}
             </h2>
           </Reveal>
 

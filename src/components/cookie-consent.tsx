@@ -20,37 +20,6 @@ type Categoria = {
   essencial: boolean;
 };
 
-const categorias: Categoria[] = [
-  {
-    id: "funcionais",
-    titulo: "Cookies Funcionais",
-    descricao:
-      "Estes cookies são essenciais e estritamente necessários para o funcionamento dos nossos websites da melhor forma possível. Estes são armazenados temporariamente contendo dados como informações de login, e são cookies de sessão que expiram assim que o navegador é encerrado. Essa categoria não pode ser desabilitada, no entanto, caso tenha interesse, é possível realizar configurações de bloqueio através de seu navegador, mas isso pode afetar sua experiência e o funcionamento de nosso site.",
-    essencial: true,
-  },
-  {
-    id: "analiticos",
-    titulo: "Cookies Analíticos",
-    descricao:
-      "São cookies de monitoramento do desempenho, viabilizando a análise de padrões do comportamento dos visitantes e de uso dos recursos. Esse é um tratamento de dados não invasivo, com uso de dados anonimizados para estabelecer métricas de visualizações e interações com recursos do website, por exemplo. Uma vez que essa informação não pode ser usada para sua identificação, não contêm informação pessoal (como Nome e Endereço de E-mail), e é apenas utilizada para fins estatísticos, definimos que essa categoria não pode ser desabilitada. No entanto, caso tenha interesse, é possível realizar configurações de bloqueio diretamente através de seu navegador, mas isso pode afetar sua experiência e o funcionamento de nosso site.",
-    essencial: true,
-  },
-  {
-    id: "promocionais",
-    titulo: "Cookies Promocionais",
-    descricao:
-      "Estes cookies são utilizados para identificar e apresentar publicidade relevante para o usuário durante sua navegação, de acordo com seus interesses. Podem ser utilizados cookies de terceiros (como Google, Meta, Bytedance, Hightouch, e Hotjar).",
-    essencial: false,
-  },
-  {
-    id: "preferenciais",
-    titulo: "Cookies Preferenciais",
-    descricao:
-      "São cookies que possibilitam um website lembrar informações que alteram o comportamento ou aspeto visual deste, como idioma preferido ou a região onde está, por exemplo.",
-    essencial: false,
-  },
-];
-
 type Preferencias = Record<CategoriaId, boolean>;
 
 const somenteEssenciais: Preferencias = {
@@ -74,7 +43,9 @@ const botaoSecundario = `${botaoBase} rounded-full border px-6 py-3 text-foregro
 const bordaSuave = { borderColor: "rgba(225,222,205,0.14)" };
 const painelEscuro = { background: "rgba(17,17,17,0.94)", borderColor: "rgba(254,178,2,0.3)" };
 
-export function CookieConsent() {
+import type { CookieConfig } from "@/lib/page-data.server";
+
+export function CookieConsent({ config }: { config?: CookieConfig | null }) {
   const [visivel, setVisivel] = useState(false);
   const [modalAberto, setModalAberto] = useState(false);
   const [aba, setAba] = useState("politica");
@@ -133,6 +104,17 @@ export function CookieConsent() {
     setModalAberto(true);
   }
 
+  if (!config) return null;
+
+  const categorias: Categoria[] = (config.categories ?? [])
+    .filter((c) => c.key)
+    .map((c) => ({
+      id: c.key as CategoriaId,
+      titulo: c.title ?? "",
+      descricao: c.description ?? "",
+      essencial: c.essential === true,
+    }));
+
   return (
     <>
       {visivel && !modalAberto ? (
@@ -149,24 +131,20 @@ export function CookieConsent() {
               className="font-sans text-[0.8rem] leading-relaxed md:text-sm"
               style={{ color: "rgba(225,222,205,0.8)" }}
             >
-              Clicando em “Aceitar Cookies”, você concorda com o armazenamento destes para melhoria
-              na sua navegação pelo site. Se clicar em “Rejeitar Cookies”, os dados que não forem
-              estritamente necessários serão desativados.{" "}
+              {config.bannerText}{" "}
               <button
                 type="button"
                 onClick={abrirConfiguracoes}
                 className="cursor-pointer font-semibold text-accent underline decoration-accent/50 underline-offset-4 transition-colors hover:text-accent-hover"
               >
-                Gerenciar
+                {config.manageLabel}
               </button>{" "}
-              ou{" "}
               <Link
                 to="/politica-de-privacidade"
                 className="font-semibold text-accent underline decoration-accent/50 underline-offset-4 transition-colors hover:text-accent-hover"
               >
-                Saiba mais
+                {config.learnMoreLabel}
               </Link>
-              .
             </p>
 
             <div className="flex shrink-0 flex-col gap-3 sm:flex-row">
@@ -176,10 +154,10 @@ export function CookieConsent() {
                 className={botaoSecundario}
                 style={bordaSuave}
               >
-                Rejeitar Cookies
+                {config.rejectLabel}
               </button>
               <button type="button" onClick={() => salvar(todasAceitas)} className={botaoPrimario}>
-                Aceitar Cookies
+                {config.acceptLabel}
               </button>
             </div>
           </div>
@@ -195,10 +173,10 @@ export function CookieConsent() {
             className="font-display border-b py-5 pr-14 pl-6 text-lg font-extrabold tracking-tight"
             style={bordaSuave}
           >
-            Configure seus cookies
+            {config.modalTitle}
           </DialogTitle>
           <DialogDescription className="sr-only">
-            Gerencie as categorias de cookies utilizadas no site da A.W.A Capital.
+            {config.modalDescription}
           </DialogDescription>
 
           <Tabs value={aba} onValueChange={setAba} className="flex min-h-0 flex-col">
@@ -207,8 +185,8 @@ export function CookieConsent() {
               style={bordaSuave}
             >
               {[
-                { valor: "politica", label: "Nossa política de cookies" },
-                { valor: "config", label: "Mude sua configuração" },
+                { valor: "politica", label: config.policyTabLabel ?? "" },
+                { valor: "config", label: config.configTabLabel ?? "" },
               ].map((t) => (
                 <TabsTrigger
                   key={t.valor}
@@ -227,23 +205,7 @@ export function CookieConsent() {
                   className="font-sans text-sm leading-relaxed"
                   style={{ color: "rgba(225,222,205,0.75)" }}
                 >
-                  Utilizamos cookies para garantir que será proporcionada a melhor experiência
-                  enquanto visita o nosso website. Alguns dos cookies são necessários para fornecer
-                  funcionalidades essenciais, como sessões de login e análise anonimizada de
-                  desempenho, e não podem ser desativados. Outros cookies são coletados para
-                  melhorar a sua experiência através de conteúdo personalizado, funcionalidades nas
-                  redes sociais e preferências no uso do site. Estes cookies podem também incluir
-                  cookies de terceiros, os quais podem monitorar a navegação e são configuráveis no
-                  próprio navegador ou então através das plataformas destes terceiros. Importante:
-                  você pode alterar as configurações de cookies a qualquer momento. Saiba mais
-                  detalhes acessando a nossa{" "}
-                  <Link
-                    to="/politica-de-privacidade"
-                    className="text-accent decoration-accent/50 hover:text-accent-hover font-semibold underline underline-offset-4 transition-colors"
-                  >
-                    política de privacidade
-                  </Link>
-                  .
+                  {config.policyText}
                 </p>
               </div>
               <div
@@ -256,14 +218,14 @@ export function CookieConsent() {
                   className={botaoSecundario}
                   style={bordaSuave}
                 >
-                  Rejeitar Cookies
+                  {config.rejectLabel}
                 </button>
                 <button
                   type="button"
                   onClick={() => salvar(todasAceitas)}
                   className={botaoPrimario}
                 >
-                  Aceitar Cookies
+                  {config.acceptLabel}
                 </button>
               </div>
             </TabsContent>
@@ -297,7 +259,7 @@ export function CookieConsent() {
                         </p>
                         {c.essencial ? (
                           <p className="font-display text-accent mt-2 text-[0.6rem] font-extrabold tracking-[0.2em] uppercase">
-                            Sempre ativo
+                            {config.alwaysActiveLabel}
                           </p>
                         ) : null}
                       </div>

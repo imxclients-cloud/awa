@@ -66,7 +66,7 @@ export const Route = createFileRoute("/api/cms-backup")({
         }
 
         var expected = process.env["CMS_BACKUP_SECRET"] || "";
-        if (expected && body.secret !== expected) {
+        if (!expected || body.secret !== expected) {
           return jsonRes(request, { ok: false, message: "Secret inválido" }, 401);
         }
 

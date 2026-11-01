@@ -1,3 +1,4 @@
+import { Doc, clean, editAttr } from "@/lib/sanity-attr";
 import { useState, type FormEvent } from "react";
 import { Reveal } from "@/components/reveal";
 import { SectionBadge } from "@/components/section-badge";
@@ -9,25 +10,22 @@ type Props = { data?: Homepage["trabalheConosco"] | null };
 type Status = "idle" | "sending" | "success" | "error";
 
 export function TrabalheConosco({ data }: Props) {
-  const sectionId = data?.sectionId || "trabalhe-conosco";
-  const badge = data?.badge?.trim() || "Trabalhe conosco";
-  const title = data?.title?.trim() || "Quero fazer parte da A.W.A.";
-  const subtitle =
-    data?.subtitle?.trim() ||
-    "Fale diretamente com o nosso time de Expansão pelo WhatsApp, ou deixe seus dados que entraremos em contato.";
+  const sectionId = clean(data?.sectionId);
+  const badge = data?.badge?.trim() ?? "";
+  const title = data?.title?.trim() ?? "";
+  const subtitle = data?.subtitle?.trim() ?? "";
 
-  const formTitle = data?.formTitle?.trim() || "Envie seus dados";
-  const labelNome = data?.labelNome?.trim() || "Nome";
-  const placeholderNome = data?.placeholderNome?.trim() || "Seu nome completo";
-  const labelEmail = data?.labelEmail?.trim() || "E-mail";
-  const placeholderEmail = data?.placeholderEmail?.trim() || "seu@email.com";
-  const labelTelefone = data?.labelTelefone?.trim() || "Telefone";
-  const placeholderTelefone = data?.placeholderTelefone?.trim() || "(98) 99999-9999";
-  const labelLinkedin = data?.labelLinkedin?.trim() || "LinkedIn";
-  const placeholderLinkedin = data?.placeholderLinkedin?.trim() || "linkedin.com/in/seu-perfil";
-  const submitLabel = data?.submitLabel?.trim() || "Quero fazer parte da A.W.A";
-  const successMessage =
-    data?.successMessage?.trim() || "Recebemos seus dados! Em breve entraremos em contato.";
+  const formTitle = data?.formTitle?.trim() ?? "";
+  const labelNome = data?.labelNome?.trim() ?? "";
+  const placeholderNome = data?.placeholderNome?.trim() ?? "";
+  const labelEmail = data?.labelEmail?.trim() ?? "";
+  const placeholderEmail = data?.placeholderEmail?.trim() ?? "";
+  const labelTelefone = data?.labelTelefone?.trim() ?? "";
+  const placeholderTelefone = data?.placeholderTelefone?.trim() ?? "";
+  const labelLinkedin = data?.labelLinkedin?.trim() ?? "";
+  const placeholderLinkedin = data?.placeholderLinkedin?.trim() ?? "";
+  const submitLabel = data?.submitLabel?.trim() ?? "";
+  const successMessage = data?.successMessage?.trim() ?? "";
   const alsoOpenWhatsapp = data?.alsoOpenWhatsapp === true;
 
   const [form, setForm] = useState({
@@ -85,22 +83,22 @@ export function TrabalheConosco({ data }: Props) {
 
   return (
     <section
-      id={sectionId}
+      id={sectionId || undefined}
       className="relative overflow-hidden bg-surface-light py-10 md:py-10 lg:py-20"
     >
       <div className="mx-auto w-full max-w-[1280px] px-5 md:px-8">
         <div className="grid gap-14 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1fr)] lg:gap-16">
           <div>
             <Reveal className="flex justify-center lg:justify-start">
-              <SectionBadge>{badge}</SectionBadge>
+              <SectionBadge data-sanity={editAttr(Doc.trabalhe, "trabalheConosco.badge")}>{badge}</SectionBadge>
             </Reveal>
             <Reveal delay={100}>
-              <h2 className="mt-6 font-display text-[1.75rem] leading-[1.1] font-extrabold tracking-tight text-ink md:text-4xl lg:text-[2.4rem]">
+              <h2 data-sanity={editAttr(Doc.trabalhe, "trabalheConosco.title")} className="mt-6 font-display text-[1.75rem] leading-[1.1] font-extrabold tracking-tight text-ink md:text-4xl lg:text-[2.4rem]">
                 {title}
               </h2>
             </Reveal>
             <Reveal delay={180}>
-              <p className="mt-6 max-w-md font-sans text-base leading-relaxed text-ink-muted md:text-lg">
+              <p data-sanity={editAttr(Doc.trabalhe, "trabalheConosco.subtitle")} className="mt-6 max-w-md font-sans text-base leading-relaxed text-ink-muted md:text-lg">
                 {subtitle}
               </p>
             </Reveal>
@@ -113,7 +111,7 @@ export function TrabalheConosco({ data }: Props) {
                 rel="noopener noreferrer"
                 className="mt-8 inline-flex items-center justify-center rounded-full border border-accent px-6 py-3.5 font-sans text-sm font-semibold text-ink transition-colors hover:bg-accent/10"
               >
-                {data?.cta?.label?.trim() || "Falar com o time de Expansão — (98) 99967-2335"}
+                <span data-sanity={editAttr(Doc.trabalhe, "trabalheConosco.cta.label")}>{data?.cta?.label?.trim() ?? ""}</span>
               </a>
             </Reveal>
           </div>
@@ -124,7 +122,7 @@ export function TrabalheConosco({ data }: Props) {
               className="rounded-3xl border border-ink-hairline bg-white p-6 shadow-sm md:p-8"
               noValidate
             >
-              <h3 className="font-display text-lg font-extrabold tracking-tight text-ink md:text-xl">
+              <h3 data-sanity={editAttr(Doc.trabalhe, "trabalheConosco.formTitle")} className="font-display text-lg font-extrabold tracking-tight text-ink md:text-xl">
                 {formTitle}
               </h3>
 
@@ -143,58 +141,58 @@ export function TrabalheConosco({ data }: Props) {
               <div className="mt-6 flex flex-col gap-4">
                 <label className="flex flex-col gap-1.5 text-left">
                   <span className="font-sans text-xs font-semibold tracking-wide text-ink uppercase">
-                    {labelNome}
+                    <span data-sanity={editAttr(Doc.trabalhe, "trabalheConosco.labelNome")}>{labelNome}</span>
                   </span>
                   <input
                     required
                     value={form.nome}
                     onChange={(e) => setForm((f) => ({ ...f, nome: e.target.value }))}
-                    placeholder={placeholderNome}
+                    placeholder={placeholderNome} data-sanity={editAttr(Doc.trabalhe, "trabalheConosco.placeholderNome")}
                     className="rounded-xl border border-ink-hairline bg-white px-4 py-3 font-sans text-sm text-ink outline-none focus:border-accent"
                   />
                 </label>
 
                 <label className="flex flex-col gap-1.5 text-left">
                   <span className="font-sans text-xs font-semibold tracking-wide text-ink uppercase">
-                    {labelEmail}
+                    <span data-sanity={editAttr(Doc.trabalhe, "trabalheConosco.labelEmail")}>{labelEmail}</span>
                   </span>
                   <input
                     required
                     type="email"
                     value={form.email}
                     onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))}
-                    placeholder={placeholderEmail}
+                    placeholder={placeholderEmail} data-sanity={editAttr(Doc.trabalhe, "trabalheConosco.placeholderEmail")}
                     className="rounded-xl border border-ink-hairline bg-white px-4 py-3 font-sans text-sm text-ink outline-none focus:border-accent"
                   />
                 </label>
 
                 <label className="flex flex-col gap-1.5 text-left">
                   <span className="font-sans text-xs font-semibold tracking-wide text-ink uppercase">
-                    {labelTelefone}
+                    <span data-sanity={editAttr(Doc.trabalhe, "trabalheConosco.labelTelefone")}>{labelTelefone}</span>
                   </span>
                   <input
                     value={form.telefone}
                     onChange={(e) => setForm((f) => ({ ...f, telefone: e.target.value }))}
-                    placeholder={placeholderTelefone}
+                    placeholder={placeholderTelefone} data-sanity={editAttr(Doc.trabalhe, "trabalheConosco.placeholderTelefone")}
                     className="rounded-xl border border-ink-hairline bg-white px-4 py-3 font-sans text-sm text-ink outline-none focus:border-accent"
                   />
                 </label>
 
                 <label className="flex flex-col gap-1.5 text-left">
                   <span className="font-sans text-xs font-semibold tracking-wide text-ink uppercase">
-                    {labelLinkedin}
+                    <span data-sanity={editAttr(Doc.trabalhe, "trabalheConosco.labelLinkedin")}>{labelLinkedin}</span>
                   </span>
                   <input
                     value={form.linkedin}
                     onChange={(e) => setForm((f) => ({ ...f, linkedin: e.target.value }))}
-                    placeholder={placeholderLinkedin}
+                    placeholder={placeholderLinkedin} data-sanity={editAttr(Doc.trabalhe, "trabalheConosco.placeholderLinkedin")}
                     className="rounded-xl border border-ink-hairline bg-white px-4 py-3 font-sans text-sm text-ink outline-none focus:border-accent"
                   />
                 </label>
 
                 {status === "success" ? (
                   <p className="mt-2 font-sans text-sm font-medium text-green-700" role="status">
-                    {successMessage}
+                    <span data-sanity={editAttr(Doc.trabalhe, "trabalheConosco.successMessage")}>{successMessage}</span>
                   </p>
                 ) : null}
                 {status === "error" ? (
@@ -209,7 +207,7 @@ export function TrabalheConosco({ data }: Props) {
                   className="mt-2 inline-flex items-center justify-center rounded-full px-7 py-3.5 font-sans text-sm font-semibold text-white transition-transform duration-300 hover:-translate-y-0.5 disabled:opacity-60"
                   style={{ background: "#232323" }}
                 >
-                  {status === "sending" ? "Enviando…" : submitLabel}
+                  {status === "sending" ? "Enviando…" : <span data-sanity={editAttr(Doc.trabalhe, "trabalheConosco.submitLabel")}>{submitLabel}</span>}
                 </button>
               </div>
             </form>

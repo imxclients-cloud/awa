@@ -148,10 +148,16 @@ export type SiteSettings = {
   leadsSaveToSanity?: boolean;
   addresses?: Array<{ city?: string; label?: string; address?: string; mapsUrl?: string }>;
   socialLinks?: Array<{ network?: string; label?: string; url?: string }>;
+  socialTitle?: string;
+  cookiesLabel?: string;
+  regulatoryLabel?: string;
+  logoAwaFooter?: SanityImageSource & { alt?: string };
+  logoXpFooter?: SanityImageSource & { alt?: string };
 };
 
 export type Homepage = {
   seo?: SanitySeo;
+  sectionVisibility?: Partial<Record<string, boolean | null>>;
   hero?: {
     headline?: string;
     backgroundImage?: SanityImageSource & { alt?: string };
@@ -166,6 +172,7 @@ export type Homepage = {
     photo?: SanityImageSource & { alt?: string };
     podcastVideoId?: string;
     podcastTitle?: string;
+    podcastCover?: SanityImageSource & { alt?: string };
   };
   missaoVisaoValores?: {
     badge?: string;
@@ -176,8 +183,9 @@ export type Homepage = {
     badge?: string;
     title?: string;
     subtitle?: string;
-    pillars?: Array<{ name?: string; description?: string }>;
+    pillars?: Array<{ _key?: string; name?: string; description?: string }>;
     diagramImage?: SanityImageSource & { alt?: string };
+    iconImage?: SanityImageSource & { alt?: string };
   };
   diretoria?: {
     badge?: string;
@@ -216,14 +224,18 @@ export type Homepage = {
     body?: Array<{ children?: Array<{ text?: string }> }>;
     logo?: SanityImageSource & { alt?: string };
     cta?: SanityCta;
-    highlights?: Array<{ title?: string; text?: string }>;
+    numerosXp?: string[];
+    modelosTitle?: string;
+    nasdaqImage?: SanityImageSource & { alt?: string };
+    modelos?: Array<{ _key?: string; titulo?: string; texto?: string; destaque?: boolean; destaqueLabel?: string }>;
+    highlights?: Array<{ _key?: string; title?: string; text?: string }>;
   };
   wealthServices?: {
     sectionId?: string;
     badge?: string;
     title?: string;
     subtitle?: string;
-    services?: Array<{ title?: string; description?: string }>;
+    services?: Array<{ _key?: string; title?: string; description?: string; icone?: string }>;
     cta?: SanityCta;
   };
   empresas?: {
@@ -231,7 +243,7 @@ export type Homepage = {
     badge?: string;
     title?: string;
     subtitle?: string;
-    services?: Array<{ title?: string; description?: string }>;
+    services?: Array<{ _key?: string; title?: string; description?: string; icone?: string }>;
     cta?: SanityCta;
   };
   trabalheConosco?: {
@@ -261,16 +273,16 @@ export type Homepage = {
 export const HOMEPAGE_QUERY = `{
   "seo": coalesce(*[_id == "home-seo"][0].seo, *[_id == "site-seo"][0].defaultSeo, *[_id == "siteSettings"][0].defaultSeo),
   "hero": *[_id == "home-hero"][0]{ visible, sectionId, headline, backgroundImage, sideImage },
-  "fundador": *[_id == "home-sobre"][0]{ visible, "data": fundador{ badge, name, title, body, photo, podcastVideoId, podcastTitle } }.data,
+  "fundador": *[_id == "home-sobre"][0]{ visible, "data": fundador{ badge, name, title, body, photo, podcastVideoId, podcastTitle, podcastCover } }.data,
   "missaoVisaoValores": *[_id == "home-sobre"][0].missaoVisaoValores{ items[]{ label, text } },
-  "grupoAwa": *[_id == "home-estrutura"][0]{ visible, "data": grupoAwa{ badge, title, subtitle, pillars[]{ name, description }, diagramImage, iconImage } }.data,
+  "grupoAwa": *[_id == "home-estrutura"][0]{ visible, "data": grupoAwa{ badge, title, subtitle, pillars[]{ _key, name, description }, diagramImage, iconImage } }.data,
   "diretoria": *[_id == "home-diretoria"][0]{ visible, "data": diretoria{ badge, title, subtitle, members[]->{ _id, name, role, bio, photo, category, order } } }.data,
   "especialistas": *[_id == "home-especialistas"][0]{ visible, "data": especialistas{ title, members[]->{ _id, name, role, bio, photo, category, order } } }.data,
   "provas": *[_id == "home-provas"][0]{ visible, "data": provas{ badge, title, subtitle, stats[]{ prefix, value, label, suffix }, mapImage } }.data,
   "premios": *[_id == "home-provas"][0]{ visible, "data": premios{ badge, title, subtitle, awards[]{ title, year, description, image } } }.data,
-  "parceriaXp": *[_id == "home-investimentos"][0]{ visible, "data": parceriaXp{ sectionId, badge, title, subtitle, body, logo, cta, highlights[]{ title, text } } }.data,
-  "wealthServices": *[_id == "home-solucoes"][0]{ visible, "data": wealthServices{ sectionId, badge, title, subtitle, services[]{ title, description }, cta } }.data,
-  "empresas": *[_id == "home-solucoes"][0]{ visible, "data": empresas{ sectionId, badge, title, subtitle, services[]{ title, description }, cta } }.data,
+  "parceriaXp": *[_id == "home-investimentos"][0]{ visible, "data": parceriaXp{ sectionId, badge, title, subtitle, body, logo, cta, numerosXp, modelosTitle, nasdaqImage, modelos[]{ _key, titulo, texto, destaque, destaqueLabel }, highlights[]{ _key, title, text } } }.data,
+  "wealthServices": *[_id == "home-solucoes"][0]{ visible, "data": wealthServices{ sectionId, badge, title, subtitle, services[]{ _key, title, description, icone }, cta } }.data,
+  "empresas": *[_id == "home-solucoes"][0]{ visible, "data": empresas{ sectionId, badge, title, subtitle, services[]{ _key, title, description, icone }, cta } }.data,
   "trabalheConosco": *[_id == "home-trabalhe"][0]{ visible, "data": trabalheConosco } .data,
   "frasesTransicao": *[_id == "home-frases"][0].frasesTransicao[]{ text },
   "sectionVisibility": {
@@ -300,6 +312,9 @@ export const SITE_SETTINGS_QUERY = `{
   "logoAwaFooter": coalesce(*[_id == "site-footer-logos"][0].logoAwa, *[_id == "site-footer"][0].logoAwa),
   "logoXpFooter": coalesce(*[_id == "site-footer-logos"][0].logoXp, *[_id == "site-footer"][0].logoXp),
   "socialLinks": coalesce(*[_id == "site-footer-social"][0].socialLinks, *[_id == "site-footer"][0].socialLinks, *[_id == "siteSettings"][0].socialLinks)[]{ network, label, url },
+  "socialTitle": *[_id == "site-footer-social"][0].socialTitle,
+  "cookiesLabel": *[_id == "site-footer-legal"][0].cookiesLabel,
+  "regulatoryLabel": *[_id == "site-footer-legal"][0].regulatoryLabel,
   "defaultSeo": coalesce(*[_id == "site-seo"][0].defaultSeo, *[_id == "siteSettings"][0].defaultSeo){ ..., ogImage },
   "headScripts": coalesce(*[_id == "site-scripts"][0].headScripts, *[_id == "siteSettings"][0].headScripts)[]{ label, enabled, position, code },
   "phoneEspecialista": *[_id == "site-contact"][0].phoneEspecialista,

@@ -71,46 +71,51 @@ export const Route = createFileRoute("/")({
 function Index() {
   const { homepage, settings } = Route.useLoaderData();
   const h = homepage;
-  const frases = h?.frasesTransicao?.map((f) => f.text).filter(Boolean) as
-    | string[]
-    | undefined;
-
-  const f1 = frases?.[0] || "A.W.A Capital, sua boutique de serviços financeiros.";
-  const f2 = frases?.[1] || "Seu patrimônio precisa de estratégia. Não de produtos.";
-  const f3 = frases?.[2] || "Muito mais que só Investimentos.";
+  // Seção aparece quando "visible" não está desligado no CMS (null = mostra)
+  const on = (key: string) => h?.sectionVisibility?.[key] !== false;
+  const frases = (h?.frasesTransicao ?? []).map((f) => f.text).filter(Boolean) as string[];
+  const fraseAt = (i: number) => frases[i];
 
   return (
     <main className="min-h-screen bg-background">
       <VisualEditing />
       <SanityScripts scripts={settings?.headScripts} />
       <SiteHeader settings={settings} />
-      <Hero data={h?.hero} />
+      {on("hero") && <Hero data={h?.hero} />}
 
-      <Fundador data={h?.fundador} />
-      <MissaoVisaoValores data={h?.missaoVisaoValores} />
+      {on("sobre") && (
+        <>
+          <Fundador data={h?.fundador} />
+          <MissaoVisaoValores data={h?.missaoVisaoValores} />
+        </>
+      )}
+      {fraseAt(0) && <FraseTransicao>{`"${fraseAt(0)}"`}</FraseTransicao>}
 
-      <FraseTransicao>"{f1}"</FraseTransicao>
+      {on("estrutura") && <GrupoAwa data={h?.grupoAwa} />}
 
-      <GrupoAwa data={h?.grupoAwa} />
+      {on("diretoria") && <Diretores data={h?.diretoria} />}
+      {fraseAt(1) && <FraseTransicao>{`"${fraseAt(1)}"`}</FraseTransicao>}
 
-      <Diretores data={h?.diretoria} />
+      {on("especialistas") && <Especialistas data={h?.especialistas} />}
 
-      <FraseTransicao>"{f2}"</FraseTransicao>
+      {on("provas") && (
+        <>
+          <Provas data={h?.provas} />
+          <Premios data={h?.premios} />
+        </>
+      )}
 
-      <Especialistas data={h?.especialistas} />
+      {on("investimentos") && <ParceriaXp data={h?.parceriaXp} />}
 
-      <Provas data={h?.provas} />
-      <Premios data={h?.premios} />
+      {on("solucoes") && (
+        <>
+          <WealthServices data={h?.wealthServices} />
+          <Empresas data={h?.empresas} />
+        </>
+      )}
+      {fraseAt(2) && <FraseTransicao>{`"${fraseAt(2)}"`}</FraseTransicao>}
 
-      <ParceriaXp data={h?.parceriaXp} />
-
-      <WealthServices data={h?.wealthServices} />
-
-      <Empresas data={h?.empresas} />
-
-      <FraseTransicao>"{f3}"</FraseTransicao>
-
-      <TrabalheConosco data={h?.trabalheConosco} />
+      {on("trabalhe") && <TrabalheConosco data={h?.trabalheConosco} />}
 
       <SiteFooter settings={settings} />
       <WhatsappFloat settings={settings} />

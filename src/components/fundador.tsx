@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Reveal } from "@/components/reveal";
 import { SectionBadge } from "@/components/section-badge";
-import fotoNazareno from "@/assets/Naza 2.jpeg";
+import { Doc, clean, editAttr } from "@/lib/sanity-attr";
 import {
   portableTextToPlain,
   sanityImageUrl,
@@ -12,22 +12,22 @@ type Props = {
   data?: Homepage["fundador"] | null;
 };
 
-const FALLBACK_BODY =
-  "Ex-camelô, Nazareno Lima construiu a A.W.A Capital a partir de uma trajetória marcada por superação e reinvenção. Esse espírito transformador de prosperidade e realização de sonhos é o que buscamos desenvolver em todos os nossos clientes.";
-
 export function Fundador({ data }: Props) {
   const [videoStarted, setVideoStarted] = useState(false);
 
-  const badge = data?.badge?.trim() || "Sobre nós";
-  const name = data?.name?.trim() || "Nazareno Lima";
-  const title = data?.title?.trim() || "Conheça o nosso CEO e Fundador";
-  const body = portableTextToPlain(data?.body) || FALLBACK_BODY;
-  const photoSrc = sanityImageUrl(data?.photo, 840) || fotoNazareno;
+  const f = "fundador.";
+  const attr = (path: string) => editAttr(Doc.sobre, f + path);
+  const badge = data?.badge?.trim() ?? "";
+  const name = data?.name?.trim() ?? "";
+  const title = data?.title?.trim() ?? "";
+  const body = portableTextToPlain(data?.body);
+  const photoSrc = sanityImageUrl(data?.photo, 840);
   const photoAlt =
     (data?.photo as { alt?: string } | undefined)?.alt ||
     `Foto de ${name}, CEO e Fundador da A.W.A Capital`;
-  const videoId = data?.podcastVideoId?.trim() || "bd1KNDiwY-I";
-  const podcastTitle = data?.podcastTitle?.trim() || "Vídeo do podcast com Raony";
+  const videoId = data?.podcastVideoId?.trim() ?? "";
+  const podcastTitle = data?.podcastTitle?.trim() ?? "";
+  const capaCms = sanityImageUrl((data as any)?.podcastCover, 840);
 
   return (
     <section
@@ -36,7 +36,7 @@ export function Fundador({ data }: Props) {
     >
       <div className="mx-auto w-full max-w-[1280px] px-5 text-center md:px-8">
         <Reveal>
-          <SectionBadge>{badge}</SectionBadge>
+          <SectionBadge data-sanity={attr("badge")}>{badge}</SectionBadge>
         </Reveal>
       </div>
 
@@ -47,15 +47,16 @@ export function Fundador({ data }: Props) {
               <div
                 className="relative aspect-[4/5] w-full overflow-hidden rounded-3xl border border-ink-hairline bg-glass-on-light"
                 data-slot="foto-nazareno-lima"
+                data-sanity={attr("photo")}
               >
-                <img
+                {photoSrc ? <img
                   src={photoSrc}
-                  alt={photoAlt}
+                  alt={clean((data?.photo as { alt?: string } | undefined)?.alt)}
                   loading="lazy"
                   className="absolute inset-0 h-full w-full object-cover"
-                />
+                /> : null}
               </div>
-              <p className="mt-4 text-center font-display text-lg font-extrabold tracking-tight text-ink">
+              <p data-sanity={attr("name")} className="mt-4 text-center font-display text-lg font-extrabold tracking-tight text-ink">
                 {name}
               </p>
             </div>
@@ -63,12 +64,12 @@ export function Fundador({ data }: Props) {
 
           <div className="text-center lg:text-left">
             <Reveal delay={160}>
-              <h3 className="mt-5 font-display text-[1.6rem] leading-[1.14] font-extrabold tracking-tight text-ink md:text-3xl">
+              <h3 data-sanity={attr("title")} className="mt-5 font-display text-[1.6rem] leading-[1.14] font-extrabold tracking-tight text-ink md:text-3xl">
                 {title}
               </h3>
             </Reveal>
             <Reveal delay={220}>
-              <p className="mx-auto mt-6 max-w-xl font-sans text-base leading-relaxed text-ink-muted md:text-lg lg:mx-0 whitespace-pre-line">
+              <p data-sanity={attr("body")} className="mx-auto mt-6 max-w-xl font-sans text-base leading-relaxed text-ink-muted md:text-lg lg:mx-0 whitespace-pre-line">
                 {body}
               </p>
             </Reveal>
@@ -79,6 +80,7 @@ export function Fundador({ data }: Props) {
                   className="relative aspect-video w-full max-w-md overflow-hidden rounded-2xl border border-ink-hairline bg-ink/5"
                   data-slot="video-podcast-raony"
                   aria-label={podcastTitle}
+                  data-sanity={attr("podcastVideoId")}
                 >
                   {videoStarted ? (
                     <iframe
@@ -96,8 +98,9 @@ export function Fundador({ data }: Props) {
                       aria-label={`Reproduzir ${podcastTitle}`}
                     >
                       <img
-                        src={`https://i.ytimg.com/vi/${videoId}/maxresdefault.jpg`}
-                        alt={`Capa: ${podcastTitle}`}
+                        src={capaCms || `https://i.ytimg.com/vi/${videoId}/maxresdefault.jpg`}
+                        alt={clean((data as any)?.podcastCover?.alt)}
+                        data-sanity={attr("podcastCover")}
                         loading="lazy"
                         className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                       />
