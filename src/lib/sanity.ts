@@ -1,4 +1,5 @@
 import { createClient, type SanityClient } from "@sanity/client";
+import { isProductionDeploy, shouldUseDrafts } from "@/lib/sanity-perspective";
 import { createImageUrlBuilder } from "@sanity/image-url";
 import type { SanityImageSource } from "@sanity/image-url/lib/types/types";
 
@@ -16,11 +17,13 @@ const dataset =
   process.env["SANITY_DATASET"] ||
   "production";
 
+/** Cliente de produção / default: só documentos publicados. */
 export const sanityClient: SanityClient = createClient({
   projectId,
   dataset,
   apiVersion: "2024-01-01",
-  useCdn: false, // dados sempre frescos após publish no Studio
+  useCdn: true,
+  perspective: "published",
 });
 
 const studioUrl =
@@ -29,17 +32,42 @@ const studioUrl =
   process.env["VITE_SANITY_STUDIO_URL"] ||
   "https://grupoawa.sanity.studio";
 
-/** Cliente com stega + drafts — só em preview/Presentation */
+/**
+ * Homolog: SANITY_USE_DRAFTS=true → previewDrafts (+ token).
+ * Produção: SANITY_USE_DRAFTS=false → published.
+ * opts.preview força preview só se não estiver em modo produção estrito.
+ */
 export function getSanityClient(opts?: { preview?: boolean }): SanityClient {
-  if (!opts?.preview) return sanityClient;
-  const token = process.env["SANITY_API_READ_TOKEN"] || process.env["SANITY_API_WRITE_TOKEN"];
-  // Stega funciona sem token (conteúdo publicado). Token habilita drafts.
+  const useDrafts =
+    shouldUseDrafts() || (opts?.preview === true && !isProductionDeploy());
+
+  if (!useDrafts) {
+    return sanityClient;
+  }
+
+  const token =
+    process.env["SANITY_API_READ_TOKEN"] ||
+    process.env["SANITY_API_WRITE_TOKEN"] ||
+    process.env["SANITY_READ_TOKEN"] ||
+    process.env["SANITY_TOKEN"] ||
+    "";
+  if (!token) {
+    console.warn(
+      "[sanity] drafts pedidos mas TOKEN ausente — usando published. " +
+        "Na Vercel: SANITY_API_READ_TOKEN com ambiente Preview marcado + Redeploy.",
+    );
+    return sanityClient;
+  }
+
+  // @sanity/client v7+: perspective "drafts" (antes "previewDrafts")
+  console.info("[sanity] client perspective=drafts ATIVO");
   return createClient({
     projectId,
     dataset,
-    apiVersion: "2024-01-01",
+    apiVersion: "2025-01-01",
     useCdn: false,
-    ...(token ? { token, perspective: "previewDrafts" as const } : {}),
+    token,
+    perspective: "drafts",
     stega: {
       enabled: true,
       studioUrl,

@@ -1,0 +1,13 @@
+{
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "Content-Security-Policy",
+          "value": "frame-ancestors 'self' https://*.sanity.studio https://grupoawa.sanity.studio https://www.sanity.io https://*.sanity.io"
+        }
+      ]
+    }
+  ]
+}
