@@ -1,16 +1,20 @@
-import { Reveal } from "@/components/reveal";
-import iconeCenario from "@/assets/Ativo_43.png.asset.json";
-import iconePatrimonio from "@/assets/Ativo_47.png.asset.json";
-import iconeSucessorio from "@/assets/Ativo_31.png.asset.json";
-import iconeEmpresarial from "@/assets/Ativo_37.png.asset.json";
-import iconeEstudos from "@/assets/Ativo_32.png.asset.json";
+import {
+  BookOpen,
+  Building2,
+  ChartNoAxesCombined,
+  Landmark,
+  Network,
+  type LucideIcon,
+} from "lucide-react";
 
-const itens = [
-  { titulo: "Cenário econômico", icone: iconeCenario.url },
-  { titulo: "Estratégias patrimoniais", icone: iconePatrimonio.url },
-  { titulo: "Planejamento sucessório", icone: iconeSucessorio.url },
-  { titulo: "Gestão financeira empresarial", icone: iconeEmpresarial.url },
-  { titulo: "Estudos e insights", icone: iconeEstudos.url },
+import { Reveal } from "@/components/reveal";
+
+const itens: { titulo: string; Icone: LucideIcon }[] = [
+  { titulo: "Cenário econômico", Icone: ChartNoAxesCombined },
+  { titulo: "Estratégias patrimoniais", Icone: Landmark },
+  { titulo: "Planejamento sucessório", Icone: Network },
+  { titulo: "Gestão financeira empresarial", Icone: Building2 },
+  { titulo: "Estudos e insights", Icone: BookOpen },
 ];
 
 const categorias = itens.map((i) => i.titulo);
@@ -87,13 +91,7 @@ export function Conteudos() {
                     border: "1px solid rgba(254,178,2,0.3)",
                   }}
                 >
-                  <img
-                    src={c.icone}
-                    alt=""
-                    aria-hidden
-                    loading="lazy"
-                    className="size-4.5"
-                  />
+                  <c.Icone className="size-4.5 text-accent" strokeWidth={1.75} aria-hidden />
                 </span>
                 <h3 className="font-display flex-1 text-sm leading-snug font-bold text-ink transition-colors duration-300 group-hover:text-accent md:text-base">
                   {c.titulo}
@@ -109,7 +107,6 @@ export function Conteudos() {
             </Reveal>
           ))}
         </ul>
-
 
         <Reveal delay={620}>
           <a

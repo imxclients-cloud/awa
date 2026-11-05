@@ -12,7 +12,9 @@ import { useEffect, type ReactNode } from "react";
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { MirandaSansFonts } from "@/components/miranda-sans-fonts";
-
+import { CookieConsent } from "@/components/cookie-consent";
+import { loadCookieConfig } from "@/lib/page-data.server";
+import { VisualEditing } from "@/components/visual-editing";
 
 function NotFoundComponent() {
   return (
@@ -98,11 +100,12 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         rel: "stylesheet",
         href: "https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@300;400;500;600&display=swap",
       },
-      { rel: "icon", href: "/favicon.svg", type: "image/svg+xml" },
+      { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
     ],
   }),
 
   shellComponent: RootShell,
+  loader: () => loadCookieConfig(),
   component: RootComponent,
   notFoundComponent: NotFoundComponent,
   errorComponent: ErrorComponent,
@@ -123,14 +126,17 @@ function RootShell({ children }: { children: ReactNode }) {
   );
 }
 
-
 function RootComponent() {
+  const cookieConfig = Route.useLoaderData();
   const { queryClient } = Route.useRouteContext();
 
   return (
     <QueryClientProvider client={queryClient}>
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
       <Outlet />
+      {/* Aviso de cookies global (aparece em todas as páginas). */}
+      <VisualEditing />
+      <CookieConsent config={cookieConfig} />
     </QueryClientProvider>
   );
 }

@@ -10,33 +10,167 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AssessoresRouteImport } from './routes/assessores'
+import { Route as AvisosLegaisRouteImport } from './routes/avisos-legais'
+import { Route as InformacoesRegulatoriasRouteImport } from './routes/informacoes-regulatorias'
+import { Route as PoliticaDePrivacidadeRouteImport } from './routes/politica-de-privacidade'
+import { Route as TermosDeUsoRouteImport } from './routes/termos-de-uso'
+import { Route as ApiCmsBackupRouteImport } from './routes/api/cms-backup'
+import { Route as ApiLeadsRouteImport } from './routes/api/leads'
+import { Route as ApiRevalidateRouteImport } from './routes/api/revalidate'
+import { Route as ApiDraftModeDisableRouteImport } from './routes/api/draft-mode/disable'
+import { Route as ApiDraftModeEnableRouteImport } from './routes/api/draft-mode/enable'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AssessoresRoute = AssessoresRouteImport.update({
+  id: '/assessores',
+  path: '/assessores',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AvisosLegaisRoute = AvisosLegaisRouteImport.update({
+  id: '/avisos-legais',
+  path: '/avisos-legais',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const InformacoesRegulatoriasRoute = InformacoesRegulatoriasRouteImport.update({
+  id: '/informacoes-regulatorias',
+  path: '/informacoes-regulatorias',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PoliticaDePrivacidadeRoute = PoliticaDePrivacidadeRouteImport.update({
+  id: '/politica-de-privacidade',
+  path: '/politica-de-privacidade',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TermosDeUsoRoute = TermosDeUsoRouteImport.update({
+  id: '/termos-de-uso',
+  path: '/termos-de-uso',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiCmsBackupRoute = ApiCmsBackupRouteImport.update({
+  id: '/api/cms-backup',
+  path: '/api/cms-backup',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiLeadsRoute = ApiLeadsRouteImport.update({
+  id: '/api/leads',
+  path: '/api/leads',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiRevalidateRoute = ApiRevalidateRouteImport.update({
+  id: '/api/revalidate',
+  path: '/api/revalidate',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiDraftModeDisableRoute = ApiDraftModeDisableRouteImport.update({
+  id: '/api/draft-mode/disable',
+  path: '/api/draft-mode/disable',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiDraftModeEnableRoute = ApiDraftModeEnableRouteImport.update({
+  id: '/api/draft-mode/enable',
+  path: '/api/draft-mode/enable',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/assessores': typeof AssessoresRoute
+  '/avisos-legais': typeof AvisosLegaisRoute
+  '/informacoes-regulatorias': typeof InformacoesRegulatoriasRoute
+  '/politica-de-privacidade': typeof PoliticaDePrivacidadeRoute
+  '/termos-de-uso': typeof TermosDeUsoRoute
+  '/api/cms-backup': typeof ApiCmsBackupRoute
+  '/api/leads': typeof ApiLeadsRoute
+  '/api/revalidate': typeof ApiRevalidateRoute
+  '/api/draft-mode/disable': typeof ApiDraftModeDisableRoute
+  '/api/draft-mode/enable': typeof ApiDraftModeEnableRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/assessores': typeof AssessoresRoute
+  '/avisos-legais': typeof AvisosLegaisRoute
+  '/informacoes-regulatorias': typeof InformacoesRegulatoriasRoute
+  '/politica-de-privacidade': typeof PoliticaDePrivacidadeRoute
+  '/termos-de-uso': typeof TermosDeUsoRoute
+  '/api/cms-backup': typeof ApiCmsBackupRoute
+  '/api/leads': typeof ApiLeadsRoute
+  '/api/revalidate': typeof ApiRevalidateRoute
+  '/api/draft-mode/disable': typeof ApiDraftModeDisableRoute
+  '/api/draft-mode/enable': typeof ApiDraftModeEnableRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/assessores': typeof AssessoresRoute
+  '/avisos-legais': typeof AvisosLegaisRoute
+  '/informacoes-regulatorias': typeof InformacoesRegulatoriasRoute
+  '/politica-de-privacidade': typeof PoliticaDePrivacidadeRoute
+  '/termos-de-uso': typeof TermosDeUsoRoute
+  '/api/cms-backup': typeof ApiCmsBackupRoute
+  '/api/leads': typeof ApiLeadsRoute
+  '/api/revalidate': typeof ApiRevalidateRoute
+  '/api/draft-mode/disable': typeof ApiDraftModeDisableRoute
+  '/api/draft-mode/enable': typeof ApiDraftModeEnableRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/assessores'
+    | '/avisos-legais'
+    | '/informacoes-regulatorias'
+    | '/politica-de-privacidade'
+    | '/termos-de-uso'
+    | '/api/cms-backup'
+    | '/api/leads'
+    | '/api/revalidate'
+    | '/api/draft-mode/disable'
+    | '/api/draft-mode/enable'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/assessores'
+    | '/avisos-legais'
+    | '/informacoes-regulatorias'
+    | '/politica-de-privacidade'
+    | '/termos-de-uso'
+    | '/api/cms-backup'
+    | '/api/leads'
+    | '/api/revalidate'
+    | '/api/draft-mode/disable'
+    | '/api/draft-mode/enable'
+  id:
+    | '__root__'
+    | '/'
+    | '/assessores'
+    | '/avisos-legais'
+    | '/informacoes-regulatorias'
+    | '/politica-de-privacidade'
+    | '/termos-de-uso'
+    | '/api/cms-backup'
+    | '/api/leads'
+    | '/api/revalidate'
+    | '/api/draft-mode/disable'
+    | '/api/draft-mode/enable'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AssessoresRoute: typeof AssessoresRoute
+  AvisosLegaisRoute: typeof AvisosLegaisRoute
+  InformacoesRegulatoriasRoute: typeof InformacoesRegulatoriasRoute
+  PoliticaDePrivacidadeRoute: typeof PoliticaDePrivacidadeRoute
+  TermosDeUsoRoute: typeof TermosDeUsoRoute
+  ApiCmsBackupRoute: typeof ApiCmsBackupRoute
+  ApiLeadsRoute: typeof ApiLeadsRoute
+  ApiRevalidateRoute: typeof ApiRevalidateRoute
+  ApiDraftModeDisableRoute: typeof ApiDraftModeDisableRoute
+  ApiDraftModeEnableRoute: typeof ApiDraftModeEnableRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +182,91 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/assessores': {
+      id: '/assessores'
+      path: '/assessores'
+      fullPath: '/assessores'
+      preLoaderRoute: typeof AssessoresRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/avisos-legais': {
+      id: '/avisos-legais'
+      path: '/avisos-legais'
+      fullPath: '/avisos-legais'
+      preLoaderRoute: typeof AvisosLegaisRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/informacoes-regulatorias': {
+      id: '/informacoes-regulatorias'
+      path: '/informacoes-regulatorias'
+      fullPath: '/informacoes-regulatorias'
+      preLoaderRoute: typeof InformacoesRegulatoriasRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/politica-de-privacidade': {
+      id: '/politica-de-privacidade'
+      path: '/politica-de-privacidade'
+      fullPath: '/politica-de-privacidade'
+      preLoaderRoute: typeof PoliticaDePrivacidadeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/termos-de-uso': {
+      id: '/termos-de-uso'
+      path: '/termos-de-uso'
+      fullPath: '/termos-de-uso'
+      preLoaderRoute: typeof TermosDeUsoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/cms-backup': {
+      id: '/api/cms-backup'
+      path: '/api/cms-backup'
+      fullPath: '/api/cms-backup'
+      preLoaderRoute: typeof ApiCmsBackupRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/leads': {
+      id: '/api/leads'
+      path: '/api/leads'
+      fullPath: '/api/leads'
+      preLoaderRoute: typeof ApiLeadsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/revalidate': {
+      id: '/api/revalidate'
+      path: '/api/revalidate'
+      fullPath: '/api/revalidate'
+      preLoaderRoute: typeof ApiRevalidateRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/draft-mode/disable': {
+      id: '/api/draft-mode/disable'
+      path: '/api/draft-mode/disable'
+      fullPath: '/api/draft-mode/disable'
+      preLoaderRoute: typeof ApiDraftModeDisableRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/draft-mode/enable': {
+      id: '/api/draft-mode/enable'
+      path: '/api/draft-mode/enable'
+      fullPath: '/api/draft-mode/enable'
+      preLoaderRoute: typeof ApiDraftModeEnableRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AssessoresRoute: AssessoresRoute,
+  AvisosLegaisRoute: AvisosLegaisRoute,
+  InformacoesRegulatoriasRoute: InformacoesRegulatoriasRoute,
+  PoliticaDePrivacidadeRoute: PoliticaDePrivacidadeRoute,
+  TermosDeUsoRoute: TermosDeUsoRoute,
+  ApiCmsBackupRoute: ApiCmsBackupRoute,
+  ApiLeadsRoute: ApiLeadsRoute,
+  ApiRevalidateRoute: ApiRevalidateRoute,
+  ApiDraftModeDisableRoute: ApiDraftModeDisableRoute,
+  ApiDraftModeEnableRoute: ApiDraftModeEnableRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
