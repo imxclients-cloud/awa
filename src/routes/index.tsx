@@ -25,8 +25,61 @@ const DEFAULT_SEO = {
   title: "A.W.A Capital — Assessoria de Investimentos e Planejamento Patrimonial",
   description:
     "A.W.A Capital: escritório de investimentos credenciado à XP, com assessoria de investimentos, planejamento patrimonial, planejamento sucessório e soluções financeiras para empresas em São Luís, Fortaleza e Recife.",
-  keywords:
-    "assessoria de investimentos, escritório de investimentos, planejamento patrimonial, planejamento financeiro, Wealth Management, Wealth Services, soluções financeiras para empresas, gestão de patrimônio, planejamento sucessório, investimentos para alta renda, assessoria private, investimentos internacionais, gestão de caixa empresarial",
+  keywords: [
+    // Principais
+    "Assessoria de investimentos",
+    "planejamento patrimonial",
+    "gestão patrimonial",
+    "planejamento financeiro",
+    "soluções financeiras",
+    "Wealth Management",
+    "Wealth Services",
+    "assessoria private",
+    "investimentos para alta renda",
+    "planejamento sucessório",
+    "proteção patrimonial",
+    "gestão de riscos",
+    "soluções financeiras para empresas",
+    "gestão de caixa empresarial",
+    // Complementares
+    "Escritório de investimentos",
+    "escritório de investimentos XP",
+    "assessoria de investimentos XP",
+    "consultoria de investimentos",
+    "investimentos para famílias",
+    "investimentos para empresas",
+    "investimentos para pessoa jurídica",
+    "gestão de patrimônio familiar",
+    "sucessão patrimonial",
+    "eficiência tributária",
+    "planejamento tributário",
+    "multicustódia",
+    "holding patrimonial",
+    "offshore",
+    "investimentos internacionais",
+    "crédito empresarial",
+    "câmbio",
+    "seguros corporativos",
+    "gestão de fluxo de caixa",
+    "previdência privada",
+    "renda fixa",
+    "fundos de investimento",
+    // Geolocalização
+    "Assessoria de investimentos em São Luís",
+    "assessoria de investimentos em Fortaleza",
+    "assessoria de investimentos em Recife",
+    "planejamento patrimonial em São Luís",
+    "planejamento patrimonial em Fortaleza",
+    "planejamento patrimonial em Recife",
+    "assessoria de investimentos no Nordeste",
+    // Marca
+    "A.W.A Capital",
+    "AWA Capital",
+    "A.W.A Investimentos",
+    "A.W.A Empresas",
+    "A.W.A Wealth Services",
+    "A.W.A Capital XP",
+  ].join(", "),
   ogTitle:
     "A.W.A Capital — Soluções financeiras para transformar patrimônio em possibilidades",
   ogDescription:
@@ -95,7 +148,7 @@ function Index() {
       )}
       {fraseAt(2) && <FraseTransicao>{`"${fraseAt(2)}"`}</FraseTransicao>}
 
-      {on("trabalhe") && <TrabalheConosco data={h?.trabalheConosco} />}
+      {on("trabalhe") && <TrabalheConosco data={h?.trabalheConosco} settings={settings} />}
 
       <SiteFooter settings={settings} />
       <WhatsappFloat settings={settings} />

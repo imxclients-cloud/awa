@@ -2,15 +2,41 @@ import { Doc, clean, editAttr } from "@/lib/sanity-attr";
 import { useState, type FormEvent } from "react";
 import { Reveal } from "@/components/reveal";
 import { SectionBadge } from "@/components/section-badge";
-import { whatsappExpansao } from "@/lib/contact";
-import type { Homepage } from "@/lib/sanity";
+import { TELEFONE_EXPANSAO } from "@/lib/contact";
+import {
+  buildWhatsappUrl,
+  resolveCtaHref,
+  type Homepage,
+  type SiteSettings,
+} from "@/lib/sanity";
 import { isValidPhoneBr, maskPhoneBr } from "@/lib/phone-br";
 
-type Props = { data?: Homepage["trabalheConosco"] | null };
+type Props = {
+  data?: Homepage["trabalheConosco"] | null;
+  settings?: SiteSettings | null;
+};
 
 type Status = "idle" | "sending" | "success" | "error";
 
-export function TrabalheConosco({ data }: Props) {
+const FALLBACK_MSG_EXPANSAO =
+  "Olá, gostaria de falar com o time de Expansão da A.W.A Capital.";
+
+export function TrabalheConosco({ data, settings }: Props) {
+  // Destino do botão lateral: respeita "Para onde o botão leva" do CMS
+  const ctaHref = resolveCtaHref(data?.cta, settings, {
+    defaultAction: "whatsapp_expansao",
+    fallbackPhone: TELEFONE_EXPANSAO,
+    fallbackMessage: FALLBACK_MSG_EXPANSAO,
+  });
+  const ctaIsExternal = /^https?:\/\//i.test(ctaHref);
+
+  const waExpansao = (customMessage?: string) =>
+    buildWhatsappUrl(
+      settings?.phoneExpansao,
+      customMessage ?? settings?.messageExpansao,
+      TELEFONE_EXPANSAO,
+      FALLBACK_MSG_EXPANSAO,
+    );
   const sectionId = clean(data?.sectionId);
   const badge = data?.badge?.trim() ?? "";
   const title = data?.title?.trim() ?? "";
@@ -91,7 +117,7 @@ export function TrabalheConosco({ data }: Props) {
 
       if (alsoOpenWhatsapp) {
         const mensagem = `Olá, quero fazer parte da A.W.A!\nNome: ${form.nome}\nE-mail: ${form.email}\nTelefone: ${form.telefone}\nLinkedIn: ${form.linkedin}`;
-        window.open(whatsappExpansao(mensagem), "_blank", "noopener,noreferrer");
+        window.open(waExpansao(mensagem), "_blank", "noopener,noreferrer");
       }
     } catch (err) {
       setStatus("error");
@@ -122,11 +148,10 @@ export function TrabalheConosco({ data }: Props) {
             </Reveal>
             <Reveal delay={240}>
               <a
-                href={whatsappExpansao(
-                  "Olá, gostaria de falar com o time de Expansão da A.W.A Capital.",
-                )}
-                target="_blank"
-                rel="noopener noreferrer"
+                href={ctaHref}
+                {...(ctaIsExternal
+                  ? { target: "_blank", rel: "noopener noreferrer" }
+                  : {})}
                 className="mt-8 inline-flex items-center justify-center rounded-full border border-accent px-6 py-3.5 font-sans text-sm font-semibold text-ink transition-colors hover:bg-accent/10"
               >
                 <span data-sanity={editAttr(Doc.trabalhe, "trabalheConosco.cta.label")}>{data?.cta?.label?.trim() ?? ""}</span>

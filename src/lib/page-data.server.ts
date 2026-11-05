@@ -75,7 +75,6 @@ export type AssessorDoc = {
 export type PageAssessores = {
   _id: string;
   badge?: string;
-  countLabel?: string;
   roleLabel?: string;
   backLabel?: string;
   seoTitle?: string;
@@ -96,7 +95,7 @@ const COOKIES_QUERY = `*[_id == "site-cookies"][0]{
 
 const ASSESSORES_QUERY = `{
   "assessores": *[_type == "teamMember" && category == "assessor"] | order(name asc){ _id, name, email, role, codigo, photo },
-  "page": *[_id == "page-assessores"][0]{ _id, badge, countLabel, roleLabel, backLabel, seoTitle, seoDescription }
+  "page": *[_id == "page-assessores"][0]{ _id, badge, roleLabel, backLabel, seoTitle, seoDescription }
 }`;
 
 /** Settings de cabeçalho/rodapé para as páginas internas */

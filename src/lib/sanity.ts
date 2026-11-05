@@ -98,7 +98,7 @@ export type SanityLink = {
 
 export type SanityCta = {
   label?: string;
-  action?: "whatsapp_especialista" | "whatsapp_expansao" | "custom";
+  action?: "whatsapp_especialista" | "whatsapp_expansao" | "whatsapp_secundario" | "custom";
   whatsappMessage?: string;
   customLink?: SanityLink;
 };
@@ -145,6 +145,8 @@ export type SiteSettings = {
   messageEspecialista?: string;
   phoneExpansao?: string;
   messageExpansao?: string;
+  phoneSecundario?: string;
+  messageSecundario?: string;
   email?: string;
   leadsNotifyEmail?: string;
   leadsNotifyCc?: string;
@@ -293,7 +295,13 @@ export const HOMEPAGE_QUERY = `{
   "parceriaXp": *[_id == "home-investimentos"][0]{ visible, "data": parceriaXp{ sectionId, badge, title, subtitle, body, logo, cta, numerosXp, modelosTitle, nasdaqImage, modelos[]{ _key, titulo, texto, destaque, destaqueLabel }, highlights[]{ _key, title, text } } }.data,
   "wealthServices": *[_id == "home-solucoes"][0]{ visible, "data": wealthServices{ sectionId, badge, title, subtitle, services[]{ _key, title, description, icone }, cta } }.data,
   "empresas": *[_id == "home-solucoes"][0]{ visible, "data": empresas{ sectionId, badge, title, subtitle, services[]{ _key, title, description, icone }, cta } }.data,
-  "trabalheConosco": *[_id == "home-trabalhe"][0]{ visible, "data": trabalheConosco } .data,
+  "trabalheConosco": *[_id == "home-trabalhe"][0]{ visible, "data": trabalheConosco{
+    sectionId, badge, title, subtitle, body, image,
+    cta{ label, action, whatsappMessage, customLink{ label, linkType, hash, internalPath, href, openInNewTab } },
+    formTitle, labelNome, placeholderNome, labelEmail, placeholderEmail,
+    labelTelefone, placeholderTelefone, labelLinkedin, placeholderLinkedin,
+    submitLabel, successMessage, alsoOpenWhatsapp
+  } }.data,
   "frasesTransicao": *[_id == "home-frases"][0].frasesTransicao[]{ text },
   "sectionVisibility": {
     "hero": *[_id == "home-hero"][0].visible,
@@ -376,4 +384,61 @@ export function buildWhatsappUrl(
   const p = (phone || fallbackPhone).replace(/\D/g, "");
   const m = message || fallbackMessage;
   return `https://wa.me/${p}?text=${encodeURIComponent(m)}`;
+}
+
+/** Resolve href de um link (hash / internal / external) */
+export function resolveLinkHref(link?: SanityLink | null): string {
+  if (!link) return "#";
+  if (link.linkType === "hash") return link.hash ? `#${link.hash.replace(/^#/, "")}` : "#";
+  if (link.linkType === "internal") return link.internalPath || "/";
+  return link.href || "#";
+}
+
+/**
+ * Resolve o destino de um botão (cta) do CMS.
+ * defaultAction: usado quando o CMS não definiu action (ex.: trabalhe conosco → expansao).
+ */
+export function resolveCtaHref(
+  cta: SanityCta | null | undefined,
+  settings: SiteSettings | null | undefined,
+  opts?: {
+    defaultAction?: SanityCta["action"];
+    fallbackPhone?: string;
+    fallbackMessage?: string;
+  },
+): string {
+  const action = cta?.action || opts?.defaultAction || "whatsapp_especialista";
+  const customMsg = cta?.whatsappMessage?.trim() || undefined;
+
+  if (action === "custom") {
+    return resolveLinkHref(cta?.customLink);
+  }
+
+  if (action === "whatsapp_expansao") {
+    return buildWhatsappUrl(
+      settings?.phoneExpansao,
+      customMsg ?? settings?.messageExpansao,
+      opts?.fallbackPhone || "5598999672335",
+      opts?.fallbackMessage ||
+        "Olá, gostaria de falar com o time de Expansão da A.W.A Capital.",
+    );
+  }
+
+  if (action === "whatsapp_secundario") {
+    return buildWhatsappUrl(
+      settings?.phoneSecundario,
+      customMsg ?? settings?.messageSecundario,
+      settings?.phoneEspecialista || opts?.fallbackPhone || "5598981145929",
+      customMsg || settings?.messageEspecialista || opts?.fallbackMessage || "",
+    );
+  }
+
+  // whatsapp_especialista (padrão)
+  return buildWhatsappUrl(
+    settings?.phoneEspecialista,
+    customMsg ?? settings?.messageEspecialista,
+    opts?.fallbackPhone || "5598981145929",
+    opts?.fallbackMessage ||
+      "Olá, vim do site e gostaria de falar com um especialista sobre os serviços da A.W.A Capital.",
+  );
 }
