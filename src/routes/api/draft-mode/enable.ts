@@ -8,6 +8,14 @@ export const Route = createFileRoute("/api/draft-mode/enable")({
   server: {
     handlers: {
       GET: async ({ request }) => {
+        // Produção não ativa draft mode (drafts só na homolog)
+        if (process.env["VERCEL_ENV"] === "production") {
+          return new Response(null, {
+            status: 307,
+            headers: { Location: "/" },
+          });
+        }
+
         const url = new URL(request.url);
         const redirectParam =
           url.searchParams.get("sanity-preview-pathname") ||
