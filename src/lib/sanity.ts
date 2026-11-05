@@ -1,4 +1,5 @@
 import { createClient, type SanityClient } from "@sanity/client";
+import { isProductionDeploy, shouldUseDrafts } from "@/lib/sanity-perspective";
 import { createImageUrlBuilder } from "@sanity/image-url";
 import type { SanityImageSource } from "@sanity/image-url/lib/types/types";
 
@@ -16,11 +17,13 @@ const dataset =
   process.env["SANITY_DATASET"] ||
   "production";
 
+/** Cliente de produção / default: só documentos publicados. */
 export const sanityClient: SanityClient = createClient({
   projectId,
   dataset,
   apiVersion: "2024-01-01",
-  useCdn: false, // dados sempre frescos após publish no Studio
+  useCdn: true,
+  perspective: "published",
 });
 
 const studioUrl =
@@ -29,17 +32,33 @@ const studioUrl =
   process.env["VITE_SANITY_STUDIO_URL"] ||
   "https://grupoawa.sanity.studio";
 
-/** Cliente com stega + drafts — só em preview/Presentation */
+/**
+ * Homolog (drafts): opts.preview === true OU shouldUseDrafts(), e nunca em VERCEL_ENV=production.
+ * Produção: sempre published (ignora cookie/Presentation).
+ */
 export function getSanityClient(opts?: { preview?: boolean }): SanityClient {
-  if (!opts?.preview) return sanityClient;
+  const wantPreview = opts?.preview === true || (opts?.preview !== false && shouldUseDrafts());
+  const useDrafts = wantPreview && !isProductionDeploy();
+
+  if (!useDrafts) {
+    return sanityClient;
+  }
+
   const token = process.env["SANITY_API_READ_TOKEN"] || process.env["SANITY_API_WRITE_TOKEN"];
-  // Stega funciona sem token (conteúdo publicado). Token habilita drafts.
+  if (!token) {
+    console.warn(
+      "[sanity] drafts pedidos mas SANITY_API_READ_TOKEN ausente — usando published",
+    );
+    return sanityClient;
+  }
+
   return createClient({
     projectId,
     dataset,
     apiVersion: "2024-01-01",
     useCdn: false,
-    ...(token ? { token, perspective: "previewDrafts" as const } : {}),
+    token,
+    perspective: "previewDrafts",
     stega: {
       enabled: true,
       studioUrl,

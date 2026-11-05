@@ -1,10 +1,12 @@
 /**
- * Server-only: detecta draft/preview e busca home + settings com stega.
- * Usado via createServerFn para não vazar imports de /server no client bundle.
+ * Server-only: home + settings.
+ * Produção → sempre published.
+ * Homolog → drafts se SANITY_USE_DRAFTS / cookie Presentation / query preview.
  */
 import { createServerFn } from "@tanstack/react-start";
 import { getRequest } from "@tanstack/react-start/server";
 import { isDraftModeFromCookieHeader } from "@/lib/draft-mode";
+import { isProductionDeploy, shouldUseDrafts } from "@/lib/sanity-perspective";
 import { fetchHomepage, fetchSiteSettings, type Homepage, type SiteSettings } from "@/lib/sanity";
 
 export type HomeLoaderData = {
@@ -13,31 +15,34 @@ export type HomeLoaderData = {
   preview: boolean;
 };
 
+function resolvePreview(): boolean {
+  if (isProductionDeploy()) return false;
+
+  if (shouldUseDrafts()) return true;
+
+  try {
+    const req = getRequest();
+    if (isDraftModeFromCookieHeader(req.headers.get("cookie"))) return true;
+    const url = new URL(req.url);
+    if (
+      url.searchParams.has("sanity-preview-perspective") ||
+      url.searchParams.has("sanity-preview") ||
+      url.searchParams.get("preview") === "1"
+    ) {
+      return true;
+    }
+  } catch {
+    /* loader sem request */
+  }
+  return false;
+}
+
 export const loadHomeData = createServerFn({ method: "GET" }).handler(
   async (): Promise<HomeLoaderData> => {
-    let preview = false;
-    try {
-      const req = getRequest();
-      const cookie = req.headers.get("cookie");
-      preview = isDraftModeFromCookieHeader(cookie);
-      try {
-        const url = new URL(req.url);
-        if (
-          url.searchParams.has("sanity-preview-perspective") ||
-          url.searchParams.has("sanity-preview") ||
-          url.searchParams.get("preview") === "1"
-        ) {
-          preview = true;
-        }
-      } catch {
-        /* ignore */
-      }
-    } catch {
-      preview = false;
-    }
+    const preview = resolvePreview();
 
     if (preview) {
-      console.info("[home] loader preview/stega ATIVO");
+      console.info("[home] loader preview/stega ATIVO (homolog)");
     }
 
     const [homepage, settings] = await Promise.all([
