@@ -31,18 +31,24 @@ export function SiteHeader({
   const resolvedNav =
     settings?.mainNav && settings.mainNav.length > 0
       ? settings.mainNav.map((item) => ({
+          id: item._id,
           label: item.label || "",
           to: item.linkType === "internal" ? (item.internalPath || "/") : "/",
           hash: item.linkType === "hash" ? item.hash : undefined,
           href: item.linkType === "external" ? item.href : undefined,
           external: item.linkType === "external",
+          labelAttr: item._id
+            ? sanityAttr(item._id, "menuItem", "label")
+            : undefined,
         }))
       : navItems.map((item) => ({
+          id: undefined as string | undefined,
           label: item.label,
           to: item.to,
           hash: item.hash,
           href: undefined as string | undefined,
           external: false,
+          labelAttr: undefined as string | undefined,
         }));
 
   // Usa o logo claro só se ele tiver arquivo; senão, o logo principal
@@ -113,7 +119,13 @@ export function SiteHeader({
 
         <nav className="hidden items-center justify-end gap-6 lg:flex">
           {resolvedNav.map((item) => (
-            <Link key={item.label} to={item.to} hash={item.hash} className={navLinkClass}>
+            <Link
+              key={item.id || item.label}
+              to={item.to}
+              hash={item.hash}
+              className={navLinkClass}
+              {...(item.labelAttr ? { "data-sanity": item.labelAttr } : {})}
+            >
               {item.label}
               <span className="absolute -bottom-1.5 left-0 h-px w-0 bg-accent transition-all duration-300 group-hover:w-full" />
             </Link>
@@ -162,13 +174,14 @@ export function SiteHeader({
             <nav className="flex flex-1 flex-col gap-1 overflow-y-auto px-5 pt-6">
               {resolvedNav.map((item) => (
                 <Link
-                  key={item.label}
+                  key={item.id || item.label}
                   to={item.to}
                   hash={item.hash}
                   onClick={() => setOpen(false)}
                   className={`shrink-0 border-b py-4 font-sans text-lg ${
                     isLight ? "border-ink-hairline text-ink" : "border-hairline text-foreground"
                   }`}
+                  {...(item.labelAttr ? { "data-sanity": item.labelAttr } : {})}
                 >
                   {item.label}
                 </Link>

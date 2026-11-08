@@ -1,7 +1,7 @@
 import { Reveal } from "@/components/reveal";
 import { SectionBadge } from "@/components/section-badge";
 import type { Homepage } from "@/lib/sanity";
-import { clean } from "@/lib/sanity-attr";
+import { Doc, clean, editAttr } from "@/lib/sanity-attr";
 
 type Props = {
   data?: Homepage["missaoVisaoValores"] | null;
@@ -45,15 +45,22 @@ function listFromItem(item: { text?: string; bullets?: string[] | null }): strin
   return [];
 }
 
+function itemPath(item: { _key?: string }, idx: number, field: string): string {
+  if (item._key) return `missaoVisaoValores.items[_key=="${item._key}"].${field}`;
+  return `missaoVisaoValores.items[${idx}].${field}`;
+}
+
 export function MissaoVisaoValores({ data }: Props) {
+  const fromCms = Boolean(data?.items && data.items.length > 0);
   const items =
-    data?.items && data.items.length > 0
+    fromCms && data?.items
       ? data.items.map((i) => ({
+          _key: i._key,
           label: i.label || "",
           text: i.text || "",
           bullets: i.bullets || [],
         }))
-      : FALLBACK_ITEMS;
+      : FALLBACK_ITEMS.map((i) => ({ ...i, _key: undefined as string | undefined }));
 
   return (
     <section
@@ -65,20 +72,33 @@ export function MissaoVisaoValores({ data }: Props) {
           {items.map((item, idx) => {
             const label = clean(item.label);
             const bullets = listFromItem(item);
-            const asList = bullets.length > 1 || (label.toLowerCase() === "valores" && bullets.length > 0);
+            const asList =
+              bullets.length > 1 || (label.toLowerCase() === "valores" && bullets.length > 0);
+            const labelAttr = fromCms ? editAttr(Doc.sobre, itemPath(item, idx, "label")) : undefined;
+            const textAttr = fromCms ? editAttr(Doc.sobre, itemPath(item, idx, "text")) : undefined;
 
             return (
-              <Reveal key={label || idx} delay={idx * 120}>
+              <Reveal key={item._key || label || idx} delay={idx * 120}>
                 <div className="h-full rounded-3xl border border-ink-hairline p-8 md:p-10">
-                  <SectionBadge>{item.label}</SectionBadge>
+                  <SectionBadge data-sanity={labelAttr}>{item.label}</SectionBadge>
                   {asList ? (
                     <ul className="mt-5 flex list-disc flex-col gap-1.5 pl-5 font-sans text-base leading-snug text-ink-muted marker:text-accent md:text-lg">
-                      {bullets.map((v, i) => (
-                        <li key={`${i}-${v}`}>{v}</li>
-                      ))}
+                      {bullets.map((v, i) => {
+                        const bulletAttr = fromCms
+                          ? editAttr(Doc.sobre, itemPath(item, idx, `bullets[${i}]`))
+                          : undefined;
+                        return (
+                          <li key={`${i}-${v}`} data-sanity={bulletAttr}>
+                            {v}
+                          </li>
+                        );
+                      })}
                     </ul>
                   ) : (
-                    <p className="mt-5 font-sans text-lg leading-relaxed text-ink-muted md:text-xl">
+                    <p
+                      data-sanity={textAttr}
+                      className="mt-5 font-sans text-lg leading-relaxed text-ink-muted md:text-xl"
+                    >
                       {item.text}
                     </p>
                   )}
