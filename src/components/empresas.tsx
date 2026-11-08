@@ -4,7 +4,7 @@ import { CenaEmpresas } from "@/components/cenas-fundo";
 import { WHATSAPP_ESPECIALISTA } from "@/lib/contact";
 import type { Homepage } from "@/lib/sanity";
 import { Doc, clean, editAttr } from "@/lib/sanity-attr";
-import { iconeDoServico, urlIconeServico } from "@/components/service-icons";
+import { iconeDoServico } from "@/components/service-icons";
 
 type Props = { data?: Homepage["empresas"] | null };
 
@@ -37,7 +37,6 @@ export function Empresas({ data }: Props) {
 
         <div className="mt-10 grid gap-5 sm:grid-cols-2 md:mt-12 lg:grid-cols-4">
           {services.map((m, i) => {
-            const custom = urlIconeServico((m as { iconRef?: { image?: unknown } }).iconRef);
             const Icone = iconeDoServico(m.icone, m.title);
             return (
               <Reveal key={m._key ?? i} delay={100 + (i % 4) * 70} className="h-full">
@@ -46,11 +45,7 @@ export function Empresas({ data }: Props) {
                     className="grid size-16 shrink-0 place-items-center rounded-lg text-accent"
                     style={{ background: "rgba(254,178,2,0.12)", border: "1px solid rgba(254,178,2,0.35)" }}
                   >
-                    {custom ? (
-                      <img src={custom} alt="" aria-hidden className="size-8 object-contain" />
-                    ) : (
-                      <Icone className="size-8" strokeWidth={1.75} aria-hidden />
-                    )}
+                    <Icone className="size-8" strokeWidth={1.75} aria-hidden />
                   </span>
                   <h3 data-sanity={at(i, "title")} className="font-display text-sm leading-snug font-bold text-white transition-colors duration-300 group-hover:text-accent md:text-base">
                     {m.title}

@@ -117,12 +117,9 @@ function Assessores() {
                             <p data-sanity={editAttr(doc, "name")} className="font-display text-sm leading-snug font-bold text-ink">
                               {a.name}
                             </p>
-                            <p data-sanity={editAttr(doc, "role")} className="mt-0.5 font-display text-[0.6rem] font-extrabold tracking-[0.16em] text-accent uppercase">
-                              {clean(a.role) || (a.codigo ? `Código de registro: ${a.codigo}` : "")}
-                            </p>
                             {a.codigo ? (
-                              <p data-sanity={editAttr(doc, "codigo")} className="mt-0.5 font-sans text-[0.65rem] text-ink-muted">
-                                Código: {a.codigo}
+                              <p data-sanity={editAttr(doc, "codigo")} className="mt-0.5 font-display text-[0.6rem] font-extrabold tracking-[0.16em] text-accent uppercase">
+                                {a.codigo}
                               </p>
                             ) : null}
                             <a

@@ -54,3 +54,9 @@ export function urlIconeServico(iconRef?: { image?: unknown } | null): string | 
   if (!iconRef?.image) return undefined;
   return sanityImageUrl(iconRef.image as Parameters<typeof sanityImageUrl>[0], 128);
 }
+
+
+/** Resolve chave Lucide a partir da referência do CMS (iconRef). */
+export function lucideKeyDoRef(iconRef?: { lucideKey?: string } | null): string | undefined {
+  return iconRef?.lucideKey || undefined;
+}
