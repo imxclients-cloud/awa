@@ -270,7 +270,7 @@ export type Homepage = {
     badge?: string;
     title?: string;
     subtitle?: string;
-    services?: Array<{ _key?: string; title?: string; description?: string; icone?: string }>;
+    services?: Array<{ _key?: string; title?: string; description?: string; icone?: string; iconRef?: { _id?: string; title?: string; image?: unknown } }>;
     cta?: SanityCta;
   };
   empresas?: {
@@ -278,7 +278,7 @@ export type Homepage = {
     badge?: string;
     title?: string;
     subtitle?: string;
-    services?: Array<{ _key?: string; title?: string; description?: string; icone?: string }>;
+    services?: Array<{ _key?: string; title?: string; description?: string; icone?: string; iconRef?: { _id?: string; title?: string; image?: unknown } }>;
     cta?: SanityCta;
   };
   trabalheConosco?: {
@@ -321,8 +321,8 @@ export const HOMEPAGE_QUERY = `{
   "provas": *[_id == "home-provas"][0]{ visible, "data": provas{ badge, title, subtitle, stats[]{ prefix, value, label, suffix }, "mapImage": coalesce(mapImage, ^.mapImage) } }.data,
   "premios": *[_id == "home-provas"][0]{ visible, "data": premios{ badge, title, subtitle, awards[]{ title, year, description, image } } }.data,
   "parceriaXp": *[_id == "home-investimentos"][0]{ visible, "data": parceriaXp{ sectionId, badge, title, subtitle, body, logo, cta, numerosXp, modelosTitle, nasdaqImage, modelos[]{ _key, titulo, texto, destaque, destaqueLabel }, highlights[]{ _key, title, text } } }.data,
-  "wealthServices": *[_id == "home-solucoes"][0]{ visible, "data": wealthServices{ sectionId, badge, title, subtitle, services[]{ _key, title, description, icone }, cta } }.data,
-  "empresas": *[_id == "home-solucoes"][0]{ visible, "data": empresas{ sectionId, badge, title, subtitle, services[]{ _key, title, description, icone }, cta } }.data,
+  "wealthServices": *[_id == "home-solucoes"][0]{ visible, "data": wealthServices{ sectionId, badge, title, subtitle, services[]{ _key, title, description, icone, iconRef->{ _id, title, image } }, cta } }.data,
+  "empresas": *[_id == "home-solucoes"][0]{ visible, "data": empresas{ sectionId, badge, title, subtitle, services[]{ _key, title, description, icone, iconRef->{ _id, title, image } }, cta } }.data,
   "trabalheConosco": *[_id == "home-trabalhe"][0]{ visible, "data": trabalheConosco{
     sectionId, badge, title, subtitle, body, image,
     cta{ label, action, whatsappMessage, customLink{ label, linkType, hash, internalPath, href, openInNewTab } },
