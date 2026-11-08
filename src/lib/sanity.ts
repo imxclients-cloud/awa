@@ -116,6 +116,7 @@ export function portableTextToPlain(
 // ——— Types (espelham o schema do Studio) ———
 
 export type SanityLink = {
+  _id?: string;
   label?: string;
   linkType?: "hash" | "internal" | "external";
   hash?: string;
@@ -212,7 +213,7 @@ export type Homepage = {
   missaoVisaoValores?: {
     badge?: string;
     title?: string;
-    items?: Array<{ label?: string; text?: string; bullets?: string[] }>;
+    items?: Array<{ _key?: string; label?: string; text?: string; bullets?: string[] }>;
   };
   grupoAwa?: {
     badge?: string;
@@ -302,7 +303,7 @@ export type Homepage = {
     successMessage?: string;
     alsoOpenWhatsapp?: boolean;
   };
-  frasesTransicao?: Array<{ text?: string }>;
+  frasesTransicao?: Array<{ _key?: string; text?: string }>;
 };
 
 export const HOMEPAGE_QUERY = `{
@@ -314,7 +315,7 @@ export const HOMEPAGE_QUERY = `{
   ),
   "hero": *[_id == "home-hero"][0]{ visible, sectionId, headline, backgroundImage, sideImage },
   "fundador": *[_id == "home-sobre"][0]{ visible, "data": fundador{ badge, name, title, body, photo, podcastVideoId, podcastTitle, podcastCover } }.data,
-  "missaoVisaoValores": *[_id == "home-sobre"][0].missaoVisaoValores{ items[]{ label, text, bullets } },
+  "missaoVisaoValores": *[_id == "home-sobre"][0].missaoVisaoValores{ items[]{ _key, label, text, bullets } },
   "grupoAwa": *[_id == "home-estrutura"][0]{ visible, "data": grupoAwa{ badge, title, subtitle, pillars[]{ _key, name, description }, diagramImage, iconImage } }.data,
   "diretoria": *[_id == "home-diretoria"][0]{ visible, "data": diretoria{ badge, title, subtitle, members[]->{ _id, name, role, bio, photo, category, order } } }.data,
   "especialistas": *[_id == "home-especialistas"][0]{ visible, "data": especialistas{ title, members[]->{ _id, name, role, bio, photo, category, order } } }.data,
@@ -330,7 +331,7 @@ export const HOMEPAGE_QUERY = `{
     labelTelefone, placeholderTelefone, labelLinkedin, placeholderLinkedin,
     submitLabel, successMessage, alsoOpenWhatsapp
   } }.data,
-  "frasesTransicao": *[_id == "home-frases"][0].frasesTransicao[]{ text },
+  "frasesTransicao": *[_id == "home-frases"][0].frasesTransicao[]{ _key, text },
   "sectionVisibility": {
     "hero": *[_id == "home-hero"][0].visible,
     "sobre": *[_id == "home-sobre"][0].visible,
@@ -349,7 +350,7 @@ export const SITE_SETTINGS_QUERY = `{
   "siteName": coalesce(*[_id == "siteSettings"][0].siteName, "A.W.A Capital"),
   "logo": *[_id == "site-header"][0].logo,
   "logoLight": *[_id == "site-header"][0].logoLight,
-  "mainNav": *[_id == "site-header"][0].mainNav[]->{ label, linkType, hash, internalPath, href, openInNewTab },
+  "mainNav": *[_id == "site-header"][0].mainNav[]->{ _id, label, linkType, hash, internalPath, href, openInNewTab },
   "headerCta": *[_id == "site-header"][0].headerCta,
   "footerColumns": coalesce(*[_id == "site-footer-columns"][0].footerColumns, *[_id == "site-footer"][0].footerColumns, *[_id == "siteSettings"][0].footerColumns)[]{ title, links[]{ label, linkType, hash, internalPath, href, openInNewTab } },
   "footerLegalText": coalesce(*[_id == "site-footer-legal"][0].footerLegalText, *[_id == "site-footer"][0].footerLegalText, *[_id == "siteSettings"][0].footerLegalText),

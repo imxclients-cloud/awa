@@ -7,6 +7,7 @@ import { Fundador } from "@/components/fundador";
 import { MissaoVisaoValores } from "@/components/missao-visao-valores";
 import { GrupoAwa } from "@/components/grupo-awa";
 import { FraseTransicao } from "@/components/frase-transicao";
+import { Doc, editAttr } from "@/lib/sanity-attr";
 import { Diretores } from "@/components/diretores";
 import { Especialistas } from "@/components/especialistas";
 import { Provas } from "@/components/provas";
@@ -106,8 +107,23 @@ function Index() {
   const h = homepage;
   // Seção aparece quando "visible" não está desligado no CMS (null = mostra)
   const on = (key: string) => h?.sectionVisibility?.[key] !== false;
-  const frases = (h?.frasesTransicao ?? []).map((f) => f.text).filter(Boolean) as string[];
+  const frasesRaw = h?.frasesTransicao ?? [];
+  const frases = frasesRaw
+    .map((f, i) => ({
+      text: f.text,
+      _key: f._key,
+      index: i,
+    }))
+    .filter((f) => Boolean(f.text));
   const fraseAt = (i: number) => frases[i];
+  const fraseAttr = (i: number) => {
+    const f = frases[i];
+    if (!f) return undefined;
+    const path = f._key
+      ? `frasesTransicao[_key=="${f._key}"].text`
+      : `frasesTransicao[${f.index}].text`;
+    return editAttr(Doc.frases, path);
+  };
 
   return (
     <main className="min-h-screen bg-background">
@@ -122,12 +138,16 @@ function Index() {
           <MissaoVisaoValores data={h?.missaoVisaoValores} />
         </>
       )}
-      {fraseAt(0) && <FraseTransicao>{`"${fraseAt(0)}"`}</FraseTransicao>}
+      {fraseAt(0) && (
+        <FraseTransicao data-sanity={fraseAttr(0)}>{`"${fraseAt(0)?.text}"`}</FraseTransicao>
+      )}
 
       {on("estrutura") && <GrupoAwa data={h?.grupoAwa} />}
 
       {on("diretoria") && <Diretores data={h?.diretoria} />}
-      {fraseAt(1) && <FraseTransicao>{`"${fraseAt(1)}"`}</FraseTransicao>}
+      {fraseAt(1) && (
+        <FraseTransicao data-sanity={fraseAttr(1)}>{`"${fraseAt(1)?.text}"`}</FraseTransicao>
+      )}
 
       {on("especialistas") && <Especialistas data={h?.especialistas} />}
 
@@ -146,7 +166,9 @@ function Index() {
           <Empresas data={h?.empresas} />
         </>
       )}
-      {fraseAt(2) && <FraseTransicao>{`"${fraseAt(2)}"`}</FraseTransicao>}
+      {fraseAt(2) && (
+        <FraseTransicao data-sanity={fraseAttr(2)}>{`"${fraseAt(2)?.text}"`}</FraseTransicao>
+      )}
 
       {on("trabalhe") && <TrabalheConosco data={h?.trabalheConosco} settings={settings} />}
 
