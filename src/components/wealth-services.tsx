@@ -3,7 +3,7 @@ import { SectionBadge } from "@/components/section-badge";
 import { CenaFamilias } from "@/components/cenas-fundo";
 import type { Homepage } from "@/lib/sanity";
 import { Doc, clean, editAttr } from "@/lib/sanity-attr";
-import { iconeDoServico, urlIconeServico } from "@/components/service-icons";
+import { iconeDoServico } from "@/components/service-icons";
 
 type Props = { data?: Homepage["wealthServices"] | null };
 
@@ -37,17 +37,12 @@ export function WealthServices({ data }: Props) {
 
         <div className="mt-10 grid gap-5 sm:grid-cols-2 md:mt-12 lg:grid-cols-4">
           {services.map((item, i) => {
-            const custom = urlIconeServico((item as { iconRef?: { image?: unknown } }).iconRef);
             const Icone = iconeDoServico(item.icone, item.title);
             return (
               <Reveal key={item._key ?? i} delay={100 + i * 70} className="h-full">
                 <div className="group flex h-full flex-col items-center justify-center gap-5 rounded-2xl border border-ink-hairline bg-white/80 px-5 py-8 text-center backdrop-blur-sm transition-shadow hover:shadow-md">
                   <span className="flex size-12 items-center justify-center rounded-full bg-accent/15 text-accent">
-                    {custom ? (
-                      <img src={custom} alt="" aria-hidden className="size-6 object-contain" />
-                    ) : (
-                      <Icone className="size-6" strokeWidth={1.75} aria-hidden />
-                    )}
+                    <Icone className="size-6" strokeWidth={1.75} aria-hidden />
                   </span>
                   <p data-sanity={at(i, "title")} className="font-display text-sm font-bold leading-snug text-ink md:text-[0.95rem]">
                     {item.title}
