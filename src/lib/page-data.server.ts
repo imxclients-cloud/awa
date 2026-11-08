@@ -9,8 +9,8 @@ import { getSanityClient, fetchSiteSettings, type SiteSettings } from "@/lib/san
 import { isProductionDeploy, shouldUseDrafts } from "@/lib/sanity-perspective";
 
 function isPreviewRequest(): boolean {
-  if (isProductionDeploy()) return false;
   if (shouldUseDrafts()) return true;
+  if (isProductionDeploy()) return false;
   try {
     const req = getRequest();
     if (isDraftModeFromCookieHeader(req.headers.get("cookie"))) return true;
@@ -71,14 +71,15 @@ export type AssessorDoc = {
   name?: string;
   email?: string;
   role?: string;
+  bio?: string;
   codigo?: string;
+  unidade?: string;
   photo?: Record<string, unknown> & { alt?: string };
 };
 
 export type PageAssessores = {
   _id: string;
   badge?: string;
-  roleLabel?: string;
   backLabel?: string;
   seoTitle?: string;
   seoDescription?: string;
@@ -117,18 +118,19 @@ const LEGAL_QUERY = `*[_type=="legalPage" && slug.current==$slug][0]{
 }`;
 
 const ASSESSORES_QUERY = `{
-  "assessores": *[_type=="teamMember" && category=="assessor"] | order(name asc) {
+  "assessores": *[_type=="teamMember" && category=="assessor"] | order(unidade asc, name asc) {
     _id,
     name,
     email,
     role,
+    bio,
     codigo,
+    unidade,
     photo
   },
   "page": *[_id=="page-assessores"][0]{
     _id,
     badge,
-    roleLabel,
     backLabel,
     seoTitle,
     seoDescription

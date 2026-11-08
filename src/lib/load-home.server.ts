@@ -1,7 +1,7 @@
 /**
  * Server-only: home + settings.
- * Produção → sempre published.
- * Homolog → drafts se SANITY_USE_DRAFTS / cookie Presentation / query preview.
+ * Homolog (SANITY_USE_DRAFTS=true) → drafts sempre.
+ * Produção (SANITY_USE_DRAFTS=false) → published.
  */
 import { createServerFn } from "@tanstack/react-start";
 import { getRequest } from "@tanstack/react-start/server";
@@ -16,9 +16,10 @@ export type HomeLoaderData = {
 };
 
 function resolvePreview(): boolean {
-  if (isProductionDeploy()) return false;
-
+  // Flag de homolog manda
   if (shouldUseDrafts()) return true;
+  // Produção estrita: nunca
+  if (isProductionDeploy()) return false;
 
   try {
     const req = getRequest();
@@ -41,9 +42,13 @@ export const loadHomeData = createServerFn({ method: "GET" }).handler(
   async (): Promise<HomeLoaderData> => {
     const preview = resolvePreview();
 
-    if (preview) {
-      console.info("[home] loader preview/stega ATIVO (homolog)");
-    }
+    console.info(
+      "[home] preview=%s useDrafts=%s vercelEnv=%s flag=%s",
+      preview,
+      shouldUseDrafts(),
+      process.env["VERCEL_ENV"] || "-",
+      process.env["SANITY_USE_DRAFTS"] || "-",
+    );
 
     const [homepage, settings] = await Promise.all([
       fetchHomepage({ preview }),

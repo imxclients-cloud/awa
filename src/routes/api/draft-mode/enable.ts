@@ -8,8 +8,9 @@ export const Route = createFileRoute("/api/draft-mode/enable")({
   server: {
     handlers: {
       GET: async ({ request }) => {
-        // Produção não ativa draft mode (drafts só na homolog)
-        if (process.env["VERCEL_ENV"] === "production") {
+        // Homolog com SANITY_USE_DRAFTS=true pode ativar mesmo com VERCEL_ENV=production
+        const flag = (process.env["SANITY_USE_DRAFTS"] || "").trim().toLowerCase();
+        if (flag === "false" || (process.env["VERCEL_ENV"] === "production" && flag !== "true")) {
           return new Response(null, {
             status: 307,
             headers: { Location: "/" },

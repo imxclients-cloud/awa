@@ -3,6 +3,7 @@ import {
   PiggyBank, Shield, ShieldCheck, Umbrella, Wallet, Zap,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
+import { sanityImageUrl } from "@/lib/sanity";
 
 /** Chaves gravadas no CMS (campo "icone" do serviço) → componente do ícone. */
 const MAPA: Record<string, LucideIcon> = {
@@ -45,4 +46,11 @@ function porTitulo(titulo?: string | null): LucideIcon | null {
 export function iconeDoServico(nome?: string | null, titulo?: string | null): LucideIcon {
   if (nome && MAPA[nome]) return MAPA[nome];
   return porTitulo(titulo) || Shield;
+}
+
+
+/** URL do ícone enviado no CMS (biblioteca), se houver. */
+export function urlIconeServico(iconRef?: { image?: unknown } | null): string | undefined {
+  if (!iconRef?.image) return undefined;
+  return sanityImageUrl(iconRef.image as Parameters<typeof sanityImageUrl>[0], 128);
 }

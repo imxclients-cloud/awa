@@ -33,32 +33,41 @@ const studioUrl =
   "https://grupoawa.sanity.studio";
 
 /**
- * Homolog (drafts): opts.preview === true OU shouldUseDrafts(), e nunca em VERCEL_ENV=production.
- * Produção: sempre published (ignora cookie/Presentation).
+ * Homolog: SANITY_USE_DRAFTS=true → previewDrafts (+ token).
+ * Produção: SANITY_USE_DRAFTS=false → published.
+ * opts.preview força preview só se não estiver em modo produção estrito.
  */
 export function getSanityClient(opts?: { preview?: boolean }): SanityClient {
-  const wantPreview = opts?.preview === true || (opts?.preview !== false && shouldUseDrafts());
-  const useDrafts = wantPreview && !isProductionDeploy();
+  const useDrafts =
+    shouldUseDrafts() || (opts?.preview === true && !isProductionDeploy());
 
   if (!useDrafts) {
     return sanityClient;
   }
 
-  const token = process.env["SANITY_API_READ_TOKEN"] || process.env["SANITY_API_WRITE_TOKEN"];
+  const token =
+    process.env["SANITY_API_READ_TOKEN"] ||
+    process.env["SANITY_API_WRITE_TOKEN"] ||
+    process.env["SANITY_READ_TOKEN"] ||
+    process.env["SANITY_TOKEN"] ||
+    "";
   if (!token) {
     console.warn(
-      "[sanity] drafts pedidos mas SANITY_API_READ_TOKEN ausente — usando published",
+      "[sanity] drafts pedidos mas TOKEN ausente — usando published. " +
+        "Na Vercel: SANITY_API_READ_TOKEN com ambiente Preview marcado + Redeploy.",
     );
     return sanityClient;
   }
 
+  // @sanity/client v7+: perspective "drafts" (antes "previewDrafts")
+  console.info("[sanity] client perspective=drafts ATIVO");
   return createClient({
     projectId,
     dataset,
-    apiVersion: "2024-01-01",
+    apiVersion: "2025-01-01",
     useCdn: false,
     token,
-    perspective: "previewDrafts",
+    perspective: "drafts",
     stega: {
       enabled: true,
       studioUrl,
@@ -261,7 +270,7 @@ export type Homepage = {
     badge?: string;
     title?: string;
     subtitle?: string;
-    services?: Array<{ _key?: string; title?: string; description?: string; icone?: string }>;
+    services?: Array<{ _key?: string; title?: string; description?: string; icone?: string; iconRef?: { _id?: string; title?: string; image?: unknown } }>;
     cta?: SanityCta;
   };
   empresas?: {
@@ -269,7 +278,7 @@ export type Homepage = {
     badge?: string;
     title?: string;
     subtitle?: string;
-    services?: Array<{ _key?: string; title?: string; description?: string; icone?: string }>;
+    services?: Array<{ _key?: string; title?: string; description?: string; icone?: string; iconRef?: { _id?: string; title?: string; image?: unknown } }>;
     cta?: SanityCta;
   };
   trabalheConosco?: {
@@ -312,8 +321,8 @@ export const HOMEPAGE_QUERY = `{
   "provas": *[_id == "home-provas"][0]{ visible, "data": provas{ badge, title, subtitle, stats[]{ prefix, value, label, suffix }, "mapImage": coalesce(mapImage, ^.mapImage) } }.data,
   "premios": *[_id == "home-provas"][0]{ visible, "data": premios{ badge, title, subtitle, awards[]{ title, year, description, image } } }.data,
   "parceriaXp": *[_id == "home-investimentos"][0]{ visible, "data": parceriaXp{ sectionId, badge, title, subtitle, body, logo, cta, numerosXp, modelosTitle, nasdaqImage, modelos[]{ _key, titulo, texto, destaque, destaqueLabel }, highlights[]{ _key, title, text } } }.data,
-  "wealthServices": *[_id == "home-solucoes"][0]{ visible, "data": wealthServices{ sectionId, badge, title, subtitle, services[]{ _key, title, description, icone }, cta } }.data,
-  "empresas": *[_id == "home-solucoes"][0]{ visible, "data": empresas{ sectionId, badge, title, subtitle, services[]{ _key, title, description, icone }, cta } }.data,
+  "wealthServices": *[_id == "home-solucoes"][0]{ visible, "data": wealthServices{ sectionId, badge, title, subtitle, services[]{ _key, title, description, icone, iconRef->{ _id, title, image } }, cta } }.data,
+  "empresas": *[_id == "home-solucoes"][0]{ visible, "data": empresas{ sectionId, badge, title, subtitle, services[]{ _key, title, description, icone, iconRef->{ _id, title, image } }, cta } }.data,
   "trabalheConosco": *[_id == "home-trabalhe"][0]{ visible, "data": trabalheConosco{
     sectionId, badge, title, subtitle, body, image,
     cta{ label, action, whatsappMessage, customLink{ label, linkType, hash, internalPath, href, openInNewTab } },
