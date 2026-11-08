@@ -30,9 +30,11 @@ export const Route = createFileRoute("/assessores")({
 
 const DOC_PAGE = { id: "page-assessores", type: "pageAssessores" };
 
-// A unidade é o trecho após o travessão do cargo: "Assessor de Investimentos — São Luís"
-const unidadeDe = (role?: string) => {
-  const parte = clean(role).split("—").pop()?.trim();
+/** Região do assessor (campo unidade no CMS). Fallback: trecho após "—" no cargo. */
+const unidadeDe = (a: { unidade?: string; role?: string }) => {
+  const u = clean(a.unidade);
+  if (u) return u;
+  const parte = clean(a.role).split("—").pop()?.trim();
   return parte || "Sem unidade";
 };
 
@@ -45,8 +47,13 @@ function Assessores() {
 
   const porUnidade = new Map<string, AssessorDoc[]>();
   for (const a of assessores as AssessorDoc[]) {
-    const u = unidadeDe(a.role);
+    const u = unidadeDe(a);
     porUnidade.set(u, [...(porUnidade.get(u) ?? []), a]);
+  }
+  // Dentro de cada região: A–Z por nome
+  for (const [u, list] of porUnidade) {
+    list.sort((a, b) => clean(a.name).localeCompare(clean(b.name), "pt-BR"));
+    porUnidade.set(u, list);
   }
   const unidades = [...porUnidade.keys()].sort((a, b) => a.localeCompare(b, "pt-BR"));
   const at = (path: string) => editAttr(DOC_PAGE, path);
@@ -85,7 +92,7 @@ function Assessores() {
                             fotoGrande &&
                             setFotoAberta({
                               nome,
-                              cargo: clean(page?.roleLabel),
+                              cargo: clean(a.role) || clean(a.bio) || "",
                               src: fotoGrande,
                             })
                           }
@@ -110,9 +117,11 @@ function Assessores() {
                             <p data-sanity={editAttr(doc, "name")} className="font-display text-sm leading-snug font-bold text-ink">
                               {a.name}
                             </p>
-                            <p data-sanity={at("roleLabel")} className="mt-0.5 font-display text-[0.6rem] font-extrabold tracking-[0.16em] text-accent uppercase">
-                              Código de registro: {a.codigo}
-                            </p>
+                            {a.codigo ? (
+                              <p data-sanity={editAttr(doc, "codigo")} className="mt-0.5 font-display text-[0.6rem] font-extrabold tracking-[0.16em] text-accent uppercase">
+                                {a.codigo}
+                              </p>
+                            ) : null}
                             <a
                               href={`mailto:${email}`}
                               data-sanity={editAttr(doc, "email")}
