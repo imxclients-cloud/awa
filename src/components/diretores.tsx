@@ -8,7 +8,13 @@ type Props = { data?: Homepage["diretoria"] | null };
 // Fotos e textos vêm 100% dos documentos teamMember no CMS.
 // Cada campo aponta para o próprio documento, então o Presentation abre o membro certo.
 export function Diretores({ data }: Props) {
-  const members = (data?.members ?? []).filter(Boolean);
+  // Só categoria "diretoria". Trocar a categoria no cadastro remove daqui automaticamente.
+  const members = (data?.members ?? []).filter((m) => {
+    if (!m?.name) return false;
+    const cat = (m.category || "").toLowerCase();
+    // Esconde quem foi movido para outra equipe; mantém legados sem category.
+    return !cat || cat === "diretoria";
+  });
 
   return (
     <section className="relative overflow-hidden bg-white py-10 md:py-10 lg:py-20">

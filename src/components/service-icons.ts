@@ -5,7 +5,7 @@ import {
 import type { LucideIcon } from "lucide-react";
 import { sanityImageUrl } from "@/lib/sanity";
 
-/** Chaves gravadas no CMS (campo "icone" do serviço) → componente do ícone. */
+/** Chaves gravadas no CMS (campo "icone" do serviço / lucideKey do siteIcon) → componente. */
 const MAPA: Record<string, LucideIcon> = {
   Shield, ShieldCheck, Car, ArrowLeftRight, CreditCard, HandCoins, Coins,
   Landmark, Building2, Globe, Umbrella, Zap, Wallet, PiggyBank,
@@ -38,25 +38,49 @@ function porTitulo(titulo?: string | null): LucideIcon | null {
 }
 
 /**
- * Ícone do serviço.
- * 1) Usa o valor do CMS (`icone`) quando válido.
- * 2) Se vazio/inválido, infere pelo título (evita todos com o mesmo escudo).
- * 3) Fallback final: Shield.
+ * Ícone Lucide do serviço.
+ * 1) lucideKey do siteIcon (iconRef)
+ * 2) string legada `icone`
+ * 3) inferência pelo título
+ * 4) Shield
  */
-export function iconeDoServico(nome?: string | null, titulo?: string | null): LucideIcon {
+export function iconeDoServico(
+  nome?: string | null,
+  titulo?: string | null,
+  lucideKeyFromRef?: string | null,
+): LucideIcon {
+  if (lucideKeyFromRef && MAPA[lucideKeyFromRef]) return MAPA[lucideKeyFromRef];
   if (nome && MAPA[nome]) return MAPA[nome];
   return porTitulo(titulo) || Shield;
 }
 
-
-/** URL do ícone enviado no CMS (biblioteca), se houver. */
+/** URL do ícone enviado no CMS (biblioteca siteIcon), se houver. */
 export function urlIconeServico(iconRef?: { image?: unknown } | null): string | undefined {
   if (!iconRef?.image) return undefined;
   return sanityImageUrl(iconRef.image as Parameters<typeof sanityImageUrl>[0], 128);
 }
 
-
 /** Resolve chave Lucide a partir da referência do CMS (iconRef). */
 export function lucideKeyDoRef(iconRef?: { lucideKey?: string } | null): string | undefined {
   return iconRef?.lucideKey || undefined;
+}
+
+export type IconRefLike = {
+  _id?: string;
+  title?: string;
+  lucideKey?: string;
+  image?: unknown;
+} | null | undefined;
+
+/**
+ * Render data for a service icon: prefer custom image, else Lucide component.
+ */
+export function resolveServiceIcon(
+  icone?: string | null,
+  title?: string | null,
+  iconRef?: IconRefLike,
+): { imageUrl?: string; Icon: LucideIcon } {
+  const imageUrl = urlIconeServico(iconRef ?? null);
+  const Icon = iconeDoServico(icone, title, iconRef?.lucideKey);
+  return { imageUrl, Icon };
 }
