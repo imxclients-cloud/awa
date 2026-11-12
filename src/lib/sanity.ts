@@ -271,7 +271,13 @@ export type Homepage = {
     badge?: string;
     title?: string;
     subtitle?: string;
-    services?: Array<{ _key?: string; title?: string; description?: string; icone?: string }>;
+    services?: Array<{
+      _key?: string;
+      title?: string;
+      description?: string;
+      icone?: string;
+      iconRef?: { _id?: string; title?: string; lucideKey?: string; image?: SanityImageSource & { alt?: string } };
+    }>;
     cta?: SanityCta;
   };
   empresas?: {
@@ -279,7 +285,13 @@ export type Homepage = {
     badge?: string;
     title?: string;
     subtitle?: string;
-    services?: Array<{ _key?: string; title?: string; description?: string; icone?: string }>;
+    services?: Array<{
+      _key?: string;
+      title?: string;
+      description?: string;
+      icone?: string;
+      iconRef?: { _id?: string; title?: string; lucideKey?: string; image?: SanityImageSource & { alt?: string } };
+    }>;
     cta?: SanityCta;
   };
   trabalheConosco?: {
@@ -317,13 +329,48 @@ export const HOMEPAGE_QUERY = `{
   "fundador": *[_id == "home-sobre"][0]{ visible, "data": fundador{ badge, name, title, body, photo, podcastVideoId, podcastTitle, podcastCover } }.data,
   "missaoVisaoValores": *[_id == "home-sobre"][0].missaoVisaoValores{ items[]{ _key, label, text, bullets } },
   "grupoAwa": *[_id == "home-estrutura"][0]{ visible, "data": grupoAwa{ badge, title, subtitle, pillars[]{ _key, name, description }, diagramImage, iconImage } }.data,
-  "diretoria": *[_id == "home-diretoria"][0]{ visible, "data": diretoria{ badge, title, subtitle, members[]->{ _id, name, role, bio, photo, category, order } } }.data,
-  "especialistas": *[_id == "home-especialistas"][0]{ visible, "data": especialistas{ title, members[]->{ _id, name, role, bio, photo, category, order } } }.data,
+  "diretoria": *[_id == "home-diretoria"][0]{
+    visible,
+    "data": {
+      "badge": diretoria.badge,
+      "title": diretoria.title,
+      "subtitle": diretoria.subtitle,
+      // Lista da seção + qualquer um com category diretoria.
+      // Quem mudou de categoria (ex.: para assessor) é excluído mesmo se ainda estiver na lista de referências.
+      "members": (
+        diretoria.members[
+          !defined(@->category) || @->category == "diretoria"
+        ]->{ _id, name, role, bio, photo, category, order }
+        + *[_type == "teamMember" && category == "diretoria" && !(
+            _id in *[_id == "home-diretoria"][0].diretoria.members[]._ref
+          )] | order(coalesce(order, 999) asc, name asc){
+            _id, name, role, bio, photo, category, order
+          }
+      )
+    }
+  }.data,
+  "especialistas": *[_id == "home-especialistas"][0]{
+    visible,
+    "data": {
+      "title": especialistas.title,
+      "subtitle": especialistas.subtitle,
+      "members": (
+        especialistas.members[
+          !defined(@->category) || @->category == "especialista"
+        ]->{ _id, name, role, bio, photo, category, order }
+        + *[_type == "teamMember" && category == "especialista" && !(
+            _id in *[_id == "home-especialistas"][0].especialistas.members[]._ref
+          )] | order(coalesce(order, 999) asc, name asc){
+            _id, name, role, bio, photo, category, order
+          }
+      )
+    }
+  }.data,
   "provas": *[_id == "home-provas"][0]{ visible, "data": provas{ badge, title, subtitle, stats[]{ prefix, value, label, suffix }, "mapImage": coalesce(mapImage, ^.mapImage) } }.data,
   "premios": *[_id == "home-provas"][0]{ visible, "data": premios{ badge, title, subtitle, awards[]{ title, year, description, image } } }.data,
   "parceriaXp": *[_id == "home-investimentos"][0]{ visible, "data": parceriaXp{ sectionId, badge, title, subtitle, body, logo, cta, numerosXp, modelosTitle, nasdaqImage, modelos[]{ _key, titulo, texto, destaque, destaqueLabel }, highlights[]{ _key, title, text } } }.data,
-  "wealthServices": *[_id == "home-solucoes"][0]{ visible, "data": wealthServices{ sectionId, badge, title, subtitle, services[]{ _key, title, description, icone }, cta } }.data,
-  "empresas": *[_id == "home-solucoes"][0]{ visible, "data": empresas{ sectionId, badge, title, subtitle, services[]{ _key, title, description, icone }, cta } }.data,
+  "wealthServices": *[_id == "home-solucoes"][0]{ visible, "data": wealthServices{ sectionId, badge, title, subtitle, services[]{ _key, title, description, icone, iconRef->{ _id, title, lucideKey, image } }, cta } }.data,
+  "empresas": *[_id == "home-solucoes"][0]{ visible, "data": empresas{ sectionId, badge, title, subtitle, services[]{ _key, title, description, icone, iconRef->{ _id, title, lucideKey, image } }, cta } }.data,
   "trabalheConosco": *[_id == "home-trabalhe"][0]{ visible, "data": trabalheConosco{
     sectionId, badge, title, subtitle, body, image,
     cta{ label, action, whatsappMessage, customLink{ label, linkType, hash, internalPath, href, openInNewTab } },

@@ -12,10 +12,12 @@ const iniciais = (nome: string) =>
 export function Especialistas({ data }: Props) {
   const [fotoAberta, setFotoAberta] = useState<{ nome: string; cargo: string; src: string } | null>(null);
 
-  // Só membros da categoria "especialista" vindos do CMS (assessor e diretoria são ignorados).
+  // Lista vem da query por category == "especialista" (trocar categoria no cadastro move a pessoa).
   const lista = (data?.members ?? []).filter((m) => {
+    if (!m?.name) return false;
     const cat = (m.category || "").toLowerCase();
-    return Boolean(m.name) && cat !== "assessor" && cat !== "diretoria";
+    // Esconde quem foi movido para outra equipe; mantém legados sem category.
+    return !cat || cat === "especialista";
   });
 
   return (
